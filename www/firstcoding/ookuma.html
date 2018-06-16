@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+    <link rel="stylesheet" href="components/loader.css">
+    <script src="components/loader.js"></script>
+    <script>
+        function register(){
+          var name = register_form.name.value;  //テキストボックスの値を取得
+          var sex = register_form.sex.value;
+          var weight = register_form.weight.value;
+          //alert(""+ name +"が入力されました。");
+          alert(name + "さん、性別は" + sex + "ですね。体重は" + weight + "キロ。豚か！")
+        }
+    </script>
+</head>
+<body>
+    <!-- TODO: Please edit here -->
+    <form name="register_form" action="ookuma.html">
+      <p>名前を入力してね♡</p>
+      <input type="text" name="name" required/>
+      <p>性別も知りたいな</p>
+      <input type="radio" name="sex" value="female" checked/>女
+      <input type="radio" name="sex" value="male">男
+      <br/>
+      <p>体重は？</p>
+      <input type = "number" name="weight" value="55" min="4" max="150>kg
+      <input type = "number" name="height">cm
+      <input type = "date" name = "bday" value="2015-09-14">
+      <input type="button" value="送信しちゃうぞ" onclick="register()">
+    </form>
+</body>
+</html>

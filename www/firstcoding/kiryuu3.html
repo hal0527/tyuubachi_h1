@@ -1,0 +1,126 @@
+
+
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+
+  <meta charset="UTF-8">
+  <link rel="shortcut icon" type="image/x-icon" href="https://static.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico" />
+  <link rel="mask-icon" type="" href="https://static.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg" color="#111" />
+  <title>CodePen - Full screen carousel</title>
+  
+  
+  
+  <link rel='stylesheet prefetch' href='https://cdn.rawgit.com/OnsenUI/OnsenUI/1.3.11/build/css/onsenui.css'>
+<link rel='stylesheet prefetch' href='https://cdn.rawgit.com/OnsenUI/OnsenUI/1.3.11/build/css/onsen-css-components.css'>
+ <link rel='stylesheet prefetch' href='https://cdn.rawgit.com/OnsenUI/OnsenUI/2.0.0-alpha.15/build/css/onsenui.css'>
+<link rel='stylesheet prefetch' href='https://cdn.rawgit.com/OnsenUI/OnsenUI/2.0.0-alpha.15/build/css/onsen-css-components.css'>
+
+
+      <style>
+      ons-carousel-item {
+  display: table;
+  text-align: center;
+}
+
+.item-label {
+  display: table-cell;
+  vertical-align: middle;
+  color: white;
+  line-height: 1;
+  font-size: 48px;
+  font-weight: bold;
+}
+
+.cover-label {
+  text-align: center;
+  position: absolute;
+  left: 0px;
+  width: 100%;
+  bottom: 10px;
+  color: white;
+}
+    </style>
+
+  <script>
+  window.console = window.console || function(t) {};
+</script>
+<script language="javascript" type="text/javascript"> 
+    function button_click(){
+   window.alert("fgdgdf");
+   }
+</script>
+  <script>
+  if (document.location.search.match(/type=embed/gi)) {
+    window.parent.postMessage("resize", "*");
+  }
+</script>
+
+</head>
+
+<body translate="no" > 
+<ons-navigator title="Navigator" var="myNavigator">
+  <ons-page >
+  <ons-toolbar>
+    <div class="center">Nothing Is Impossable</div>
+  </ons-toolbar>
+  <ons-carousel swipeable overscrollable auto-scroll fullscreen var="carousel">
+    <ons-carousel-item style="background-image:url(../images/141226body_start_running-w960.jpg);background-size:650px 700px;">
+      
+    </ons-carousel-item>
+  <ons-carousel-item style="background-image:url(../images/170927_swim2_top-w960.jpg);background-size:600px 500px;">
+    </ons-carousel-item>
+    <ons-carousel-item style="background-image:url(../images/1468108187.jpg);background-size:600px 600px;">
+     
+    </ons-carousel-item>
+   <ons-carousel-item style="background-image:url(../images/efer.jpg);background-size:600px 600px;">
+     
+    </ons-carousel-item>
+  
+  </ons-carousel>
+
+      <div class="cover-label" style="text-align : center">
+        <br />
+    <ons-button  onclick="myNavigator.pushPage('page1.html', { animation : 'slide' } )" modifier="material">
+    <ons-ripple></ons-ripple>
+　　さあ、はじめよう！　　
+  </ons-button> </div>
+    
+    
+</ons-page>
+</ons-navigator>
+
+ <ons-template id="page1.html">
+    <ons-page id="first-page">
+       test program 
+    <div><a href="../onsen/index.html">onsen</a></div>
+    <div><a href="haruki_weight.html">小柳デバック画面</a></div>
+    <div><a href="tracking.html">小柳デバック画面2</a></div>
+    <div><a href="ookuma.html">大隈デバッグ</a></div>
+    <div><a href="ookuma2.html">大隈2デバッグ</a></div>
+    <div><a href="keju.html">柯デバッグ</a></div>
+    <div><a href="lujie.html">吕杰デバッグ</a></div>
+    <div><a href="kiryuu.html">冀龍デバッグ</a></div>
+      <div><a href="kiryuu3.html">冀龍デバッグ</a></div>
+    <div><a href="firstcoding/zhaoHH.html">趙デバッグ</a></div>
+    <div><a href="../liu.html">劉デバッグ</a></div>
+
+    </ons-page>
+  </ons-template>
+    <script src="//static.codepen.io/assets/common/stopExecutionOnTimeout-b2a7b3fe212eaa732349046d8416e00a9dec26eb7fd347590fbced3ab38af52e.js"></script>
+
+  <script src='https://cdn.rawgit.com/OnsenUI/OnsenUI/1.3.11/build/js/angular/angular.min.js'></script>
+<script src='https://cdn.rawgit.com/OnsenUI/OnsenUI/1.3.11/build/js/onsenui.min.js'></script>
+
+  
+
+    <script >
+      ons.bootstrap();
+      //# sourceURL=pen.js
+    </script>
+
+</body>
+
+</html>
+ 

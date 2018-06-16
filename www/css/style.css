@@ -1,0 +1,14 @@
+/**/
+.block1 div{
+    width: 185px;
+    height: 100px;
+    display: inline-block;
+    background-color:blanchedalmond;
+}
+
+.block2 div{
+    width: 185px;
+    height: 100px;
+    display: inline-block;
+    background-color:greenyellow;
+}

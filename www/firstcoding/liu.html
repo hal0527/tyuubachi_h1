@@ -1,0 +1,138 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+  <script src="../components/loader.js"></script>
+  <script src="../lib/onsenui/js/onsenui.min.js"></script>
+
+  <link rel="stylesheet" href="../components/loader.css">
+  <link rel="stylesheet" href="../lib/onsenui/css/onsenui.css">
+  <link rel="stylesheet" href="../lib/onsenui/css/onsen-css-components.css">
+  <link rel="stylesheet" href="../css/style.css">
+
+  <script>
+    document.addEventListener('init', function(event) {
+      var page = event.target;
+
+      if (page.id === 'page1') {
+        page.querySelector('#push-button').onclick = function() {
+          var username=document.getElementById("user_name").value;
+          var height=document.getElementById("user_height").value;
+          var weight=document.getElementById("user_weight").value;
+          var birthday=document.getElementById("user_birthday").value;
+          var sex=document.getElementById("user_sex").value;
+          document.querySelector('#navigator').pushPage('page2.html', {data:{username,height,weight,birthday,sex}});
+        };
+      } else if (page.id === 'page2') {
+        page.querySelector('ons-list-item .user_data').innerHTML = "ユーザー名: "+page.data.username+"<hr />";
+        page.querySelector('ons-list-item .user_data').innerHTML += "身長: "+page.data.height+"<hr />";
+        page.querySelector('ons-list-item .user_data').innerHTML += "体重: "+page.data.weight+"<hr />";
+        page.querySelector('ons-list-item .user_data').innerHTML += "生年月日: "+page.data.birthday+"<hr />";
+        if(page.data.sex==1){
+          var sex_text='男性';
+        }else{
+          var sex_text='女性';
+        }
+        page.querySelector('ons-list-item .user_data').innerHTML += "性別: "+sex_text+"<hr />";
+        var bmi=page.data.weight/(page.data.height*page.data.height/10000);
+        page.querySelector('ons-list-item .user_data').innerHTML += "BMI: "+Math.round(bmi*100)/100+"<hr />";
+        var message = "あなたは";
+        if(bmi < 18.5) {
+          message += "低体重(痩せ型)です。";
+        } else if (bmi >= 18.5 && bmi < 25) {
+          message += "普通体重です。";
+        } else if (bmi >= 25 && bmi < 30) {
+          message += "肥満(1度)です。";
+        } else if (bmi >= 30 && bmi < 35) {
+          message += "肥満(2度)です。";
+        } else if (bmi >= 35 && bmi < 40) {
+          message += "肥満(3度)です。";
+        } else if (bmi >= 40) {
+          message += "肥満(4度)です。";
+        }
+        page.querySelector('ons-list-item .user_data').innerHTML += message+"<br />";
+      }
+    });
+  </script>
+</head>
+<body>  
+<ons-navigator swipeable id="navigator" page="page1.html"></ons-navigator>
+
+<!--入力-->
+<template id="page1.html">
+  <ons-page id="page1">
+    <ons-toolbar>
+      <div class="center">基本情報入力</div>
+    </ons-toolbar>
+
+    <div ng-controller="UserController" style="text-align: center">
+        　<ons-list-item>
+            <ons-input type="text" id="user_name" placeholder="ユーザー名"　 class="text-input text-input--transparent"
+               style="margin-top:8px; width: 100%;"> </ons-input>
+          </ons-list-item>
+          <ons-list-item>
+            <ons-row>
+              <ons-col width="50px">
+                <span style="color:#666">性別</span>
+              </ons-col>
+              <ons-col>
+                <div style="float: right; padding-right: 16px;">
+                  <ons-select id="user_sex" modifier="material" >
+		          		  <option value="1">男性</option>
+			          	  <option value="2">女性</option>
+		          	  </ons-select>
+                </div>
+              </ons-col>
+            </ons-row>
+          </ons-list-item>
+          <ons-list-item>
+            <!-- 男性165 60   150 45-->
+            <ons-input type="number" id="user_height" placeholder="身長(cm)" min="100" max="250" value="160" class="text-input text-input--transparent"
+              　style="margin-top:8px; width: 100%;"></ons-input>
+          </ons-list-item>
+          <ons-list-item>
+            <ons-input type="number" id="user_weight" placeholder="体重(kg)" min="0" max="200"　 class="text-input text-input--transparent"
+               style="margin-top:8px; width: 100%;"></ons-input>
+          </ons-list-item>
+          <ons-list-item>
+          生年月日    <ons-input type="date" id="user_birthday" modifier="material" float placeholder="  "　style="margin-top:8px; width: 100%;"></ons-input>
+          </ons-list-item>
+        </div>
+    <ons-button modifier="large" id="push-button">登録</ons-button>
+  </ons-page>
+</template>
+
+<!--基本情報-->
+<template id="page2.html">
+  <ons-page id="page2">
+    <ons-toolbar>
+      <div class="left"><ons-back-button>Page 1</ons-back-button></div>
+      <div class="center">基本情報</div>
+    </ons-toolbar>
+    <ons-list modifier="inset">
+      <ons-list-item style="text-align: center">
+        <img src="images/pic_user.png" align="middle" style="margin-top: 8px" width="80%">
+        <br />
+        <!--span class="label"></span-->
+      </ons-list-item>
+    </ons-list>
+    <ons-list-item>
+      <br />
+      <div ng-controller="UserController" style="text-align:leftt">
+        <p class="user_data"></p>
+      </div>
+    </ons-list-item>
+  </ons-page>
+</template>
+<!--編集-->
+<template id="page3.html">
+  <ons-page>
+
+  </ons-page>
+</template>
+</body>
+</html>
+
+

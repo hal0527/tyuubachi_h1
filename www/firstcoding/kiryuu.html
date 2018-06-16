@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+    <link rel="stylesheet" href="components/loader.css">
+    <script src="components/loader.js"></script>
+    <script>
+     
+    </script>
+</head>
+<body>
+<h1>目標設定</h1><br>
+目標体重&nbsp&nbsp&nbsp&nbsp&nbsp<input type="text" id="weight"><br>
+<label class="switch">
+  <input type="checkbox" class="switch__input">
+  <div class="switch__toggle">
+    <div class="switch__handle"></div>
+  </div>
+</label>
+<label class="switch">
+  <input type="checkbox" class="switch__input" checked>
+  <div class="switch__toggle">
+    <div class="switch__handle"></div>
+  </div>
+</label>
+<label class="switch">
+  <input type="checkbox" class="switch__input" disabled>
+  <div class="switch__toggle">
+    <div class="switch__handle"></div>
+  </div>
+</label>
+<span class="notification notification--material">1</span>
+予定終了日&nbsp&nbsp<input type="date" value="yyyy-mm-dd" onkeypress="return currentWeek();" /><br>
+意気込み&nbsp&nbsp&nbsp&nbsp&nbsp<input type="text" id="iki"><br>
+<br><br>
+<input type="checkbox" id="running">ランニング<br>
+<input type="checkbox" id="swimming">水泳<br>
+<hr style="height:1px;border:none;border-top:1px solid #555555;" /><br>
+
+<input type="radio" name="a" id="week">週単位&nbsp&nbsp
+<input type="radio" name="a" id="moth">月単位&nbsp&nbsp
+<input type="radio" name="a" id="day">日単位<br>
+
+<div align="center"><input type="button" id="button1" value="確認" ></div>
+<br><br>
+<h1>推奨運動量</h1><br><p>
+  ランニング：週５時間　１時間あたり✖✖で計算 <br>
+  水　　　泳：週２時間　１時間あたり✖✖で計算</p>
+<br><br>
+<div align="center"><input type="button" id="button2" value="目標登録" ></div>
+</body>
+</html>

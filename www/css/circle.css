@@ -1,0 +1,10 @@
+/* This is a CSS file */
+.circle-bar { font-size:200px; width: 1em; height: 1em; position: relative;  background-color: #87CEFF; }
+    .circle-bar-left,.circle-bar-right { width: 1em; height: 1em; background-color: #eee; }
+    .circle-bar-right { clip:rect(0,auto,auto,.5em); }
+    .circle-bar-left { clip:rect(0,.5em,auto,0); }
+    
+    .mask { width: 0.8em; height: 0.8em;  background-color: #fff;text-align: center;line-height: 0.2em; color:rgba(0,0,0,0.5); }
+    .mask :first-child { font-size: 0.3em; height: 0.8em; line-height: 0.8em; display: block;  }
+    .circle-bar * {  position: absolute; top:0; right:0; bottom:0; left:0; margin:auto; }
+    .circle-bar, .circle-bar > * { border-radius: 50%; }

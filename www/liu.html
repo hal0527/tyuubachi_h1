@@ -1,0 +1,230 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+  <script src="components/loader.js"></script>
+  <script src="lib/onsenui/js/onsenui.min.js"></script>
+  <script src="js/circle.js"></script>
+  <script src="js/page_event.js"></script>
+
+  <link rel="stylesheet" href="components/loader.css">
+  <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
+  <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/circle.css">
+
+  <script>
+    //database key 
+    //var ncmb = new NCMB("110bd92fd08b667727f46a321bb903bacc49babf679332505f8ce751c1c38ce4","19fff4af2112fbfc38b048dae80f6c5c629732e81ce1848622659c12d70c1b7b");
+
+    ons.ready(function() {
+      console.log("Onsen UI is ready!");
+    }); 
+
+
+  </script>
+</head>
+<body>
+  <ons-navigator id="myNavigator" var="myNavigator" page="tab.html"></ons-navigator> 
+  
+  <ons-template id="tab.html">
+    <ons-page>
+      <ons-tabbar position="auto">
+        <ons-tab label="Tab 3" icon="list" page="page3.html">
+        </ons-tab>
+        <ons-tab label="Tab 1" icon="home" page="page1.html" active="true">
+        </ons-tab>
+        <ons-tab label="Tab 2" icon="user" page="page2.html" id="test-button">
+        </ons-tab>
+      </ons-tabbar>
+    </ons-page>
+  </ons-template>
+
+    <!----Homeページ ---->
+  <ons-template id="page1.html">
+    <ons-page id="first-page">
+      <ons-toolbar>
+        <div class="center">Home</div>
+      </ons-toolbar>
+      
+      <div class="circle-bar" style="margin-left: 88.75px;margin-top:10px">
+        <div class="circle-bar-left"></div>
+        <div class="circle-bar-right"></div>
+        <div class="mask">
+          <span class="percent"> </span>
+        </div>
+      </div>
+      <div style="text-align : center">
+        <br />
+        <ons-button onclick="disp_prompt()" id="target_prompt">目標設定</ons-button>
+      </div>
+      <div>
+        <br />
+        <br />
+        <ons-list>
+          <ons-list-header>運動時間記録</ons-list-header>
+          <ons-input type="text" id="timer_sport" placeholder="運動種類"></ons-input>
+          <ons-input type="number" id="timer_input" placeholder="時間入力(時単位)" min="0"></ons-input>
+          <br />
+        </ons-list> 
+        <ons-list>
+          <ons-input type="text" id="timer_memo" placeholder="記録メモ"></ons-input>
+        </ons-list>
+        <div style="text-align : center">
+          <span><span id="timer_hour" style="margin-top:5px">00&nbsp;</span>h</span>
+          <span><span id="timer_minute" style="margin-top:5px">00&nbsp;</span>m</span>
+          <span><span id="timer_second" style="margin-top:5px">00&nbsp;</span>s</span>
+          <ons-button id="timer_start">計時開始</ons-button>
+          <ons-button id="timer_clear">リセット</ons-button>
+          <ons-button id="timer_send">記録</ons-button>
+        </div>
+      </div>
+      <ons-list>
+          <ons-list-header>履歴</ons-list-header>
+          <ons-list-item>
+            <p class="show_Vue"></p>
+          </ons-list-item>
+      </ons-list>
+      
+      <!--ons-fab position="bottom right">
+        <ons-icon icon="md-plus" id="Add_Btn"></ons-icon>
+      </ons-fab-->
+        <!--Memo-->
+
+    </ons-page>
+  </ons-template>
+  
+    <!----個人ページ ---->
+  <ons-template id="page2.html">
+    <ons-page id="second-page">
+      <ons-toolbar class="toolbar">
+        <!--div class="left"><ons-toolbar-button>編集</ons-toolbar-button></div-->
+        <div class="center">個人ページ</div>
+        <div class="right">
+          <ons-toolbar-button onclick="document.querySelector('#myNavigator').pushPage('AddUserdata.html') ">入力</ons-toolbar-button>
+        </div>
+      </ons-toolbar>
+      <ons-list-header>ユーザー</ons-list-header>
+      <ons-list-item>
+        <div class="left">
+          <img class="list-item__thumbnail" src="https://placekitten.com/g/40/40">
+        </div>
+        <div class="center">
+          <span class="list-item__title"><b class="user_data1">Username</b></span>
+          <span class="list-item__subtitle"></span>
+          <span class="list-item__subtitle"></span>
+        </div>
+      </ons-list-item>
+      <ons-list-header>基本情報</ons-list-header>
+      <ons-list-item>
+          <p class="user_data2"></p>
+      </ons-list-item>
+      <ons-list-item>
+          <p class="user_data3"></p>
+      </ons-list-item>
+      <ons-card >
+        <div class="title">
+          おすすめ運動
+        </div>
+      </ons-card>
+
+      <ons-card >
+        <div class="title">
+          成人の個人目標
+        </div>
+        <li>日頃から「散歩」、「早く歩く」、「乗り物やエレベータを使わずに歩くようにする」など意識的に身体を動かしましょう</li>
+        <li>1日平均1万歩以上歩くことを目標に</li>
+        <li>週2回以上、1回30分以上の息が少しはずむ程度の運動を習慣に</li>
+        <li>最初の運動としてはまずウォーキングから</li>
+      </ons-card>
+      
+
+
+    </ons-page>
+  </ons-template>
+    <!----レポートページ ---->
+  <ons-template id="page3.html">
+    <ons-page id="third-page">
+      <ons-toolbar>
+        <!--div class="right"><ons-button id="reload">更新</ons-button></div-->
+        <div class="center">レポート</div>
+      </ons-toolbar>
+      <ons-list>
+    
+        <div class="content" style="text-align: center">   
+          <canvas id="chart-canvas"></canvas>   
+        </div>
+        <div class="block1" style="text-align: center">
+          <div>
+            <b>総運動時間</b>
+            <p class = "sport_time"></p>
+          </div>
+          <div>
+            <b>総消費カロリー</b>
+            <p class = "calorie"></p>
+          </div>
+        </div>
+        <div class="block2" style="text-align: center">
+          <div>
+            <b>週平均運動時間</b>
+            <p class = "weight_change"></p>
+          </div>
+          <div>
+            <b>目標完成</b>
+            <p class = "tank_number"></p>
+          </div>
+        </div>
+    
+      </ons-list>
+    </ons-page>
+  </ons-template>
+
+    <!----情報入力ページ ---->
+  <ons-template id="AddUserdata.html">
+    <ons-page id="AddUser">
+      <ons-toolbar>
+        <div class="left"><ons-back-button>個人</ons-back-button></div>
+        <div class="center">情報入力</div>
+      </ons-toolbar>
+      <div ng-controller="UserController" style="text-align: center;">
+        <ons-list-item>
+          <ons-input type="text" id="user_name" placeholder="ユーザー名" style="margin-top:8px; width: 100%;"> </ons-input>
+        </ons-list-item>
+        <ons-list-item>
+          <ons-row>    
+            <div>性別</div>
+            <ons-col>
+              <div style="float: center; padding-right: 10px;">
+                <ons-select id="user_sex" modifier="material" >
+		        		  <option value="1">男性</option>
+		          	  <option value="2">女性</option>
+	          	  </ons-select>
+              </div>
+            </ons-col>
+          </ons-row>
+        </ons-list-item>
+        <ons-list-item>
+          <div>生年月日</div>
+          <ons-col>
+            <div style="float: center; padding-right: 10px;">
+              <ons-input type="date" id="user_birthday" modifier="material" float placeholder="  "　style="margin-top:8px; width: 100%;"></ons-input>
+            </div>  
+          </ons-col>
+        </ons-list-item>
+        <ons-list-item>
+          <ons-input type="number" id="user_height" placeholder="身長(cm)" min="100" max="300"  
+                   　style="margin-top:8px; width: 100%;"></ons-input>
+        </ons-list-item>
+        <ons-list-item>
+          <ons-input type="number" id="user_weight" placeholder="体重(kg)" min="30" max="200"　 
+                     style="margin-top:8px; width: 100%;"></ons-input>
+        </ons-list-item>
+      </div>
+      <ons-button modifier="large" id="push-button">登録</ons-button>
+    </ons-page>
+  </ons-template>
+
+</body>
+</html>

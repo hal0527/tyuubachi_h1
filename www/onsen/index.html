@@ -1,0 +1,81 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+    <link rel="stylesheet" href="components/loader.css">
+    <link rel="import" href="../emoji-rain/emoji-rain.html">
+  <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsenui.css">
+    <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.min.css">
+    <script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script>
+    <script src="components/loader.js"></script>
+    <script>
+        //
+        // TODO: Write JavaScript code here
+        //
+    </script>
+</head>
+<body>
+    <ons-navigator swipeable id="myNavigator" page="page1.html"></ons-navigator>
+
+    <ons-page>
+    <!--<ons-toolbar>-->
+      <div class="toolbar">
+  <div class="toolbar__left">
+    <span class="toolbar-button">
+      <i class="ion-navicon" style="font-size:32px; vertical-align:-6px;"></i>
+    </span>
+  </div>
+  
+  <div class="toolbar__center">
+    Navigation Bar
+  </div>
+
+  <div class="toolbar__right">
+    <span class="toolbar-button">Label</span>
+  </div>
+</div>
+    <!--</ons-toolbar>-->
+    <ons-button modifier="large">large</ons-button>
+    <ons-button onclick="ons.notification.alert('Hello World!')">Click Me</ons-button>
+    <label class="switch">
+  <input type="checkbox" class="switch__input">
+  <div class="switch__toggle">
+    <div class="switch__handle"></div>
+  </div>
+</label>
+<label class="switch">
+  <input type="checkbox" class="switch__input" checked>
+  <div class="switch__toggle">
+    <div class="switch__handle"></div>
+  </div>
+</label>
+<label class="switch">
+  <input type="checkbox" class="switch__input" disabled>
+  <div class="switch__toggle">
+    <div class="switch__handle"></div>
+  </div>
+</label>
+<hr/>
+  <div class="range">
+  <input type="range" class="range__input">
+  <input type="range" class="range__focus-ring">
+</div>
+
+<div class="range range--disabled">
+  <input type="range" class="range__input" disabled>
+  <input type="range" class="range__focus-ring" disabled>
+</div>
+<hr/>
+<h3>通知数</h3>
+<span class="notification">1</span>
+<span class="notification">10</span>
+<span class="notification">999</span>
+<emoji-rain active>jjj</emoji-rain>
+<hr/>
+<a href = "index2.html">index2</a>
+  </ons-page>
+
+</body>
+</html>
