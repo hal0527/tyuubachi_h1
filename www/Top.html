@@ -1,0 +1,313 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+    <script src="components/loader.js"></script>
+    <script src="lib/onsenui/js/onsenui.min.js"></script>
+
+    <link rel="stylesheet" href="components/loader.css">
+    <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
+    <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script>
+        ons.ready(function() {
+            console.log("Onsen UI is ready!");
+            //localStorage.clear();
+            //localStorage.clear();
+            let test = localStorage.getItem("LoginUsername")+localStorage.getItem("LoginEmail");
+            console.log(test);
+            //let test1 = localStorage.getItem("LoginEmail");
+            //let test = localStorage.getItem("LoginUsername");
+            //let test1 = localStorage.getItem("LoginEmail");
+            if(test === null ||test === undefined || test === 0){
+
+            } //else if( test1 == undefined ){
+
+            //}
+            else {
+                window.location.href='index.html';
+            }
+        });
+        document.addEventListener('init', function(event) {
+            let page = event.target;
+
+            if (page.id === 'top1') {
+                page.querySelector('#login-button').onclick = function() {
+                    document.querySelector('#topNavigator').pushPage('login.html', {data: {title: '登録'}});
+                };
+            } else if (page.id === 'login') {
+
+            }
+        });
+
+        let ncmb = new NCMB("dd411920ff7852038a3d55414c3447b88c5e842ace7268254078b113d065398c","23304def33b24aeed4fe1ae5325a77c1ffbe3e44067c0a3716b47aefd4297e05");
+
+
+        function login_en(){
+            let input = document.getElementById("user_name").value;
+            let regm = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+            if(input.match(regm)){
+                LoginEmail();
+            } else {
+                LoginUser();
+            }
+        }
+
+        function LoginEmail(){
+            let input_email = document.getElementById("user_name").value;
+            let input_password = document.getElementById("user_password").value;
+            if(input_email == ""){
+                alert("メールアドレスが入力されていません");
+                return;
+            } else if(input_password == ""){
+                alert("パスワードが入力されていません");
+                return;
+            } else{
+
+                ncmb.User.loginWithMailAddress(input_email,input_password)
+                    .then(function(data){
+                        // ログイン後処理
+                        localStorage.setItem("LoginEmail",input_email);
+                        window.location.href='index.html';
+
+                    })
+                    .catch(function(err){
+                        // エラー処理
+                        alert("入力エラー、ログインに失敗しました：\n" + error);
+                        console.log("ログインの検索に失敗しました1：\n" + error);
+                        return;
+                    });
+            }
+        }
+
+        function LoginUser(){
+            let input_username = document.getElementById("user_name").value;
+            let input_password = document.getElementById("user_password").value;
+            if(input_username == ""){
+                alert("ユーザー名が入力されていません");
+                return;
+            } else if(input_password == ""){
+                alert("パスワードが入力されていません");
+                return;
+            } else{
+
+                ncmb.User.login(input_username,input_password)
+                    .then(function(data){
+                        // ログイン後処理
+                        localStorage.setItem("LoginUsername",input_username)
+                        window.location.href='index.html';
+                    })
+                    .catch(function(err){
+                        // エラー処理
+                        alert("入力エラー、ログインに失敗しました：\n" + error);
+                        console.log("ログインの検索に失敗しました1：\n" + error);
+                        return;
+                    });
+
+
+            }
+        }
+    </script>
+</head>
+<body>
+<ons-navigator swipeable id="topNavigator" page="top1.html"></ons-navigator>
+
+<ons-template id="top1.html">
+    <ons-page id="top1">
+        <div style="padding: 50% 0;">
+            <p style="text-align:center">
+                <ons-button id="login-button" modifier="quiet">ログイン</ons-button>
+            </p>
+            <p style="text-align:center">
+                <ons-button modifier="quiet" onclick="window.location.href='index.html'">スキップ</ons-button>
+            </p>
+        </div>
+    </ons-page>
+</ons-template>
+
+<ons-template id="login.html">
+    <ons-page id="login">
+        <ons-toolbar>
+            <div class="center">ログイン</div>
+            <div class="left"><ons-back-button>戻り</ons-back-button></div>
+        </ons-toolbar>
+        <div  style="display: table;padding: 5% 0;">
+            <div class="center" style="width: 70%;display: inline-block;padding: 10% 0;">
+                <ons-list-item style="left: 15%;right: 15%;">
+                    <div style="width: 180px;font-size: 8px">メールアドレスまたはユーザー名</div>
+                    <ons-input type="text" id="user_name" placeholder=" Username" style=" width: 200px;"> </ons-input>
+                </ons-list-item>
+                <ons-list-item style="left: 15%;right: 15%;">
+                    <div style="width: 70px;font-size: 8px">パスワード</div>
+                    <ons-input type="password" id="user_password" placeholder=" Password" style=" width: 200px;"> </ons-input>
+                    <p style="font-size: 8px">パスワードを忘れた方は<a href="">再発行の手続き</a>へ</p>
+                </ons-list-item>
+            </div>
+            <p style="text-align: center;">
+                <ons-button modifier="material" onclick="login_en()" style=" width: 100px;">ログイン</ons-button>
+                <ons-button modifier="material" onclick="document.querySelector('#topNavigator').pushPage('logup.html', {data: {title: '登録'}});" style=" width: 100px;">登録</ons-button>
+            </p>
+        </div>
+    </ons-page>
+</ons-template>
+
+<template id="logup.html">
+    <ons-page>
+        <ons-toolbar>
+            <div class="left"><ons-back-button>Back</ons-back-button></div>
+            <div class="center">情報入力</div>
+        </ons-toolbar>
+        <br/>
+        <div style="background-color: #fff;">
+            <div class="center" style="padding-left:25px;display: inline-block;">
+                <ons-list-item>
+                    <div style="width: 100px">ユーザー名</div>
+                    <ons-col>
+                        <ons-input type="text" id="user_name" placeholder=" Username" style=" width: 150px;"> </ons-input>
+                    </ons-col>
+                </ons-list-item>
+                <ons-list-item>
+                    <div style="width: 100px">パスワード</div>
+                    <ons-col>
+                        <ons-input type="password" id="user_password" placeholder=" Password" style=" width: 150px;"> </ons-input>
+                    </ons-col>
+                </ons-list-item>
+                <ons-list-item>
+                    <div style="width: 120px">メールアドレス</div>
+                    <ons-col>
+                        <ons-input type="email" id="user_email" placeholder="user01@sample.com" style=" width: 160px;"> </ons-input>
+                    </ons-col>
+                </ons-list-item>
+                <ons-list-item>
+                    <div style="width: 100px">性   別</div>
+                    <ons-col>
+                        <div style="float: left; padding-left: 40px;">
+                            <ons-select id="user_sex" modifier="material" style="width: 150px;" >
+                                <option value="1">男性</option>
+                                <option value="2">女性</option>
+                            </ons-select>
+                        </div>
+                    </ons-col>
+                </ons-list-item>
+                <ons-list-item>
+                    <div style="width: 100px">生年月日</div>
+                    <ons-col>
+                        <div style="float: left; padding-left: 40px;"　>
+                            <ons-input type="date" id="user_birthday" modifier="material" value="1988-01-01" style=" width: 150px;"></ons-input>
+                        </div>
+                    </ons-col>
+                </ons-list-item>
+                <ons-list-item>
+                    <div style="width: 100px">身 長 (cm)</div>
+                    <ons-col>
+                        <ons-input type="number" style=" width: 150px;" id="user_height" placeholder="160" min="100" max="300" ></ons-input>
+                    </ons-col>
+                </ons-list-item>
+                <ons-list-item>
+                    <div style="width: 100px" >体  重 (kg)</div>
+                    <ons-col>
+                        <ons-input type="number" id="user_weight" placeholder="50" min="30" max="200"　
+                                   style=" width: 150px;"></ons-input>
+                    </ons-col>
+                </ons-list-item>
+            </div>
+        </div>
+        <p style="text-align: center">
+            <ons-button id="push-button" style=" width: 100px" modifier="material" onclick="onClick()">登録</ons-button>
+            <ons-button id="skip-button" style=" width: 100px" modifier="material" onclick="window.location.href='index.html'">スキップ</ons-button>
+        </p>
+
+        <script>
+            function onClick(){
+                let username　=　document.getElementById("user_name").value;
+                let password　=　document.getElementById("user_password").value;
+                let email　=　document.getElementById("user_email").value;
+                let height　=　document.getElementById("user_height").value;
+                let weight　=　document.getElementById("user_weight").value;
+                let birthday　=　document.getElementById("user_birthday").value;
+                let sex　=　document.getElementById("user_sex").value;
+                let regm = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+
+                if( sex === 1  ){
+                    let sex_text = '男性';
+                }else{
+                    let sex_text = '女性';
+                }
+                if(username.indexOf(" ") >= 0 || username === ""){
+                    alert("ユーザー名が入力されていません");
+                    return;
+                } else if ( password.indexOf(" ") >= 0 || password === ""){
+                    alert("パスワードが入力されていません");
+                    return;
+                } else if( email.indexOf(" ") >= 0 || email === ""){
+                    alert("メールアドレスが入力されていません");
+                    return;
+                } else if(!email.match(regm)){
+                    alert("メールアドレスの様式が間違います");
+                } else if( sex === ""){
+                    alert("性別が選択されていません");
+                    return;
+                } else if( birthday === ""){
+                    alert("生年月日が入力されていません");
+                    return;
+                } else if( height === ""){
+                    alert("身長が入力されていません");
+                    return;
+                } else if( weight === ""){
+                    alert("体重が入力されていません");
+                    return;
+                } else {
+                    let ncmb = new NCMB("dd411920ff7852038a3d55414c3447b88c5e842ace7268254078b113d065398c","23304def33b24aeed4fe1ae5325a77c1ffbe3e44067c0a3716b47aefd4297e05");
+                    let user = new ncmb.User();
+                    user.set("userName", username)
+                        .set("password", password)
+                        .set("mailAddress", email)
+                        .set("sex", sex_text)
+                        .set("Birthday", birthday)
+                        .set("height", height)
+                        .set("weight", weight)
+
+                    user.signUpByAccount()
+                        .then(function(data){
+                            // 保存に成功した場合の処理
+                            localStorage.setItem("UserName", username);
+                            save_objectId();
+                            fn.pushPage({'id': 'animations.html', 'title': '基本情報'}, 'fade-ios');
+                            alert("登録済み");
+                        })
+                        .catch(function(err){
+                            // 保存に失敗した場合の処理
+                            alert("登録失敗");
+                            return;
+                        });
+                }
+            }
+
+            function save_objectId(){
+                let username = localStorage.getItem("UserName");
+                let ncmb = new NCMB("dd411920ff7852038a3d55414c3447b88c5e842ace7268254078b113d065398c","23304def33b24aeed4fe1ae5325a77c1ffbe3e44067c0a3716b47aefd4297e05");
+                ncmb.User.equalTo("userName",username)
+                    .fetchAll()
+                    .then(function(results){
+                        for (let i = 0; i < results.length; i++) {
+                            let object = results[i];
+                            let objectId = object.get("objectId");
+                            let username = object.get("userName");
+                            localStorage.setItem("LoginUsername",username)
+                            localStorage.setItem("objectId",objectId);
+                        }
+
+
+                    })
+                    .catch(function(error){
+                        console.log("objectId保存エラー");
+                        return;
+                    });
+            }
+        </script>
+    </ons-page>
+</template>
+</body>
+</html>
