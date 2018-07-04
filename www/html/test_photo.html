@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+    <link rel="stylesheet" href="components/loader.css">
+    <script src="components/loader.js"></script>
+        <!-- <script src="common.js"></script> -->
+        <script src="savePhoto.js"></script>
+    <script src="components/ncmb/ncmb.min.js"></script>
+    <script>
+        //
+        // TODO: Write JavaScript code here
+        //
+    </script>
+</head>
+<body>
+<!-- カメラを呼び出し-->
+  <!-- <img id="photo_1" height="400">
+    <button id="shoot-button" onclick="shoot()">写真を撮る</button>     -->
+
+
+    <p>App template using NIFTY Cloud mobile backend</p>
+
+    <!-- <input type="file" accept="image/jpeg" id="photo" />
+    
+    <img src="" id="image" width="200" />
+    
+    <input type="text" id="filename" value="" /><br />
+    <input type="submit" value="送信" id="submit" /><br />
+    <input type="submit" value="画像表示" id="view" /> -->
+    
+    <input type="file" accept="image/jpeg" id="photo" onclick="selectFile()" />
+       <img src="" id="image" width="200" />
+       <input type="text" id="filename" value="" /><br />
+
+    <button id="save_file" onclick="uploadFile()">保存</button>    
+<button id="show_file" onclick="downloadFile()">表示</button>    
+
+<!-- <script>
+    function shoot(){
+        var option = {
+            saveToPhotoAlbum: true //撮影後端末に保存
+        };
+        
+        //カメラを起動
+        navigator.camera.getPicture(onSuccess, onError, option);
+        
+        //成功時に呼び出されるコールバック関数
+        function onSuccess(imageURI){
+            document.querySelector("#photo").src = imageURI;
+        }
+        
+        //失敗時に呼び出されるコールバック関数
+        function onError(message){
+            alert("Error:" + message);
+        }
+    }
+</script> -->
+<!-- カメラを呼び出し-->
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+    <link rel="stylesheet" href="components/loader.css">
+    <script src="../components/loader.js"></script>
+    <script src="../lib/onsenui/js/onsenui.min.js"></script>
+    <link rel="stylesheet" href="../lib/onsenui/css/onsenui.css">
+    <link rel="stylesheet" href="../lib/onsenui/css/onsen-css-components.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <script>
+      function showProfile(){
+        var ncmb = new NCMB("110bd92fd08b667727f46a321bb903bacc49babf679332505f8ce751c1c38ce4","19fff4af2112fbfc38b048dae80f6c5c629732e81ce1848622659c12d70c1b7b");
+        var date =document.getElementById("user_date").value;
+        var list =document.getElementById("user_list").value;
+        var number =document.getElementById("user_number").value;
+        var objectId = localStorage.getItem("objectId");
+        var time =document.getElementById("user_time").value;
+        var sport =document.getElementById("user_sport").value;
+        var target =document.getElementById("user_target").value;
+       // document.getElementById('box').innerHTML = date+"まで"+time+objectId+number+list+sport+"をやります。"+"意気込み:"+target;
+                 //alert(date+"まで"+time+number+list+sport+"をやります。"+"意気込み:"+target);
+                
+        if ( document.getElementById("user_number").value ==""){ 
+            alert('単位入力してください。');   
+            return false;  
+         } else if( document.getElementById("user_date").value ==""){ 
+            alert('時間入力してください。');   
+            return false;  
+         } else {
+           var targetClass = ncmb.DataStore("targetClass");
+           var targetClass = new targetClass();
+           targetClass.set("user_date",date)
+                  　.set("user_time",time)
+                    .set("user_id",objectId)
+                    .set("user_number",number) 
+                    .set("user_list",list)
+                    .set("user_sport",sport)
+                    .set("user_target",target)
+                    .save()
+                    .then(function(res){
+                           // 保存に成功した場合の処理
+                       alert("成功");
+                    })
+                    .catch(function(err){
+                      // 保存に失敗した場合の処理
+                    });
+          document.getElementById('box').innerHTML = date+"まで",objectId+time+number+list+sport+"をやります。"+"意気込み:"+target;
+                 //alert(date+"まで"+time+number+list+sport+"をやります。"+"意気込み:"+target);
+         }
+  
+        
+         
+    }
+       
+
+     </script>
+ </head>
+<body>
+        
+        <ons-toolbar> 
+          <div class="center" >目標設定</div>
+        </ons-toolbar>
+        <br>
+       <p><form action="/example/html5/demo_form.asp" method="get">
+           <h3>予定終了日</h3><input type="date" id="user_date" name="user_date"><font color=red>(必須)</font></form></p>
+        <p><h3>頻度</h3> 
+        <input type="number" id="user_number" name="number" style="width: 50px"　 min="0"　onblur="check()">	 
+        <ons-select id="user_list">
+          <option>回数</option>
+          <option>時間</option>
+          <option>KM</option>
+         </ons-select> ／
+         <ons-select  id="user_time">
+             <option>週</option>
+             <option>日</option>
+             <option>月</option>
+         </ons-select> <font color=red>(必須)</font>　　　　　　
+        
+        <h3>運動種類</h3>
+         <ons-select  id="user_sport">
+             <option >ランニング</option>
+             <option >ウォーキング</option>
+             <option >ラジオ体操</option>
+             <option >自転車</option>
+             <option >バドミントン</option>
+             <option >野球</option>
+             <option >ヨガ</option>
+             <option >テニス</option>
+             <option >水泳</option>
+             <option >ゴルフ</option>
+         </ons-select><font color=red>(必須)</font>
+         </p> 
+         <p><h3>意気込み<h3><b> 
+         <input type="text" id="user_target"  placeholder="頑張りましょう！"
+              style="margin-top:8px; width: 100%;"　autocomplete="on"> </p>
+           <!-- <Button onClick={showProfile()}>完了</Button> -->
+            <button onClick={showProfile()} class="button--large--cta" style="width: 95%; margin: 0 auto;">完了</button>                         
+        <!--<div align="center"><button onclick="showProfile()">完了</button></div>
+        <p id="targetpage"></p>-->
+
+         <div id="box"></div>
+</body>
+</html>      

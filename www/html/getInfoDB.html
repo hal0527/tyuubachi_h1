@@ -1,0 +1,39 @@
+<ons-page ng-init="get_Active_info();">
+     <script src="/js/DBINFO.js"></script>
+    <ons-toolbar>
+       <div class="left"><ons-back-button>Back</ons-back-button></div>
+      <div class="center">
+       統計図
+      </div>
+<div class="right" >
+
+      <ons-toolbar-button component="button/save-task">
+        <ons-if platform="android">
+          <ons-icon icon="md-save"></ons-icon>
+        </ons-if>
+        <!-- <ons-if platform="ios other">
+          Save
+        </ons-if> -->
+      </ons-toolbar-button>
+    </div>
+    </ons-toolbar>
+
+      <style>
+	canvas{
+		-moz-user-select: none;
+		-webkit-user-select: none;
+		-ms-user-select: none;
+	}
+	</style>
+
+
+<!-- <body onload="get_Active_info()"> -->
+<!--	<div class="container">
+	</div>-->
+	<!-- <div style="width:75%;" > -->
+<div >
+		<canvas id="canvas"></canvas>
+	</div>
+
+
+</ons-page>

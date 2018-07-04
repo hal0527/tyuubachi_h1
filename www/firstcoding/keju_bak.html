@@ -1,16 +1,4 @@
-<!DOCTYPE HTML>
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-  <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
-  <script src="../components/loader.js"></script>
-  <script src="../lib/onsenui/js/onsenui.min.js"></script>
-
-  <link rel="stylesheet" href="../components/loader.css">
-  <link rel="stylesheet" href="../lib/onsenui/css/onsenui.css">
-  <link rel="stylesheet" href="../lib/onsenui/css/onsen-css-components.css">
-  <link rel="stylesheet" href="../css/style.css">
+  <ons-page>
   <script>
     document.addEventListener('init', function(event) {
       var page = event.target;
@@ -81,15 +69,33 @@
       }    
   });
   </script>
-</head>
-<body translate="no">  
-<ons-navigator title="Navigator" var="myNavigator">
+<!-- </head>
+<body translate="no">   -->
+<!-- <ons-navigator title="Navigator" var="myNavigator"> -->
 
 <!--入力-->
-  <ons-page >
+  <!-- <ons-page > -->
+ <ons-toolbar>
+       <div class="left"><ons-back-button>Back</ons-back-button></div>
+      <div class="center">
+       情報入力
+      </div>
+<div class="right">
+      <ons-toolbar-button component="button/save-task">
+        <ons-if platform="android">
+          <ons-icon icon="md-save"></ons-icon>
+        </ons-if>
+        <ons-if platform="ios other">
+          Save
+        </ons-if>
+      </ons-toolbar-button>
+    </div>
+    </ons-toolbar>
+
+<!-- 
     <ons-toolbar>
       <div class="center">情報入力</div>
-    </ons-toolbar>
+    </ons-toolbar> -->
 
     <div ng-controller="UserController" style="text-align: center">
         　<ons-list-item>
@@ -178,34 +184,10 @@
 	  </ons-list-item>
 		  
         </div>
-    <ons-button onclick="myNavigator.pushPage('page2.html', { animation : 'slide' } )" modifier="modifier" >登録</ons-button>
+    <!-- <ons-button onclick="myNavigator.pushPage('page2.html', { animation : 'slide' } )" modifier="modifier" >登録</ons-button> -->
   </ons-page>
-</ons-navigator>
-
-<!--基本情報-->
-<template id="page2.html">
-  <ons-page id="page2">
-    <ons-toolbar>
-      <div class="left"><ons-back-button>Page 1</ons-back-button></div>
-      <div class="center">基本情報</div>
-    </ons-toolbar>
-    <ons-list modifier="inset">
-      <ons-list-item style="text-align: center">
-        <img src="images/pic_user.png" align="middle" style="margin-top: 8px" width="80%">
-        <br />
-        <!--span class="label"></span-->
-      </ons-list-item>
-    </ons-list>
-    <ons-list-item>
-      <br />
-      <div ng-controller="UserController" style="text-align:leftt">
-        <p class="user_data"></p>
-      </div>
-    </ons-list-item>
-  </ons-page>
-</template>
-
+<!-- 
 </body>
-</html>
+</html> -->
 
 

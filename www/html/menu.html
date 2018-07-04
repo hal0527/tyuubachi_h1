@@ -1,0 +1,92 @@
+<ons-page id="menuPage">
+
+  <ons-list-title>Links</ons-list-title>
+  <ons-list id="links">
+    <!-- <ons-list-item tappable style="cursor: pointer" modifier="longdivider chevron"
+      onclick="window.open('https://github.com/frandiox/OnsenUI-Todo-App')"
+    > -->
+
+     <!--ons-list-item tappable style="cursor: pointer" modifier="longdivider chevron"
+        onclick="myNavigator.resetToPage('html/test_photo.html' );" >
+
+     <!-- <p style="text-align: center">
+      <ons-button modifier="light" ng-click="myNavigator.replacePage('./html/test_photo.html' );">Push</ons-button>
+    </p> -->
+    <ons-list-item tappable style="cursor: pointer" modifier="longdivider chevron"
+            onclick="page_load('./firstcoding/keju_bak.html')"  > 
+      <div class="left">
+        <ons-icon icon="fa-external-link" style="color: grey;"></ons-icon>
+      </div>
+      <div class="center" >
+        基本情報
+      </div>
+    </ons-list-item>
+    <!-- <ons-list-item tappable style="cursor: pointer" modifier="longdivider chevron"
+      onclick="window.open('https://onsen.io/')" > -->
+      <ons-list-item tappable style="cursor: pointer" modifier="longdivider chevron"
+        onclick="page_load('./html/setInfoDB.html')"  > 
+             <!-- onclick="window.location.href='html/setInfoDB.html';"> -->
+ 
+      <div class="left">
+        <ons-icon icon="fa-external-link" style="color: grey;"></ons-icon>
+      </div>
+      <div class="center">
+        実績入力
+      </div>
+    </ons-list-item>
+
+  <ons-list-item tappable style="cursor: pointer" modifier="longdivider chevron"
+            onclick="page_load('./firstcoding/keju2_bak.html')"  > 
+             <!-- onclick="window.location.href='firstcoding/keju2.html';"> -->
+      <div class="left">
+        <ons-icon icon="fa-external-link" style="color: grey;"></ons-icon>
+      </div>
+      <div class="center">
+        目標設定(珂)
+      </div>
+    </ons-list-item>
+
+  <ons-list-item tappable style="cursor: pointer" modifier="longdivider chevron"
+            onclick="page_load('./firstcoding/lujie1_bak.html')"  > 
+             <!-- onclick="window.location.href='firstcoding/keju2.html';"> -->
+      <div class="left">
+        <ons-icon icon="fa-external-link" style="color: grey;"></ons-icon>
+      </div>
+      <div class="center">
+        目標設定(呂)
+      </div>
+    </ons-list-item>
+    <ons-list-item tappable style="cursor: pointer" modifier="longdivider chevron"
+          onclick="page_load('./html/getInfoDB.html')"  > 
+            <!-- onclick="window.location.href='html/getInfoDB.html';"> -->
+      <!-- onclick="window.open('https://community.onsen.io/')" -->
+    
+      <div class="left">
+        <ons-icon icon="fa-external-link" style="color: grey;"></ons-icon>
+      </div>
+      <div class="center">
+        統計
+      </div>
+    </ons-list-item>
+  </ons-list>
+
+  <ons-list-title>Default</ons-list-title>
+  <ons-list id="default-category-list">
+    <ons-list-item tappable>
+      <div class="left">
+        <ons-radio name="categoryGroup" input-id="r-all" checked></ons-radio>
+      </div>
+      <label class="center" for="r-all">All</label>
+    </ons-list-item>
+    <ons-list-item tappable category-id="">
+      <div class="left">
+        <ons-radio name="categoryGroup" input-id="r-no"></ons-radio>
+      </div>
+      <label class="center" for="r-no">No category</label>
+    </ons-list-item>
+  </ons-list>
+
+  <ons-list-title>Custom categories</ons-list-title>
+  <ons-list id="custom-category-list">
+  </ons-list>
+</ons-page>

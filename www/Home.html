@@ -1,0 +1,191 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+  <script src="components/loader.js"></script>
+  <script src="lib/onsenui/js/onsenui.min.js"></script>
+  <script src="js/circle.js"></script>
+  <script src="js/page_event.js"></script>
+
+  <link rel="stylesheet" href="components/loader.css">
+  <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
+  <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/circle.css">
+
+  <script>
+    //database key 
+    var ncmb = new NCMB("110bd92fd08b667727f46a321bb903bacc49babf679332505f8ce751c1c38ce4","19fff4af2112fbfc38b048dae80f6c5c629732e81ce1848622659c12d70c1b7b");
+   
+    ons.ready(function() { 
+            //localStorage.clear();
+            var key1,key2;
+            var LoginUsername = localStorage.getItem("LoginUsername");
+            var LoginEmail = localStorage.getItem("LoginEmail");
+            if(LoginUsername == undefined && LoginEmail == undefined){
+              var mychar1 = document.getElementById('signup').style.display="block";
+              var mychar2 = document.getElementById('logout').style.display="none";
+            } else {
+              var mychar1 = document.getElementById('signup').style.display="none";
+              var mychar2 = document.getElementById('logout').style.display="block";
+              if (LoginUsername == undefined ){
+                key1 = "mailAddress";
+                key2 = LoginEmail;
+
+              } else if(LoginEmail == undefined){
+                key1 = "userName";
+                key2 = LoginUsername;
+              }
+            }
+          
+            ncmb.User.equalTo(key1, key2)
+                     .fetchAll()
+                     .then(function(results){
+                            for (var i = 0; i < results.length; i++) {
+                              var object = results[i];
+                              var username = object.get("userName");
+                              var sex = object.get("sex");
+                              var birthday = object.get("Birthday");
+                              var height = object.get("height");
+                              var weight = object.get("weight");
+                            }
+                            var b_year = birthday.substr(0, 4);
+                            var b_monday =  birthday.substr(5, 2) + birthday.substr(8, 2);
+                            var date = new Date();
+                            var n_year = date.getFullYear(); 
+                            var n_month = date.getMonth()+1;
+                            var n_date = date.getDate();
+                            // var n_monday = Appendzero(n_month) + Appendzero(n_date);
+                            var age = n_year - b_year - 1;
+
+                            //if ( n_monday >= b_monday){
+                            //  age = age + 1;
+                            //}
+
+                            if(sex == "男性"){
+                              var bmr =10*weight + 6.25*height - 5*age + 5;
+                            }else{
+                              var bmr =10*weight + 6.25*height  - (5*age + 161);
+                            }
+
+                            var bmi=weight/(height*height/10000);
+               
+                            var message = "あなたは";
+                            if(bmi < 18.5) {
+                              message += "低体重(痩せ型)です。";
+                              message1 = "日頃から「散歩」、「早く歩く」、「乗り物やエレベータを使わずに歩くようにする」など意識的に身体を動かしましょう";
+                              message2 = "週2回以上、1回1時間以上の息が少しはずむ程度の運動を習慣に";
+                              message3 = "ゴルフ、ターゲットバードゴルフ、ミニゴルフなど";
+                            } else if (bmi >= 18.5 && bmi < 25) {
+                              message += "普通体重です。";
+                              message1 = "日頃から「散歩」、「早く歩く」、「乗り物やエレベータを使わずに歩くようにする」など意識的に身体を動かしましょう";
+                              message2 = "週2回以上、1回30分以上の息が少しはずむ程度の運動を習慣に";
+                              message3 = "1日平均1万歩以上歩くことを目標に、すべて運動もいい、ジョギング、エアロビクスなど";
+                            } else if (bmi >= 25 && bmi < 30) {
+                              message += "肥満(1度)です。";
+                              message1 = "日頃から「散歩」、「乗り物やエレベータを使わずに歩くようにする」など意識的に身体を動かしましょう";
+                              message2 = "週2回以上、1回1時間以上の息が少しはずむ程度の運動を習慣に";
+                              message3 = "ゴルフ、ターゲットバードゴルフ、ミニゴルフなど";
+                            } else if (bmi >= 30 && bmi < 35) {
+                              message += "肥満(2度)です。";
+                              message1 = "ダイエットの意識を持ち、健康のために運動を始める";
+                              message2 = "週2回以上、1回2時間以上の息が少しはずむ程度の運動を習慣に";
+                              message3 = "ハイキング、ピクニック、オリエンテーリング、キャンピングなど";
+                            } else if (bmi >= 35 && bmi < 40) {
+                              message += "肥満(3度)です。";
+                              message1 = "ダイエットの意識を持ち、健康のために運動を始める";
+                              message2 = "週2回以上、1回1時間以上の息が少しはずむ程度の運動を習慣に";
+                              message3 = "ハイキング、ピクニック、オリエンテーリング、キャンピングなど";
+                            } else if (bmi >= 40) {
+                              message += "肥満(4度)です。";
+                              message1 = "日頃から「散歩」、健康など意識的に身体を動かしましょう";
+                              message2 = "週2回以上、1回30分以上の息が少しはずむ程度の運動を習慣に";
+                              message3 = "日頃から「散歩」、1日平均5000歩以上歩くことを目標に";
+                            }
+                            document.querySelector('ons-list-item .user_data1').innerHTML = username;
+                            document.querySelector('ons-list-item .user_data2').innerHTML = "年齢: "+age+"　 性別: "+sex;
+                            document.querySelector('ons-list-item .user_data2').innerHTML += "<br />身長: "+height+"cm 　体重: "+weight+"Kg  ";
+                            document.querySelector('ons-list-item .user_data3').innerHTML += "BMI: "+Math.round(bmi*100)/100+"<br />";
+                            document.querySelector('ons-list-item .user_data3').innerHTML += "基礎代謝: "+bmr+"kcl<br />";
+                            document.querySelector('ons-list-item .user_data3').innerHTML += message+"<br />";
+                            document.querySelector('ons-card .recommend_target1').innerHTML = message1+"<br />";
+                            document.querySelector('ons-card .recommend_target2').innerHTML = message2+"<br />";
+                            document.querySelector('ons-card .recommend_target3').innerHTML = message3+"<br />";
+
+                        })
+                        .catch(function(err){
+                          console.log(err);
+                        });
+
+    }); 
+
+     function logout(){
+      localStorage.removeItem("LoginUsername");
+      localStorage.clear();
+      window.location.href='index.html';
+    }
+
+ 
+
+
+  </script>
+</head>
+<body>
+
+ 
+    <ons-page>
+      <ons-tabbar swipeable position="auto">
+        <ons-tab page="Userdata.html" label="Tab 1" icon="md-face"  active>
+        </ons-tab>
+        <ons-tab page="tab2.html" label="Tab 2" icon="md-settings" >
+        </ons-tab>
+      </ons-tabbar>
+    </ons-page>
+    <!----基本情報ページ ---->
+    <ons-page>
+      <ons-toolbar class="toolbar">
+        <!--div class="left"><ons-toolbar-button>編集</ons-toolbar-button></div-->
+        <div class="center">Myページ</div>
+        <div class="right" id="signup">
+          <ons-toolbar-button onclick="window.location.href='AddUserdata.html' ">登録</ons-toolbar-button>
+        </div>
+      </ons-toolbar>
+      <br />
+      <br />
+      <ons-list-header>ユーザー</ons-list-header>
+      <ons-list-item>
+        <div class="left">
+          <img >
+          <img class="list-item__thumbnail" src="https://placekitten.com/g/40/40">
+        </div>
+        <div class="center">
+          <span class="list-item__title"><b class="user_data1">未登録</b></span>
+          <span class="list-item__subtitle"></span>
+          <span class="list-item__subtitle"></span>
+        </div>
+      </ons-list-item>
+      <ons-list-header>基本情報</ons-list-header>
+      <ons-list-item>
+          <p class="user_data2"></p>
+      </ons-list-item>
+      <ons-list-item>
+          <p class="user_data3"></p>
+      </ons-list-item>
+
+     
+      <ons-card>
+        <div class="title">
+            成人の個人目標
+        </div>
+        <li class="recommend_target1"></li>
+        <li class="recommend_target2"></li>
+        <li class="recommend_target3"></li>  
+      </ons-card>
+      <p >
+        <ons-button id="logout"  onclick="logout()" modifier="material" >ログアウト</ons-button>
+      </p>
+  </ons-page>
+</body>
+</html>

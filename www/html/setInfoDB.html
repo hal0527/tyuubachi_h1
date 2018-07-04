@@ -1,0 +1,81 @@
+
+  <ons-page>
+    <ons-toolbar>
+       <div class="left"><ons-back-button>Back</ons-back-button></div>
+      <div class="center">
+       実績入力
+      </div>
+<div class="right">
+      <ons-toolbar-button component="button/save-task">
+        <ons-if platform="android">
+          <ons-icon icon="md-save"></ons-icon>
+        </ons-if>
+        <ons-if platform="ios other">
+          Save
+        </ons-if>
+      </ons-toolbar-button>
+    </div>
+    </ons-toolbar>
+    <p style="text-align: center; opacity: 0.6; padding-top: 20px;">
+ <input type="date" id="active_date" value="日付を入力してください"><br>        
+        <h3>曜日</h3>
+         <select id="week_day">
+             <option value="月曜日">月曜日</option>
+             <option value="火曜日">火曜日</option>
+             <option value="水曜日">水曜日</option>
+             <option value="木曜日">木曜日</option>
+             <option value="金曜日">金曜日</option>
+             <option value="土曜日">土曜日</option>
+             <option value="日曜日">日曜日</option>
+         </select>
+
+        <h3>運動種類</h3>
+         <select id="user_sport">
+             <option value="ランニング">ランニング</option>
+             <option value="ウォーキング">ウォーキング</option>
+             <option value="ラジオ体操">ラジオ体操</option>
+             <option value="自転車">自転車</option>
+             <option value="バドミントン">バドミントン</option>
+             <option value="野球">野球</option>
+             <option value="ヨガ">ヨガ</option>
+             <option value="テニス">テニス</option>
+             <option value="水泳">水泳</option>
+             <option value="ゴルフ">ゴルフ</option>
+         </select>
+        <br>
+        <input type="text" id="active_times" ">分<br>
+        <input type="button" value="送信" onclick="save_Active_info()">
+    </p>
+<!-- 
+<form name="track_form" action="setInfoDB.html">
+        <input type="date" id="active_date" value="日付を入力してください"><br>        
+        <h3>曜日</h3>
+         <select id="week_day">
+             <option value="月曜日">月曜日</option>
+             <option value="火曜日">火曜日</option>
+             <option value="水曜日">水曜日</option>
+             <option value="木曜日">木曜日</option>
+             <option value="金曜日">金曜日</option>
+             <option value="土曜日">土曜日</option>
+             <option value="日曜日">日曜日</option>
+         </select>
+
+        <h3>運動種類</h3>
+         <select id="user_sport">
+             <option value="ランニング">ランニング</option>
+             <option value="ウォーキング">ウォーキング</option>
+             <option value="ラジオ体操">ラジオ体操</option>
+             <option value="自転車">自転車</option>
+             <option value="バドミントン">バドミントン</option>
+             <option value="野球">野球</option>
+             <option value="ヨガ">ヨガ</option>
+             <option value="テニス">テニス</option>
+             <option value="水泳">水泳</option>
+             <option value="ゴルフ">ゴルフ</option>
+         </select>
+        <br>
+        <input type="text" id="active_times" ">分<br>
+        <input type="button" value="送信" onclick="save_Active_info()">
+    </form>     -->
+  </ons-page>
+

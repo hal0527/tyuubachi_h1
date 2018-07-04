@@ -12,3 +12,26 @@
     display: inline-block;
     background-color:greenyellow;
 }
+
+.top-bg {
+      background: lightblue;
+      color: #fff;
+      text-align: center;
+      padding: 100px 0;
+}
+.top-div1 {
+      width:auto;
+      margin-left:-1rem;
+      margin-right:-1rem;
+}
+.top-div2{
+      width:100%
+}
+.top-title {
+      font-size: 200%;
+      border: 2px solid #fff;
+      background: darkgray;
+      padding: 20px;
+      display: inline-block;
+}
+

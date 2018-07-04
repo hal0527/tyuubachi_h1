@@ -1,0 +1,79 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+    <link rel="stylesheet" href="components/loader.css">
+    <script src="../components/loader.js"></script>
+    <script src="../lib/onsenui/js/onsenui.min.js"></script>
+    <link rel="stylesheet" href="../lib/onsenui/css/onsenui.css">
+    <link rel="stylesheet" href="../lib/onsenui/css/onsen-css-components.css">
+    <link rel="stylesheet" href="../css/style.css">
+
+    <script>
+      ons.ready(function() {
+      console.log("Onsen UI is ready!");
+    });
+
+      var adress =  forget_form.value;
+
+        var Records = ncmb.DataStore('Records');
+        var results = new results();
+
+        Results.set("adress")
+          .save()
+          
+//wright some code for get adress form DB
+          
+          if(adress === ){
+            alart("メールを送信しました。");
+              // 「CDO.Message」オブジェクト生成
+                var cdoMsg = new ActiveXObject("CDO.Message");
+                  cdoMsg.From = "@gmail.com";// 送信元設定
+                  cdoMsg.To = "to@xxx.com";// 送信先設定
+                  cdoMsg.Subject = "パスワード再設定のお知らせ";
+                  cdoMsg.Textbody = "いつもサービスをご利用くださいましてありがとうございます。ワンタイムパスワードはxxxxです。";
+
+                  // CDOオブジェクトコンフィグ用名前空間
+                  var namespace = "http://schemas.microsoft.com/cdo/configuration/";
+                  // 送信にネットワークを利用、「2」(cdoSendUsingPort)を設定
+                  cdoMsg.Configuration.Fields.Item(namespace + "sendusing") = 2;
+                  // SMTPサーバ設定
+                  cdoMsg.Configuration.Fields.Item(namespace + "smtpserver") = "smtp.gmail.com";
+                  // SMTPポート設定
+                  cdoMsg.Configuration.Fields.Item(namespace + "smtpserverport") = 465;
+                  // Basic認証、「1」(cdoBasic)を設定
+                  cdoMsg.Configuration.Fields.Item(namespace + "smtpauthenticate") = 1;
+                  // 認証ユーザ設定
+                  cdoMsg.Configuration.Fields.Item(namespace + "sendusername") = "username@gmail.com";
+                  // 認証パスワード設定
+                  cdoMsg.Configuration.Fields.Item(namespace + "sendpassword") = "password";
+                  // SSLを使用
+                  cdoMsg.Configuration.Fields.Item(namespace + "smtpusessl") = true;
+                  // コンフィグアップデート
+                  cdoMsg.Configuration.Fields.Update();
+                  // メール送信
+                  cdoMsg.Send();
+                  // 後処理
+                  cdoMsg = null;
+          }while{
+            alart("アドレスが見つかりません。");
+          }
+
+    </script>
+</head>
+<body>
+  <ons-toolbar>
+    <div class="center">パスワードの再設定</div>
+  </ons-toolbar>
+
+  <label>アドレス入力</label>
+  <p>ユーザー作成時に設定したメールアドレスを入力してください。</p>
+  
+    <form name="forget_form" action="forget.html">
+        <p>アドレス<input type="mailadress" name="name" size="30"></p>
+          <ons-button modifier="forget()">送信する</ons-button>
+    </form>
+</body>
+</html>

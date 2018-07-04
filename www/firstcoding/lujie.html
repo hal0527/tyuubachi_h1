@@ -5,101 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: content: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
     <script src="components/loader.js"></script>
+    <script src="../lib/onsenui/js/onsenui.min.js"></script>
     <link rel="stylesheet" href="components/loader.css">
-    <link rel="stylesheet" href="css/style.css">
-    <script>
-        function calc() {
-            //  身長を取得
-            var height = document.getElementById("height").value;
-            //  cm から mに変換
-            height = height / 100;
-            //  体重を取得
-            var weight = document.getElementById("weight").value;
-            //  BMI を求める
-            var bmi = weight / (height * height);
-            document.getElementById("bmi").innerHTML = "BMI : "+ bmi；
-
-              var message = ＂あなたは＂;
-              if(bmi < 18.5) {
-                 message  += "低体重(痩せ型)です。"；
-              }else if (bmi >= 18.5 && bmi < 25）{
-                 message  += "普通体重です。"；
-              }else if (bmi >= 25 && bmi < 30）{
-                 message  += "肥満(1度 )です。"；
-              }else if (bmi >= 30 && bmi < 35）{
-                 message  += "肥満(2度)です。"；
-              }else if (bmi >= 35 && bmi < 40）{ 
-                 message  += "肥満(3度)です。"；
-              }else if (bmi >= 40）{
-                 message  += "肥満(4度)です。"；
-              }
-              document.getElementById("message").innerHTML = message;
-        }
-    </script>
+    <link rel="stylesheet" href="../lib/onsenui/css/onsenui.css">
+    <link rel="stylesheet" href="../lib/onsenui/css/onsen-css-components.css">
+    <link rel="stylesheet" href="../css/style.css">
 </head>
-<body>
-	           <h1>個人情報</h1>
-             <tr height="30">
-￼        <td colspan="4" bgcolor="#d6e0ef">
-￼        &nbsp;<font face=webdings color=#ff8c00>8</font><b>&nbsp;個人情報入れてください</b>
-￼        </td>
-￼</tr>
-<tr height="20">
-￼  <td bgcolor="#f7f7f7" width="200" align="right"></td> 
-￼  <td bgcolor="#f7f7f7" align="left">
-￼    <div id="msg">
-￼    
-￼    </div>            
-￼  </td> 
-￼</tr>
-
-             <div class="img-container">
-                  <img>
-                </div>
-                <div class="text"></div>
-             <hr>
-             <h2>名前</h2>　
-             <input type=＂text＂ id=＂name＂><from>
-             <hr>
-             <h2>生年月日</h2>
-             <hr>
-             <h2>性別</h2>
-                  <select>
-                  <option value=＂d＂>男</option>
-                  <option value=＂j＂>女</option>
-                  </select>
-              <hr>
-             <h2>身長</h2>
-                  <select>
-                    <option value=＂1＂>130</option>
-                    <option value=＂2＂>140</option>
-                    <option value=＂3＂>150</option>
-                    <option value=＂4＂>160</option>
-                    <option value=＂5＂>170</option>
-                    <option value=＂6＂>180</option>
-                    <option value=＂9＂>190</option>
-                    <option value=＂10＂>200</option>
-                  </select>
-                  <hr>
-             <h2>体重</h2>
-                  <select>
-                    <option value=＂1＂>50</option>
-                    <option value=＂2＂>60</option>
-                    <option value=＂3＂>70</option>
-                    <option value=＂4＂>80</option>
-                    <option value=＂5＂>90</option>
-                    <option value=＂6＂>100</option>
-                    <option value=＂9＂>110</option>
-                    <option value=＂10＂>120</option>
-                  </select>
-                  <br />
-                  <hr>
-            <h2>BMI</h2></from>
-            <button onclick=＂calc()＂>計算</button>
-            <p  id=＂bmi＂></p>
-            <p  id=＂message＂></p>
-    
-</body>
+  <body>　　
+     <h1>個人情報</h1>
+         <p><img class="list-item__thumbnail" src="https://placekitten.com/g/40/40"><input type="text"placeholder="ニックネーム入れてください" style="width:50%;"></p>
+         <hr>
+     <h2>名前<input type="text"placeholder="入れてください">
+          性別 <ons-select> 
+                <option value=＂d＂>男</option>
+                <option value=＂j＂>女</option>
+              </ons-select>
+    </h2>
+                                    <font color=red>(必須)</font>      
+　　 <hr>
+    <h2>生年月日or
+      年齢<input type="text"placeholder="入れてください"required>
+    </h2>
+    <font color=red>(必須)</font>
+    <hr>
+    unction setOptions(srcType) {
+    var options = {
+        // Some common settings are 20, 50, and 100
+        quality: 50,
+        destinationType: Camera.DestinationType.FILE_URI,
+        // In this app, dynamically set the picture source, Camera or photo gallery
+        sourceType: srcType,
+        encodingType: Camera.EncodingType.JPEG,
+        mediaType: Camera.MediaType.PICTURE,
+        allowEdit: true,
+        correctOrientation: true  //Corrects Android orientation quirks
+    }
+    return options;
+}
+  </body>
 </html>
  
   
