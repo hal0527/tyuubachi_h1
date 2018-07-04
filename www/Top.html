@@ -27,7 +27,7 @@
 
             //}
             else {
-                window.location.href='index.html';
+                window.location.href='liu.html';
             }
         });
         document.addEventListener('init', function(event) {
@@ -70,7 +70,7 @@
                     .then(function(data){
                         // ログイン後処理
                         localStorage.setItem("LoginEmail",input_email);
-                        window.location.href='index.html';
+                        window.location.href='liu.html';
 
                     })
                     .catch(function(err){
@@ -97,7 +97,7 @@
                     .then(function(data){
                         // ログイン後処理
                         localStorage.setItem("LoginUsername",input_username)
-                        window.location.href='index.html';
+                        window.location.href='liu.html';
                     })
                     .catch(function(err){
                         // エラー処理
@@ -121,7 +121,7 @@
                 <ons-button id="login-button" modifier="quiet">ログイン</ons-button>
             </p>
             <p style="text-align:center">
-                <ons-button modifier="quiet" onclick="window.location.href='index.html'">スキップ</ons-button>
+                <ons-button modifier="quiet" onclick="window.location.href='liu.html'">スキップ</ons-button>
             </p>
         </div>
     </ons-page>
@@ -216,7 +216,7 @@
         </div>
         <p style="text-align: center">
             <ons-button id="push-button" style=" width: 100px" modifier="material" onclick="onClick()">登録</ons-button>
-            <ons-button id="skip-button" style=" width: 100px" modifier="material" onclick="window.location.href='index.html'">スキップ</ons-button>
+            <ons-button id="skip-button" style=" width: 100px" modifier="material" onclick="window.location.href='liu.html'">スキップ</ons-button>
         </p>
 
         <script>

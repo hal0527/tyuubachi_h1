@@ -6,225 +6,884 @@
   <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
   <script src="components/loader.js"></script>
   <script src="lib/onsenui/js/onsenui.min.js"></script>
-  <script src="js/circle.js"></script>
-  <script src="js/page_event.js"></script>
 
   <link rel="stylesheet" href="components/loader.css">
   <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
   <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
   <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/circle.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
 
   <script>
-    //database key 
-    //var ncmb = new NCMB("110bd92fd08b667727f46a321bb903bacc49babf679332505f8ce751c1c38ce4","19fff4af2112fbfc38b048dae80f6c5c629732e81ce1848622659c12d70c1b7b");
+      ons.ready(function() {
+          console.log("Onsen UI is ready!");
+      });
+      window.fn = {};
 
-    ons.ready(function() {
-      console.log("Onsen UI is ready!");
-    }); 
+      window.fn.toggleMenu = function () {
+          document.getElementById('appSplitter').right.toggle();
+      };
 
+      window.fn.loadView = function (index) {
+          document.getElementById('appTabbar').setActiveTab(index);
+          document.getElementById('sidemenu').close();
+      };
 
+      window.fn.loadLink = function (url) {
+          window.open(url, '_blank');
+      };
+
+      window.fn.pushPage = function (page, anim) {
+          if (anim) {
+              document.getElementById('appNavigator').pushPage(page.id, { data: { title: page.title }, animation: anim });
+          } else {
+              document.getElementById('appNavigator').pushPage(page.id, { data: { title: page.title } });
+          }
+      };
   </script>
 </head>
 <body>
-  <ons-navigator id="myNavigator" var="myNavigator" page="tab.html"></ons-navigator> 
-  
-  <ons-template id="tab.html">
-    <ons-page>
-      <ons-tabbar position="auto">
-        <ons-tab label="Tab 3" icon="list" page="page3.html">
-        </ons-tab>
-        <ons-tab label="Tab 1" icon="home" page="page1.html" active="true">
-        </ons-tab>
-        <ons-tab label="Tab 2" icon="user" page="page2.html" id="test-button">
-        </ons-tab>
-      </ons-tabbar>
-    </ons-page>
-  </ons-template>
+<ons-navigator id="appNavigator" swipeable swipe-target-width="80px">
+  <ons-page>
+    <ons-splitter id="appSplitter">
+      <ons-splitter-side id="sidemenu" page="sidemenu.html" swipeable side="right" collapse="" width="260px"></ons-splitter-side>
+      <ons-splitter-content page="tabbar.html"></ons-splitter-content>
 
-    <!----Homeページ ---->
-  <ons-template id="page1.html">
-    <ons-page id="first-page">
-      <ons-toolbar>
-        <div class="center">Home</div>
-      </ons-toolbar>
-      
-      <div class="circle-bar" style="margin-left: 88.75px;margin-top:10px">
-        <div class="circle-bar-left"></div>
-        <div class="circle-bar-right"></div>
-        <div class="mask">
-          <span class="percent"> </span>
-        </div>
-      </div>
-      <div style="text-align : center">
-        <br />
-        <ons-button onclick="disp_prompt()" id="target_prompt">目標設定</ons-button>
-      </div>
-      <div>
-        <br />
-        <br />
-        <ons-list>
-          <ons-list-header>運動時間記録</ons-list-header>
-          <ons-input type="text" id="timer_sport" placeholder="運動種類"></ons-input>
-          <ons-input type="number" id="timer_input" placeholder="時間入力(時単位)" min="0"></ons-input>
-          <br />
-        </ons-list> 
-        <ons-list>
-          <ons-input type="text" id="timer_memo" placeholder="記録メモ"></ons-input>
-        </ons-list>
-        <div style="text-align : center">
-          <span><span id="timer_hour" style="margin-top:5px">00&nbsp;</span>h</span>
-          <span><span id="timer_minute" style="margin-top:5px">00&nbsp;</span>m</span>
-          <span><span id="timer_second" style="margin-top:5px">00&nbsp;</span>s</span>
-          <ons-button id="timer_start">計時開始</ons-button>
-          <ons-button id="timer_clear">リセット</ons-button>
-          <ons-button id="timer_send">記録</ons-button>
-        </div>
-      </div>
-      <ons-list>
-          <ons-list-header>履歴</ons-list-header>
-          <ons-list-item>
-            <p class="show_Vue"></p>
-          </ons-list-item>
-      </ons-list>
-      
-      <!--ons-fab position="bottom right">
-        <ons-icon icon="md-plus" id="Add_Btn"></ons-icon>
-      </ons-fab-->
-        <!--Memo-->
+    </ons-splitter>
+  </ons-page>
+</ons-navigator>
 
-    </ons-page>
-  </ons-template>
-  
-    <!----個人ページ ---->
-  <ons-template id="page2.html">
-    <ons-page id="second-page">
-      <ons-toolbar class="toolbar">
-        <!--div class="left"><ons-toolbar-button>編集</ons-toolbar-button></div-->
-        <div class="center">個人ページ</div>
+<template id="tabbar.html">
+  <ons-page id="tabbar-page">
+    <ons-toolbar>
+      <div class="center">Home</div>
+      <div class="right">
+        <ons-toolbar-button onclick="fn.toggleMenu()">
+          <ons-icon icon="ion-navicon, material:md-menu"></ons-icon>
+        </ons-toolbar-button>
+      </div>
+    </ons-toolbar>
+    <ons-tabbar swipeable id="appTabbar" position="auto">
+      <ons-tab label="ホーム" icon="ion-home" page="home.html" active></ons-tab>
+      <ons-tab label="目標と記録" icon="ion-edit" page="target.html"></ons-tab>
+      <ons-tab label="個人ページ" icon="md-face" page="mypage.html"></ons-tab>
+    </ons-tabbar>
+    <script>
+        ons.getScriptPage().addEventListener('prechange', function(event) {
+            if (event.target.matches('#appTabbar')) {
+                event.currentTarget.querySelector('ons-toolbar .center').innerHTML = event.tabItem.getAttribute('label');
+            }
+        });
+    </script>
+  </ons-page>
+</template>
+
+　<!--　右のメニュー　-->
+<template id="sidemenu.html">
+  <ons-page>
+    <div class="profile-pic">
+
+      <img src="https://monaca.io/img/logos/download_image_onsenui_01.png">
+    </div>
+
+    <ons-list-title>Access</ons-list-title>
+    <ons-list>
+      <ons-list-item onclick="fn.loadView(0)">
+        <div class="left">
+          <ons-icon fixed-width class="list-item__icon" icon="ion-home, material:md-home"></ons-icon>
+        </div>
+        <div class="center">
+          ホーム
+        </div>
         <div class="right">
-          <ons-toolbar-button onclick="document.querySelector('#myNavigator').pushPage('AddUserdata.html') ">入力</ons-toolbar-button>
+          <ons-icon icon="fa-link"></ons-icon>
         </div>
-      </ons-toolbar>
+      </ons-list-item>
+      <ons-list-item onclick="fn.loadView(1)">
+        <div class="left">
+          <ons-icon fixed-width class="list-item__icon" icon="ion-edit, material:md-edit"></ons-icon>
+        </div>
+        <div class="center">
+          目標と記録
+        </div>
+        <div class="right">
+          <ons-icon icon="fa-link"></ons-icon>
+        </div>
+      </ons-list-item>
+      <ons-list-item onclick="fn.loadView(2)">
+        <div class="left">
+          <ons-icon fixed-width class="list-item__icon" icon="md-face"></ons-icon>
+        </div>
+        <div class="center">
+          個人ページ
+        </div>
+        <div class="right">
+          <ons-icon icon="fa-link"></ons-icon>
+        </div>
+      </ons-list-item>
+      <ons-list-item onclick="">
+        <div class="left">
+          <ons-icon fixed-width class="list-item__icon" icon="ion-settings, material:md-settings"></ons-icon>
+        </div>
+        <div class="center">
+          設定
+        </div>
+        <div class="right">
+          <ons-icon icon="fa-link"></ons-icon>
+        </div>
+      </ons-list-item>
+    </ons-list>
+
+    <ons-list-title style="margin-top: 10px">Links</ons-list-title>
+    <ons-list>
+      <ons-list-item onclick="fn.loadLink('https://onsen.io/v2/docs/guide/js/')">
+        <div class="left">
+          <ons-icon fixed-width class="list-item__icon" icon="ion-document-text"></ons-icon>
+        </div>
+        <div class="center">
+          Docs
+        </div>
+        <div class="right">
+          <ons-icon icon="fa-external-link"></ons-icon>
+        </div>
+      </ons-list-item>
+      <ons-list-item onclick="fn.loadLink('https://github.com/hal0527/tyuubachi_h1')">
+        <div class="left">
+          <ons-icon fixed-width class="list-item__icon" icon="ion-social-github"></ons-icon>
+        </div>
+        <div class="center">
+          GitHub
+        </div>
+        <div class="right">
+          <ons-icon icon="fa-external-link"></ons-icon>
+        </div>
+      </ons-list-item>
+    </ons-list>
+
+    <script>
+        ons.getScriptPage().onInit = function() {
+            // Set ons-splitter-side animation
+            this.parentElement.setAttribute('animation', ons.platform.isAndroid() ? 'overlay' : 'reveal');
+        };
+    </script>
+
+    <style>
+      .profile-pic {
+        width: 200px;
+        background-color: #fff;
+        margin: 20px auto 10px;
+        border: 1px solid #999;
+        border-radius: 4px;
+      }
+
+      .profile-pic > img {
+        display: block;
+        max-width: 100%;
+      }
+
+      ons-list-item {
+        color: #444;
+      }
+    </style>
+  </ons-page>
+</template>
+
+<template id="home.html">
+  <ons-page>
+    <p class="intro">
+      <ons-list-item style="left: 20%;right: 20%;">
+        <span id="name-display">Hello anonymous!</span>
+        <ons-icon icon="fa-hand-spock-o" size="lg" class="right-icon"></ons-icon>
+      </ons-list-item>
+      <br><br>
+    </p>
+
+    <ons-card onclick="fn.pushPage({'id': 'pullHook.html', 'title': 'PullHook'})">
+      <div class="title"><ons-icon icon="ion-aperture" size="30px" fixed-width="true"></ons-icon>写真</div>
+      <div class="content">before&after</div>
+    </ons-card>
+    <ons-card onclick="fn.pushPage({'id': 'progress.html', 'title': 'Progress'})">
+      <div class="title"><ons-icon icon="ion-bonfire" size="30px" fixed-width="true"></ons-icon>交流</div>
+      <div class="content">the data report.</div>
+    </ons-card>
+    <ons-card onclick="fn.pushPage({'id': 'progress.html', 'title': 'Progress'})">
+      <div class="title"><ons-icon icon="ion-pie-graph" size="30px" fixed-width="true"></ons-icon>レポート</div>
+      <div class="content">the data report.</div>
+    </ons-card>
+
+    <style>
+      .intro {
+        text-align: center;
+        padding: 0 20px;
+        margin-top: 40px;
+      }
+
+      ons-card {
+        cursor: pointer;
+        color: #333;
+      }
+
+      .card__title,
+      .card--material__title {
+        font-size: 20px;
+      }
+    </style>
+  </ons-page>
+</template>
+<!--　目標と記録　ページ　-->
+<template id="target.html">
+  <ons-page id="forms-page">
+    <ons-card onclick="fn.pushPage({'id': 'keju.html', 'title': '目標設定'})">
+      <div class="title"><i class="fas fa-bullseye" size="5x"></i> 目標設定</div>
+      <div class="content"><p id="target_p">運動時間の目標設定.</p></div>
+    </ons-card>
+    <ons-card onclick="fn.pushPage({'id': 'koyanagi.html', 'title': '実績記録'})">
+      <div class="title"><ons-icon icon="ion-compass" size="30px" fixed-width="true"></ons-icon>実績記録</div>
+      <div class="content"><p id="performance_p">運動時間の実績を記録する.</p></div>
+    </ons-card>
+    <ons-list-header>設定した目標</ons-list-header>
+    <ons-list-item>
+      <div>
+        　　　　　<ons-list id="pending-list">
+      </ons-list>
+      </div>
+    </ons-list-item>
+    <ons-list-header>記録</ons-list-header>
+    <ons-list-item>
+      <div>
+        <ons-list id="performance-list">
+        </ons-list>
+      </div>
+    </ons-list-item>
+
+    <style>
+      .right-icon {
+        margin-left: 10px;
+      }
+
+      .right-label {
+        color: #666;
+      }
+    </style>
+  </ons-page>
+</template>
+
+<!-- mypage -->
+<template id="mypage.html">
+  <ons-page>
+    <ons-card onclick="fn.pushPage({'id': 'baseData.html', 'title': '基本情報'})">
+      <ons-list-item>
+        <div class="left">
+          <img src="https://placekitten.com/200/300" style="width:80px;height:80px">
+        </div>
+        <div class="center" style="padding-left:20px">
+          <p class="card_01" style="font-size:30px">未登録</p>
+        </div>
+      </ons-list-item>
+      <div class="center" style="padding-left:20px"><p class="card_02">未登録</p></div>
+    </ons-card>
+
+
+    <div style="text-align : center">
+      <ons-list-header style="width: 350px;display: inline-block;text-align : center;font-size:15px">週間記録</ons-list-header>
+      <ons-list-item style="width: 350px;display: inline-block;background-color:#FFF ">
+        <p>
+          <div style="width:14%">
+            <p style="text-align : center">1</p>
+            <ons-progress-circular value="20" secondary-value="50"></ons-progress-circular>
+          </div>
+          <div style="width:14%">
+            <p style="text-align : center">2</p>
+            <ons-progress-circular value="20" secondary-value="50"></ons-progress-circular>
+          </div>
+          <div style="width:14%">
+            <p style="text-align : center">3</p>
+            <ons-progress-circular value="20" secondary-value="50"></ons-progress-circular>
+          </div>
+          <div style="width:14%">
+            <p style="text-align : center">4</p>
+            <ons-progress-circular value="20" secondary-value="50"></ons-progress-circular>
+          </div>
+          <div style="width:14%">
+            <p style="text-align : center">5</p>
+            <ons-progress-circular value="20" secondary-value="50"></ons-progress-circular>
+          </div>
+          <div style="width:14%">
+            <p style="text-align : center">6</p>
+            <ons-progress-circular value="20" secondary-value="50"></ons-progress-circular>
+          </div>
+          <div style="width:14%">
+            <p style="text-align : center">7</p>
+            <ons-progress-circular value="20" secondary-value="50"></ons-progress-circular>
+          </div>
+        </p>
+        <i class="far fa-clipboard"></i>
+        <i class="fas fa-clipboard-check"></i>
+    </ons-list-item>
+    </div>
+    <ons-list-header style="width: 350px;display: inline-block;text-align : center;font-size:15px">運動別データ</ons-list-header>
+    <ons-list-item>
+      <div style="width: 50%">
+
+        <ons-card style="height:210px">
+          <div class="title" style="font-size:16px"><i class="fas fa-shoe-prints"></i>ウォーキング</div>
+          <div class="content">
+            <p>距離：</p>
+            <p style="text-align:center" id="walking_p">11</p>
+            <p>消費カロリー：</p>
+            <p style="text-align:center">220kcal</p>
+
+          </div>
+        </ons-card>
+        <ons-card style="height:100px">
+          <div class="title" style="font-size:16px"><i class="fas fa-bicycle"></i> 自転車</div>
+          <div class="content">距離：<p style="text-align:center" id="bicycle_p">0 Km</p></div>
+        </ons-card>
+
+      </div>
+      <div style="width: 50%">
+
+        <ons-card style="height:100px">
+          <div class="title" style="font-size:16px"><i class="fas fa-walking"></i> ランニング</div>
+          <div class="content">距離：<p style="text-align:center" id="running_p">0 Km</p></div>
+        </ons-card>
+        <ons-card style="height:100px">
+          <div class="title" style="font-size:16px"><i class="fas fa-swimmer"></i> 水泳</div>
+          <div class="content">距離：<p style="text-align:center" id="swimming_p">0 Km</p></div>
+        </ons-card>
+        <ons-card style="height:100px">
+          <div class="title" style="font-size:16px"><i class="fas fa-baseball-ball"></i> 野球</div>
+          <div class="content">時間：<p style="text-align:center" id="baseball_p">0 時</p></div>
+        </ons-card>
+
+      </div>
+    </ons-list-item>
+    </ons-list>
+    <script>
+        ons.ready(function() {
+            var ncmb = new NCMB("dd411920ff7852038a3d55414c3447b88c5e842ace7268254078b113d065398c","23304def33b24aeed4fe1ae5325a77c1ffbe3e44067c0a3716b47aefd4297e05");
+
+            var key1,key2;
+            var LoginUsername = localStorage.getItem("LoginUsername");
+            var LoginEmail = localStorage.getItem("LoginEmail");
+
+            if (LoginUsername === undefined ){
+                key1 = "mailAddress";
+                key2 = LoginEmail;
+            } else if(LoginEmail === undefined){
+                key1 = "userName";
+                key2 = LoginUsername;
+            }
+
+            ncmb.User.equalTo(key1, key2)
+                .fetchAll()
+                .then(function(results){
+                    for (var i = 0; i < results.length; i++) {
+                        var object = results[i];
+                        var username = object.get("userName");
+                        var sex = object.get("sex");
+                        var birthday = object.get("Birthday");
+                        var height = object.get("height");
+                        var weight = object.get("weight");
+                    }
+
+                    localStorage.setItem("Username",username);
+                    localStorage.setItem("Sex",sex);
+                    localStorage.setItem("Birthday",birthday);
+                    localStorage.setItem("Height",height);
+                    localStorage.setItem("Weight",weight);
+                    document.querySelector('ons-card .card_01').innerHTML = "   "+username;
+                    document.querySelector('ons-card .card_02').innerHTML = weight +"Kg  "+ height+"cm";
+                    document.querySelector('ons-card .card_02').innerHTML += "   総運動時間:";
+                })
+                .catch(function(err){
+                    console.log(err);
+                });
+
+        });
+    </script>
+  </ons-page>
+</template>
+
+<template id="transition.html">
+  <ons-page>
+    <ons-toolbar>
+      <div class="left">
+        <ons-back-button>Back</ons-back-button>
+      </div>
+      <div class="center"></div>
+    </ons-toolbar>
+    <p style="text-align: center">
+      Use the VOnsBackButton
+    </p>
+    <script>
+        ons.getScriptPage().onInit = function () {
+            this.querySelector('ons-toolbar div.center').textContent = this.data.title;
+        }
+    </script>
+  </ons-page>
+</template>
+<!-- 登録ページ -->
+<template id="loginUp.html">
+  <ons-page>
+    <ons-toolbar>
+      <div class="left"><ons-back-button>Back</ons-back-button></div>
+      <div class="center">情報入力</div>
+    </ons-toolbar>
+    <br/>
+    <div style="background-color: #fff;">
+      <div class="center" style="padding-left:25px;display: inline-block;">
+        <ons-list-item modifier="nodivider">
+        <div style="width: 100px">ユーザー名</div>
+        <ons-col>
+          <ons-input type="text" id="user_name" placeholder=" Username" style=" width: 150px;"> </ons-input>
+        </ons-col>
+        </ons-list-item>
+        <ons-list-item>
+          <div style="width: 100px">パスワード</div>
+          <ons-col>
+            <ons-input type="password" id="user_password" placeholder=" Password" style=" width: 150px;"> </ons-input>
+          </ons-col>
+        </ons-list-item>
+        <ons-list-item>
+          <div style="width: 120px">メールアドレス</div>
+          <ons-col>
+            <ons-input type="email" id="user_email" placeholder="user01@sample.com" style=" width: 160px;"> </ons-input>
+          </ons-col>
+        </ons-list-item>
+        <ons-list-item>
+          <div style="width: 100px">性   別</div>
+          <ons-col>
+            <div style="float: left; padding-left: 40px;">
+              <ons-select id="user_sex" modifier="material" style="width: 150px;" >
+                <option value="1">男性</option>
+                <option value="2">女性</option>
+              </ons-select>
+            </div>
+          </ons-col>
+        </ons-list-item>
+        <ons-list-item>
+          <div style="width: 100px">生年月日</div>
+          <ons-col>
+            <div style="float: left; padding-left: 40px;"　>
+              <ons-input type="date" id="user_birthday" modifier="material" value="1988-01-01" style=" width: 150px;"></ons-input>
+            </div>
+          </ons-col>
+        </ons-list-item>
+        <ons-list-item>
+          <div style="width: 100px">身 長 (cm)</div>
+          <ons-col>
+            <ons-input type="number" style=" width: 150px;" id="user_height" placeholder="160" min="100" max="300" ></ons-input>
+          </ons-col>
+        </ons-list-item>
+        <ons-list-item>
+          <div style="width: 100px" >体  重 (kg)</div>
+          <ons-col>
+            <ons-input type="number" id="user_weight" placeholder="50" min="30" max="200"　
+                       style=" width: 150px;"></ons-input>
+          </ons-col>
+        </ons-list-item>
+      </div>
+    </div>
+    <p style="text-align: center">
+      <ons-button id="push-button" style=" width: 100px" modifier="material" onclick="onClick()">登録</ons-button>
+      <ons-button id="skip-button" style=" width: 100px" modifier="material" onclick="fn.pushPage({'id': 'tabbar.html'}, 'fade-ios')">スキップ</ons-button>
+    </p>
+
+    <script>
+        function onClick(){
+            var username　=　document.getElementById("user_name").value;
+            var password　=　document.getElementById("user_password").value;
+            var email　=　document.getElementById("user_email").value;
+            var height　=　document.getElementById("user_height").value;
+            var weight　=　document.getElementById("user_weight").value;
+            var birthday　=　document.getElementById("user_birthday").value;
+            var sex　=　document.getElementById("user_sex").value;
+            var regm = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+
+            if( sex === 1  ){
+                var sex_text = '男性';
+            }else{
+                var sex_text = '女性';
+            }
+            if(username.indexOf(" ") >= 0 || username === ""){
+                alert("ユーザー名が入力されていません");
+                return;
+            } else if ( password.indexOf(" ") >= 0 || password === ""){
+                alert("パスワードが入力されていません");
+                return;
+            } else if( email.indexOf(" ") >= 0 || email === ""){
+                alert("メールアドレスが入力されていません");
+                return;
+            } else if(!email.match(regm)){
+                alert("メールアドレスの様式が間違います");
+            } else if( sex === ""){
+                alert("性別が選択されていません");
+                return;
+            } else if( birthday === ""){
+                alert("生年月日が入力されていません");
+                return;
+            } else if( height === ""){
+                alert("身長が入力されていません");
+                return;
+            } else if( weight === ""){
+                alert("体重が入力されていません");
+                return;
+            } else {
+                var ncmb = new NCMB("dd411920ff7852038a3d55414c3447b88c5e842ace7268254078b113d065398c","23304def33b24aeed4fe1ae5325a77c1ffbe3e44067c0a3716b47aefd4297e05");
+                var user = new ncmb.User();
+                user.set("userName", username)
+                    .set("password", password)
+                    .set("mailAddress", email)
+                    .set("sex", sex_text)
+                    .set("Birthday", birthday)
+                    .set("height", height)
+                    .set("weight", weight)
+
+                user.signUpByAccount()
+                    .then(function(data){
+                        // 保存に成功した場合の処理
+                        localStorage.setItem("UserName", username);
+                        save_objectId();
+                        fn.pushPage({'id': 'mypage.html', 'title': '基本情報'}, 'fade-ios');
+                        alert("登録済み");
+                    })
+                    .catch(function(err){
+                        // 保存に失敗した場合の処理
+                        alert("登録失敗");
+                        return;
+                    });
+            }
+        }
+
+        function save_objectId(){
+            var username = localStorage.getItem("UserName");
+            var ncmb = new NCMB("dd411920ff7852038a3d55414c3447b88c5e842ace7268254078b113d065398c","23304def33b24aeed4fe1ae5325a77c1ffbe3e44067c0a3716b47aefd4297e05");
+            ncmb.User.equalTo("userName",username)
+                .fetchAll()
+                .then(function(results){
+                    for (var i = 0; i < results.length; i++) {
+                        var object = results[i];
+                        var objectId = object.get("objectId");
+                        var username = object.get("userName");
+                        localStorage.setItem("LoginUsername",username)
+                        localStorage.setItem("objectId",objectId);
+                    }
+
+
+                })
+                .catch(function(error){
+                    console.log("objectId保存エラー");
+                    return;
+                });
+        }
+    </script>
+  </ons-page>
+</template>
+<!-- 基本情報ページ -->
+<template id="baseData.html">
+  <ons-page>
+    <ons-toolbar class="toolbar">
+      <div class="left"><ons-back-button>Back</ons-back-button></div>
+      <div class="center">基本情報</div>
+      <div class="right" id="signup">
+        <ons-toolbar-button onclick="fn.pushPage({'id': 'loginUp.html', 'title': 'ユーザー登録'}, 'fade-ios')">登録</ons-toolbar-button>
+      </div>
+    </ons-toolbar>
+    <ons-card>
+      <div class="title">基本情報</div>
       <ons-list-header>ユーザー</ons-list-header>
       <ons-list-item>
         <div class="left">
+          <img onclick="fn.pushPage({'id': 'photo.html', 'title': '写真'}, 'fade-ios')">
           <img class="list-item__thumbnail" src="https://placekitten.com/g/40/40">
         </div>
         <div class="center">
-          <span class="list-item__title"><b class="user_data1">Username</b></span>
+          <span class="list-item__title"><b class="user_data1">未登録</b></span>
           <span class="list-item__subtitle"></span>
           <span class="list-item__subtitle"></span>
         </div>
       </ons-list-item>
       <ons-list-header>基本情報</ons-list-header>
       <ons-list-item>
-          <p class="user_data2"></p>
+        <p class="user_data2"></p>
       </ons-list-item>
       <ons-list-item>
-          <p class="user_data3"></p>
+        <p class="user_data3"></p>
       </ons-list-item>
-      <ons-card >
-        <div class="title">
-          おすすめ運動
-        </div>
-      </ons-card>
+    </ons-card>
 
-      <ons-card >
-        <div class="title">
-          成人の個人目標
-        </div>
-        <li>日頃から「散歩」、「早く歩く」、「乗り物やエレベータを使わずに歩くようにする」など意識的に身体を動かしましょう</li>
-        <li>1日平均1万歩以上歩くことを目標に</li>
-        <li>週2回以上、1回30分以上の息が少しはずむ程度の運動を習慣に</li>
-        <li>最初の運動としてはまずウォーキングから</li>
-      </ons-card>
-      
-
-
-    </ons-page>
-  </ons-template>
-    <!----レポートページ ---->
-  <ons-template id="page3.html">
-    <ons-page id="third-page">
-      <ons-toolbar>
-        <!--div class="right"><ons-button id="reload">更新</ons-button></div-->
-        <div class="center">レポート</div>
-      </ons-toolbar>
-      <ons-list>
-    
-        <div class="content" style="text-align: center">   
-          <canvas id="chart-canvas"></canvas>   
-        </div>
-        <div class="block1" style="text-align: center">
-          <div>
-            <b>総運動時間</b>
-            <p class = "sport_time"></p>
-          </div>
-          <div>
-            <b>総消費カロリー</b>
-            <p class = "calorie"></p>
-          </div>
-        </div>
-        <div class="block2" style="text-align: center">
-          <div>
-            <b>週平均運動時間</b>
-            <p class = "weight_change"></p>
-          </div>
-          <div>
-            <b>目標完成</b>
-            <p class = "tank_number"></p>
-          </div>
-        </div>
-    
-      </ons-list>
-    </ons-page>
-  </ons-template>
-
-    <!----情報入力ページ ---->
-  <ons-template id="AddUserdata.html">
-    <ons-page id="AddUser">
-      <ons-toolbar>
-        <div class="left"><ons-back-button>個人</ons-back-button></div>
-        <div class="center">情報入力</div>
-      </ons-toolbar>
-      <div ng-controller="UserController" style="text-align: center;">
-        <ons-list-item>
-          <ons-input type="text" id="user_name" placeholder="ユーザー名" style="margin-top:8px; width: 100%;"> </ons-input>
-        </ons-list-item>
-        <ons-list-item>
-          <ons-row>    
-            <div>性別</div>
-            <ons-col>
-              <div style="float: center; padding-right: 10px;">
-                <ons-select id="user_sex" modifier="material" >
-		        		  <option value="1">男性</option>
-		          	  <option value="2">女性</option>
-	          	  </ons-select>
-              </div>
-            </ons-col>
-          </ons-row>
-        </ons-list-item>
-        <ons-list-item>
-          <div>生年月日</div>
-          <ons-col>
-            <div style="float: center; padding-right: 10px;">
-              <ons-input type="date" id="user_birthday" modifier="material" float placeholder="  "　style="margin-top:8px; width: 100%;"></ons-input>
-            </div>  
-          </ons-col>
-        </ons-list-item>
-        <ons-list-item>
-          <ons-input type="number" id="user_height" placeholder="身長(cm)" min="100" max="300"  
-                   　style="margin-top:8px; width: 100%;"></ons-input>
-        </ons-list-item>
-        <ons-list-item>
-          <ons-input type="number" id="user_weight" placeholder="体重(kg)" min="30" max="200"　 
-                     style="margin-top:8px; width: 100%;"></ons-input>
-        </ons-list-item>
+    <ons-card>
+      <div class="title">
+        推奨個人目標
       </div>
-      <ons-button modifier="large" id="push-button">登録</ons-button>
-    </ons-page>
-  </ons-template>
+      <li class="recommend_target1"></li>
+      <li class="recommend_target2"></li>
+      <li class="recommend_target3"></li>
+    </ons-card>
+    <p >
+      <ons-button id="logout"  onclick="logout()" modifier="material" >ログアウト</ons-button>
+    </p>
+
+    <script>
+        //database key
+        ons.ready(function() {
+            var LoginUsername = localStorage.getItem("LoginUsername");
+            var LoginEmail = localStorage.getItem("LoginEmail");
+            if(LoginUsername === undefined && LoginEmail === undefined){
+                var mychar1 = document.getElementById('signup').style.display="block";
+                var mychar2 = document.getElementById('logout').style.display="none";
+            } else {
+                var mychar1 = document.getElementById('signup').style.display="none";
+                var mychar2 = document.getElementById('logout').style.display="block";
+            }
+            //localStorage.clear();
+            var username = localStorage.getItem("Username");
+            var sex = localStorage.getItem("Sex");
+            var birthday = localStorage.getItem("Birthday");
+            var height = localStorage.getItem("Height");
+            var weight = localStorage.getItem("Weight");
+            var b_year = birthday.substr(0, 4);
+            var b_monday =  birthday.substr(5, 2) + birthday.substr(8, 2);
+            var date = new Date();
+            var n_year = date.getFullYear();
+            var n_month = date.getMonth()+1;
+            var n_date = date.getDate();
+            // var n_monday = Appendzero(n_month) + Appendzero(n_date);
+            var age = n_year - b_year - 1;
+
+            //if ( n_monday >= b_monday){
+            //  age = age + 1;
+            //}
+
+
+            if(sex === "男性"){
+                var bmr =10*weight + 6.25*height - 5*age + 5;
+            }else{
+                var bmr =10*weight + 6.25*height  - (5*age + 161);
+            }
+
+            var bmi=weight/(height*height/10000);
+            var message = "あなたは";
+            if(bmi < 18.5) {
+                message += "低体重(痩せ型)です。";
+                message1 = "日頃から「散歩」、「早く歩く」、「乗り物やエレベータを使わずに歩くようにする」など意識的に身体を動かしましょう";
+                message2 = "週2回以上、1回1時間以上の息が少しはずむ程度の運動を習慣に";
+                message3 = "ゴルフ、ターゲットバードゴルフ、ミニゴルフなど";
+            } else if (bmi >= 18.5 && bmi < 25) {
+                message += "普通体重です。";
+                message1 = "日頃から「散歩」、「早く歩く」、「乗り物やエレベータを使わずに歩くようにする」など意識的に身体を動かしましょう";
+                message2 = "週2回以上、1回30分以上の息が少しはずむ程度の運動を習慣に";
+                message3 = "1日平均1万歩以上歩くことを目標に、すべて運動もいい、ジョギング、エアロビクスなど";
+            } else if (bmi >= 25 && bmi < 30) {
+                message += "肥満(1度)です。";
+                message1 = "日頃から「散歩」、「乗り物やエレベータを使わずに歩くようにする」など意識的に身体を動かしましょう";
+                message2 = "週2回以上、1回1時間以上の息が少しはずむ程度の運動を習慣に";
+                message3 = "ゴルフ、ターゲットバードゴルフ、ミニゴルフなど";
+            } else if (bmi >= 30 && bmi < 35) {
+                message += "肥満(2度)です。";
+                message1 = "ダイエットの意識を持ち、健康のために運動を始める";
+                message2 = "週2回以上、1回2時間以上の息が少しはずむ程度の運動を習慣に";
+                message3 = "ハイキング、ピクニック、オリエンテーリング、キャンピングなど";
+            } else if (bmi >= 35 && bmi < 40) {
+                message += "肥満(3度)です。";
+                message1 = "ダイエットの意識を持ち、健康のために運動を始める";
+                message2 = "週2回以上、1回1時間以上の息が少しはずむ程度の運動を習慣に";
+                message3 = "ハイキング、ピクニック、オリエンテーリング、キャンピングなど";
+            } else if (bmi >= 40) {
+                message += "肥満(4度)です。";
+                message1 = "日頃から「散歩」、健康など意識的に身体を動かしましょう";
+                message2 = "週2回以上、1回30分以上の息が少しはずむ程度の運動を習慣に";
+                message3 = "日頃から「散歩」、1日平均5000歩以上歩くことを目標に";
+            }
+            document.querySelector('ons-list-item .user_data1').innerHTML = username;
+            document.querySelector('ons-list-item .user_data2').innerHTML = "年齢: "+age+"　 性別: "+sex;
+            document.querySelector('ons-list-item .user_data2').innerHTML += "<br />身長: "+height+"cm 　体重: "+weight+"Kg  ";
+            document.querySelector('ons-list-item .user_data3').innerHTML += "BMI: "+Math.round(bmi*100)/100+"<br />";
+            document.querySelector('ons-list-item .user_data3').innerHTML += "基礎代謝: "+bmr+"kcl<br />";
+            document.querySelector('ons-list-item .user_data3').innerHTML += message+"<br />";
+            document.querySelector('ons-card .recommend_target1').innerHTML = message1+"<br />";
+            document.querySelector('ons-card .recommend_target2').innerHTML = message2+"<br />";
+            document.querySelector('ons-card .recommend_target3').innerHTML = message3+"<br />";
+
+        });
+
+        function logout(){
+            localStorage.removeItem("LoginUsername");
+            localStorage.clear();
+            window.location.href='Top.html';
+        }
+    </script>
+  </ons-page>
+</template>
+
+<template id="keju.html">
+  <ons-page>
+    <ons-toolbar>
+      <div class="left"><ons-back-button>戻り</ons-back-button></div>
+      <div class="center" >目標設定</div>
+    </ons-toolbar>
+    <div style="background-color:#fff">
+      <ons-list-header style="font-size:15px">予定終了日</ons-list-header>
+      <ons-list-item>
+        <div>
+          <input type="date" id="user_date" name="user_date"><font color=red>(必須)</font>
+        </div>
+      </ons-list-item>
+      <ons-list-header style="font-size:15px">頻度</ons-list-header>
+      <ons-list-item>
+        <ons-input type="number" id="user_number" name="number" style="width: 50px"　 value="3" min="0"　onclick="check()">
+        </ons-input>
+        <ons-select id="user_list">
+          <option>回数</option>
+          <option>時間</option>
+          <option>KM</option>
+        </ons-select> ／
+        <ons-select  id="user_time">
+          <option>週</option>
+          <option>日</option>
+          <option>月</option>
+        </ons-select> <font color=red>(必須)</font>
+      </ons-list-item>
+      <ons-list-header style="font-size:15px">運動種類</ons-list-header>
+      <ons-list-item>
+        <ons-select  id="user_sport">
+          <option >ランニング</option>
+          <option >ウォーキング</option>
+          <option >ラジオ体操</option>
+          <option >自転車</option>
+          <option >バドミントン</option>
+          <option >野球</option>
+          <option >ヨガ</option>
+          <option >テニス</option>
+          <option >水泳</option>
+          <option >ゴルフ</option>
+        </ons-select>
+        <font color=red>(必須)</font>
+      </ons-list-item>
+      <ons-list-header style="font-size:15px">意気込み</ons-list-header>
+      <ons-list-item>
+        <ons-input type="text" id="user_target"  placeholder="頑張りましょう！" style="margin-top:8px; width: 100%;"　autocomplete="on"></ons-input>
+      </ons-list-item>
+    </div>
+    <p style="text-align:center">
+      <button onClick={showProfile()} class="button--large--cta" style="width: 95%; margin: 0 auto;">完了</button>
+    </p>
+
+    <script>
+        function showProfile(){
+            var ncmb = new NCMB("dd411920ff7852038a3d55414c3447b88c5e842ace7268254078b113d065398c","23304def33b24aeed4fe1ae5325a77c1ffbe3e44067c0a3716b47aefd4297e05");
+            var date =document.getElementById("user_date").value;
+            var list =document.getElementById("user_list").value;
+            var number =document.getElementById("user_number").value;
+            var username = localStorage.getItem("Username");
+            var time =document.getElementById("user_time").value;
+            var sport =document.getElementById("user_sport").value;
+            var target =document.getElementById("user_target").value;
+            // document.getElementById('box').innerHTML = date+"まで"+time+objectId+number+list+sport+"をやります。"+"意気込み:"+target;
+            //alert(date+"まで"+time+number+list+sport+"をやります。"+"意気込み:"+target);
+
+            if ( document.getElementById("user_number").value ===""){
+                alert('単位入力してください。');
+                return false;
+            } else if( document.getElementById("user_date").value ===""){
+                alert('時間入力してください。');
+                return false;
+            } else {
+                var targetClass = ncmb.DataStore("targetClass");
+                var targetClass = new targetClass();
+                targetClass.set("user_date",date)
+                    .set("user_time",time)
+                    .set("user_name",username)
+                    .set("user_number",number)
+                    .set("user_list",list)
+                    .set("user_sport",sport)
+                    .set("user_target",target)
+                    .save()
+                    .then(function(res){
+                        // 保存に成功した場合の処理
+                        alert("成功");
+                    })
+                    .catch(function(err){
+                        // 保存に失敗した場合の処理
+                    });
+                document.getElementById('box').innerHTML = date+"まで",objectId+time+number+list+sport+"をやります。"+"意気込み:"+target;
+                //alert(date+"まで"+time+number+list+sport+"をやります。"+"意気込み:"+target);
+            }
+
+
+
+        }
+    </script>
+  </ons-page>
+</template>
+
+<template id="koyanagi.html">
+  <ons-page>
+    <ons-toolbar>
+      <div class="left"><ons-back-button>戻り</ons-back-button></div>
+      <div class="center">実績記録</div>
+    </ons-toolbar>
+    <div style="background-color:#fff">
+      <form name="track_form" action="koyanagi.html">
+        　　　　　<ons-list-header style="font-size:15px">運動した日を選択してください。</ons-list-header>
+        <ons-list-item>
+          <ons-input type="date" name="date" value="日付を入力してください"></ons-input>
+        </ons-list-item>
+        <ons-list-header style="font-size:15px">運動の種類を記録してください。</ons-list-header>
+        <ons-list-item>
+          <ons-select name="tipe_of_sports" required>
+            <option value="ランニング">ランニング</option>
+            <option value="ウォーキング">ウォーキング</option>
+            <option value="ラジオ体操">ラジオ体操</option>
+            <option value="自転車">自転車</option>
+            <option value="バドミントン">バドミントン</option>
+            <option value="野球">野球</option>
+            <option value="ヨガ">ヨガ</option>
+            <option value="テニス">テニス</option>
+            <option value="水泳">水泳</option>
+            <option value="ゴルフ">ゴルフ</option>
+          </ons-select>
+        </ons-list-item>
+        <ons-list-header style="font-size:15px">運動の時間を記録してください。</ons-list-header>
+        <ons-list-item>
+          <ons-input type="number" min="0" name="times" value="60" style="width: 50px;"></ons-input>分
+        </ons-list-item>
+      </form>
+    </div>
+    <p style="text-align:center">
+      <ons-button modifier="track()" style="">記録する</ons-button>
+    </p>
+
+    <script>
+        function track(){
+            var date = track_form.date.value; //get date from track form
+            var tipe_of_sports = track_form.tipe_of_sports.value; //get tipe of sports from track form
+            var times = track_form.times.value;//get times from track form
+
+            //DB
+            var ncmb = new NCMB("dd411920ff7852038a3d55414c3447b88c5e842ace7268254078b113d065398c","23304def33b24aeed4fe1ae5325a77c1ffbe3e44067c0a3716b47aefd4297e05");
+            var Records = ncmb.DataStore('Records');
+            var results = new results();
+
+            Results.set("data")
+                .set("tipe_of_sports")
+                .set("times")
+                .save()
+                .then(function(results){
+                    alart("実績を記録しました。");
+                })
+                .catch(function(err){
+                    alart("入力内容が正しくありません。");
+                });
+    </script>
+  </ons-page>
+</template>
+
+<style>
+  ons-splitter-side[animation=overlay] {
+    border-left: 1px solid #bbb;
+  }
+</style>
 
 </body>
 </html>
