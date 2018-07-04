@@ -1,15 +1,4 @@
-<!DOCTYPE HTML>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
-    <link rel="stylesheet" href="components/loader.css">
-    <link rel="stylesheet" href="../lib/onsenui/css/onsenui.css">
-    <link rel="stylesheet" href="../lib/onsenui/css/onsen-css-components.css">
-    <link rel="stylesheet" href="../css/style.css">
-    <script src="components/loader.js"></script>
-    <script src="../lib/onsenui/js/onsenui.min.js"></script>
+  <ons-page>
     <script>
         function calc() {
             //  身長を取得
@@ -39,10 +28,26 @@
               document.getElementById("message").innerHTML = message;
         }
     </script>
-</head>
-<body>
-    <h1>運動の目標設定に</h1>
-    <hr>
+
+
+
+<ons-toolbar>
+       <div class="left"><ons-back-button>Back</ons-back-button></div>
+      <div class="center">
+       運動の目標設定に
+      </div>
+<div class="right">
+      <ons-toolbar-button component="button/save-task">
+        <ons-if platform="android">
+          <ons-icon icon="md-save"></ons-icon>
+        </ons-if>
+        <ons-if platform="ios other">
+          Save
+        </ons-if>
+      </ons-toolbar-button>
+    </div>
+    </ons-toolbar>
+
     <h2>運動の時間管理</h2>
     <div class="form-group">
             <label class="col-sm-2 control-label">を選択してくたさい：</label>
@@ -90,5 +95,4 @@
                 </ons-select>
             </div>
         </div>
-</body>
-</html>
+  </ons-page>

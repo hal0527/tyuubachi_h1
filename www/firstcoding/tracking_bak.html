@@ -1,0 +1,81 @@
+  <ons-page>
+
+    <script>
+      ons.ready(function() {
+      console.log("Onsen UI is ready123!");
+    });
+
+      function track(){
+        var date = track_form.date.value; //get date from track form
+        var tipe_of_sports = track_form.tipe_of_sports.value; //get tipe of sports from track form
+        var times = track_form.times.value;//get times from track form
+         
+        //DB
+
+        var Records = ncmb.DataStore('Records');
+        var results = new results();
+
+        Results.set("data")
+              .set("tipe_of_sports")
+              .set("times")
+              .save()
+              .then(function(results){
+                alart("実績を記録しました。");
+              })
+         .catch(function(err){
+                alart("入力内容が正しくありません。");
+              });
+
+         /* if save the data in the localstrage
+          if(var date || tipe_of_sports || times == null){
+            alart("入力内容が正しくありません");
+          }else{
+            localstorage.setItem("key1"."date");
+            localstorage.setItem("key2"."tipe_of_sports");
+            localstorage.setItem("key3"."times");            
+          }
+      }
+*/
+
+    </script>
+
+
+
+<ons-toolbar>
+       <div class="left"><ons-back-button>Back</ons-back-button></div>
+      <div class="center">
+       実績記録
+      </div>
+<div class="right">
+      <ons-toolbar-button component="button/save-task">
+        <ons-if platform="android">
+          <ons-icon icon="md-save"></ons-icon>
+        </ons-if>
+        <ons-if platform="ios other">
+          Save
+        </ons-if>
+      </ons-toolbar-button>
+    </div>
+    </ons-toolbar>
+
+  <label>実績入力</label>
+    <form name="track_form" action="tracking.html">
+        <p>運動した日を選択してください。</p>
+        <input type="date" name="date" value="日付を入力してください"><br>
+        <p>運動の種類を記録してください。</p>
+        <ons-select name="tipe_of_sports" required>
+          <option value="ランニング">ランニング</option>
+          <option value="ウォーキング">ウォーキング</option>
+          <option value="ラジオ体操">ラジオ体操</option>
+          <option value="自転車">自転車</option>
+          <option value="バドミントン">バドミントン</option>
+          <option value="野球">野球</option>
+          <option value="ヨガ">ヨガ</option>
+          <option value="テニス">テニス</option>
+          <option value="水泳">水泳</option>
+          <option value="ゴルフ">ゴルフ</option>
+        </ons-select><br>
+        <input type="time" name="times" value="運動の時間を入力してください">分<br>
+          <ons-button modifier="track()">送信する</ons-button>
+    </form>
+  </ons-page>
