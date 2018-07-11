@@ -1,0 +1,359 @@
+<ons-page  >
+   
+  <ons-toolbar>
+       <div class="left"><ons-back-button>戻り</ons-back-button></div>
+      <div class="center">
+       レポート
+      </div>
+    </ons-toolbar> 
+
+    <style>
+	    canvas{
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+
+        margin:0;
+        padding:0;
+      }
+
+    canvas_2 {
+		-moz-user-select: none;
+		-webkit-user-select: none;
+		-ms-user-select: none;
+  /* margin:0;
+        padding:0; */
+	}
+	</style>
+
+
+  <ons-tabbar swipeable position="auto">
+    <ons-tab page="tab1.html" label="実績" icon = "chart-bar" >
+     <!-- icon="ion-home, material:md-home" > -->
+     <!-- badge="7" active> -->
+    </ons-tab>
+    <ons-tab page="tab2.html" label="総量" icon="chart-pie" > 
+      <!-- active-icon="accusoft"> -->
+    </ons-tab>
+  </ons-tabbar>
+
+  <template id="tab1.html">
+  <ons-page id="Tab1">
+      <div>
+        <canvas id="canvas_1"></canvas>
+      </div>
+      <div>
+    <ons-list-header>運動総時間</ons-list-header>
+    <ons-list-item>
+      <div>
+        <ons-list id="pending-list">
+          <p id="total_time"></p>
+        </ons-list>
+      </div>
+    </ons-list-item>
+    <ons-list-header>履歴</ons-list-header>
+    <ons-list-item>
+      <div>
+        <ons-list id="performance-list">
+        </ons-list>
+      </div>
+    </ons-list-item>
+
+</div>
+  </ons-page>
+</template>
+
+
+  <template id="tab2.html">
+  <ons-page id="Tab2">
+
+      <div>
+        <canvas id="canvas_3"></canvas>
+      </div>
+      
+  </ons-page>
+</template>
+
+
+
+      <!-- <div>
+        <canvas id="canvas_1"></canvas>
+      </div> -->
+<!-- 
+	<div id="container"  >
+		<canvas id="canvas_2" ></canvas>
+	</div> -->
+<!-- <div> </div>
+  	<div id="container"> 
+		<canvas id="canvas_3"></canvas>
+	</div> -->
+
+    
+  <script >
+//  var apikey = "fc3a8b35e955fe5f0a83a49be8c1e60a5321974325e10739e7f8734b27665bb4";
+//  var clientkey = "f8e0a822a6a2956144237a5a2ece5053bc2f6ca392835b70fcaf1f6b3b5d609f";
+
+  var apikey ="dd411920ff7852038a3d55414c3447b88c5e842ace7268254078b113d065398c";
+  var clientkey ="23304def33b24aeed4fe1ae5325a77c1ffbe3e44067c0a3716b47aefd4297e05";
+
+    var arr_timeList;
+    var sum_time;
+
+		var SPORTS = ['ランニング', 'ウォーキング', 'ラジオ体操', '自転車', 'バドミントン', '野球', 'ヨガ', 'テニス', '水泳', 'ゴルフ'];
+		var color = Chart.helpers.color;
+    var arr_chart_2=new Array(0,0,0,0,0,0,0,0,0);
+
+    ons.getScriptPage().onInit = function() {
+
+  // function get_Active_info(){
+    var ncmb = new NCMB(apikey,clientkey);
+  
+    // 保存先クラスの作成
+    var TestClass = ncmb.DataStore("recordsClass");
+    arr_timeList = new Array(["月曜日",0],
+                                         ["火曜日",0],
+                                         ["水曜日",0],
+                                         ["木曜日",0],
+                                         ["金曜日",0],
+                                         ["土曜日",0],
+                                         ["日曜日",0]);
+    TestClass.fetchAll().then(function(results){
+    //TestClass.fetchAll().then(() =>{
+        for (var i = 0; i < results.length; i++) {
+          var object = results[i];  
+                if ( object.get("Week") == "月曜日" ){
+                    arr_timeList[0][1] =  arr_timeList[0][1]  + parseInt( object.get("Time"));
+                }
+                else if ( object.get("Week") == "火曜日" ){
+                    arr_timeList[1][1] = arr_timeList[1][1]  +  parseInt( object.get("Time"));
+                }
+                else if ( object.get("Week") == "水曜日" ){
+                    arr_timeList[2][1] = arr_timeList[2][1]  +  parseInt( object.get("Time"));
+                }
+                else if ( object.get("Week") == "木曜日" ){
+                    arr_timeList[3][1] = arr_timeList[3][1]  +  parseInt( object.get("Time"));
+                }
+                else if ( object.get("Week") == "金曜日" ){
+                    arr_timeList[4][1] = arr_timeList[4][1]  +  parseInt( object.get("Time"));
+                }
+                else if ( object.get("Week") == "土曜日" ){
+                    arr_timeList[5][1] = arr_timeList[5][1]  +  parseInt( object.get("Time"));
+                }
+                else if ( object.get("Week") == "日曜日" ){
+                    arr_timeList[6][1] = arr_timeList[6][1]  +  parseInt( object.get("Time"));
+                }
+        
+               if (object.get("Sport") =="ランニング"){
+                  arr_chart_2[0] = arr_chart_2[0] +parseInt( object.get("Time"));
+               }
+               else if (object.get("Sport") =="ウォーキング"){
+                  arr_chart_2[1] = arr_chart_2[1] +parseInt( object.get("Time"));
+               }
+               else if (object.get("Sport") =="ラジオ体操"){
+                  arr_chart_2[2] = arr_chart_2[2] +parseInt( object.get("Time"));
+               }
+               else if (object.get("Sport") =="自転車"){
+                  arr_chart_2[3] = arr_chart_2[3] +parseInt( object.get("Time"));
+               }
+               else if (object.get("Sport") =="バドミントン"){
+                  arr_chart_2[4] = arr_chart_2[4] +parseInt( object.get("Time"));
+               }
+               else if (object.get("Sport") =="野球"){
+                  arr_chart_2[5] = arr_chart_2[5] +parseInt( object.get("Time"));
+               }
+               else if (object.get("Sport") =="ヨガ"){
+                  arr_chart_2[6] = arr_chart_2[6] +parseInt( object.get("Time"));
+               }
+               else if (object.get("Sport") =="テニス"){
+                  arr_chart_2[7] = arr_chart_2[7] +parseInt( object.get("Time"));
+               }
+               else if (object.get("Sport") =="水泳"){
+                  arr_chart_2[8] = arr_chart_2[8] +parseInt( object.get("Time"));
+               }
+               else if (object.get("Sport") =="ゴルフ"){
+                  arr_chart_2[9] = arr_chart_2[9] +parseInt( object.get("Time"));
+               }
+          // sum_time +=  parseInt( object.get("Time"));
+        
+        }
+       res();   
+      })
+      .catch(function(err){
+        console.log(err);
+      })
+      .then(function(){
+
+        show_chart();
+        show_chart4();
+        // show_chart_2();
+        // show_chart_3();
+      });
+}
+
+// chartの表示
+function show_chart(){
+		var config = {
+			          type: 'line',
+			data: {
+          labels: ['月曜日', '火曜日', '水曜日', '木曜日', '金曜日', '土曜日', '日曜日'],			
+            datasets: [{
+                              label: '曜日計',
+                              fill: false,
+                              backgroundColor: window.chartColors.red,
+                              borderColor: window.chartColors.red,
+					data: [
+						arr_timeList[0][1] ,
+						arr_timeList[1][1] ,
+						arr_timeList[2][1] ,
+						arr_timeList[3][1] ,
+						arr_timeList[4][1] ,
+						arr_timeList[5][1] ,
+						arr_timeList[6][1] 
+					]
+				}]
+			},
+			options: {
+				responsive: true,
+				title: {
+					display: true,
+//					text: 'Chart with Multiline Labels'
+				},
+			}
+		};
+
+			var ctx = document.getElementById('canvas_1').getContext('2d');
+			window.myLine = new Chart(ctx, config);
+    }
+
+
+    function show_chart_2(){
+      var barChartData = {
+          // labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+          labels:['ランニング', 'ウォーキング', 'ラジオ体操', '自転車', 'バドミントン', '野球', 'ヨガ', 'テニス', '水泳', 'ゴルフ'],
+          datasets: [{
+            label: '運動計',
+            backgroundColor: color(window.chartColors.purple).alpha(0.5).rgbString(),
+            borderColor: window.chartColors.purple,//red,
+            borderWidth: 0.5, //1,
+            data: [
+              arr_chart_2[0],
+              arr_chart_2[1],
+              arr_chart_2[2],
+              arr_chart_2[3],
+              arr_chart_2[4],
+              arr_chart_2[5],
+              arr_chart_2[6],
+              arr_chart_2[7],
+              arr_chart_2[8],
+              arr_chart_2[9]
+            ]
+          }]
+        };
+
+		  var ctx_2 = document.getElementById('canvas_2').getContext('2d');
+			window.myBar = new Chart(ctx_2, {
+				type: 'bar',
+				data: barChartData,
+				options: {
+					responsive: true,
+					// legend: {
+					// 	position: 'top',
+          //   // position: 'left',
+					// },
+					// title: {
+					// 	display: true,
+					// 	text: '運動別'
+					// }
+				}
+			});
+    }
+
+    function show_chart_3(){
+      
+	var barChartData = {
+			// labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      labels:['ランニング', 'ウォーキング', 'ラジオ体操', '自転車', 'バドミントン', '野球', 'ヨガ', 'テニス', '水泳', 'ゴルフ'],
+			datasets: [{
+				label: 'Dataset 1',
+				backgroundColor: window.chartColors.red,
+				data: [
+              arr_chart_2[0],
+              arr_chart_2[1],
+              arr_chart_2[2],
+              arr_chart_2[3],
+              arr_chart_2[4],
+              arr_chart_2[5],
+              arr_chart_2[6],
+              arr_chart_2[7],
+              arr_chart_2[8],
+              arr_chart_2[9]
+				]
+		}]
+
+		};
+		// window.onload = function() {
+			var ctx = document.getElementById('canvas_3').getContext('2d');
+			window.myBar = new Chart(ctx, {
+				type: 'bar',
+				data: barChartData,
+				options: {
+					title: {
+						display: true,
+						text: 'Chart.js Bar Chart - Stacked'
+					},
+					tooltips: {
+						mode: 'index',
+						intersect: false
+					},
+					responsive: true,
+					scales: {
+						xAxes: [{
+							stacked: true,
+						}],
+						yAxes: [{
+							stacked: true
+						}]
+					}
+				}
+			});
+		// };
+
+
+    }
+function show_chart4(){
+
+var ctx = document.getElementById("canvas_3").getContext('2d');
+var myChart = new Chart(ctx, {
+  type: 'pie',
+  data: {
+    // labels: ["M", "T", "W", "T", "F", "S", "S"],
+     labels: ["ランニング", "ウォーキング", "ラジオ体操", "自転車", "バドミントン", "野球", "ヨガ"],
+    // labels: ["ランニング", "ウォーキング", "ラジオ体操", "自転車", "バドミントン", "野球", "ヨガ'],
+    datasets: [{
+      backgroundColor: [
+        "#2ecc71",
+        "#3498db",
+        "#95a5a6",
+        "#9b59b6",
+        "#f1c40f",
+        "#e74c3c",
+        "#34495e"
+      ],
+      // data: [12, 19, 3, 17, 28, 24, 7]
+				data: [
+              arr_chart_2[0],
+              arr_chart_2[1],
+              arr_chart_2[2],
+              arr_chart_2[3],
+              arr_chart_2[4],
+              arr_chart_2[5],
+              arr_chart_2[6]
+				]
+    }]
+  }
+});
+
+
+}
+     </script>
+</ons-page>
