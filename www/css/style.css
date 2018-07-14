@@ -35,3 +35,10 @@
       display: inline-block;
 }
 
+#login .page__background {
+  background-image: url('../images/login.jpeg');
+}
+
+#page1 .page__background {
+  background-image: url('../images/login.jpeg');
+}
