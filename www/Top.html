@@ -90,6 +90,19 @@
                 console.log(data);
               }
             });
+        } else if (page.id === 'login_sex') {
+           
+        } else if(page.id === 'login_height') {
+          var heightInput = document.getElementById('height-input').value;
+          localStorage.setItem("Height",parseInt(heightInput));
+        } else if(page.id === 'login_weight') {
+          var weightInput = document.getElementById('weight-input').value;
+          localStorage.setItem("Weight",parseInt(weightInput));
+        } else if(page.id === 'create_mail') {
+          console.log(localStorage.getItem("Sex"));
+          console.log(localStorage.getItem("Birthday_Year"));
+          console.log(localStorage.getItem("Height"));
+          console.log(localStorage.getItem("Weight"));
         }
       });
 
@@ -104,6 +117,15 @@
             } else {
               LoginUser();
             }
+          }
+
+          function female(){
+            localStorage.setItem("Sex","女性");
+            document.querySelector('#topNavigator').pushPage('login_birthyear.html', {data: {title: 'test'}});
+          }
+          function male(){
+            localStorage.setItem("Sex","男性");
+            document.querySelector('#topNavigator').pushPage('login_birthyear.html', {data: {title: 'test'}});
           }
 
           function LoginEmail(){
@@ -160,15 +182,6 @@
       
             }   
           }
-
-          function female(){
-            localStorage.setItem("Sex","女性");
-            document.querySelector('#topNavigator').pushPage('login_birthyear.html', {data: {title: 'test'}});
-          }
-          function male(){
-            localStorage.setItem("Sex","男性");
-            document.querySelector('#topNavigator').pushPage('login_birthyear.html', {data: {title: 'test'}});
-          }
           function setYear(){
 			      var yearObj = document.getElementById("year");
 			      yearObj.options.length = 0;
@@ -194,12 +207,12 @@
     <ons-page id="page1">
       <div>
         <div style="height:200px">
-          <!--ons-button style="width:200px" onclick="document.querySelector('#topNavigator').pushPage('login_sex.html', {data: {title: 'test'}});">test</ons-button-->
+          <ons-button style="width:200px" onclick="document.querySelector('#topNavigator').pushPage('login_sex.html', {data: {title: 'test'}});">test</ons-button>
         </div>
       </div>
       <div style="padding: 80% 0;">
         <p style="text-align:center">
-          <ons-button style="width:200px" onclick="document.querySelector('#topNavigator').pushPage('login_sex.html', {data: {title: 'test'}});">新規ユーザー</ons-button>
+          <ons-button style="width:200px" onclick="document.querySelector('#topNavigator').pushPage('logup.html', {data: {title: '登録'}});">新規ユーザー</ons-button>
         </p>
         <p style="text-align:center">
           <ons-button  id="login-button" style="width:200px;color:#C0C0C0">リピーター</ons-button>
@@ -213,42 +226,11 @@
     </ons-page>
   </ons-template>
 
-  <ons-template id="test01.html">
-    <ons-page>
-       <ons-toolbar>
-        <div class="left"><ons-back-button>Back</ons-back-button></div>
-        <div class="center">
-          <div class="segment" style="width:200px;margin:7px 50px;">
-            <div class="segment__item">
-              <input type="radio" class="segment__input" name="navi-segment-a" checked>
-              <div class="segment__button">One</div>
-            </div>
-
-            <div class="segment__item">
-              <input type="radio" class="segment__input" name="navi-segment-a">
-              <div class="segment__button">Two</div>
-            </div>
-          </div>
-        </div>
-      </ons-toolbar>
-      <ons-tabbar position="top">
-            <ons-tab label="Load More" page="loadMore.html"></ons-tab>
-            <ons-tab label="Lazy Repeat" page="lazyRepeat.html" active></ons-tab>
-      </ons-tabbar>
-      
-      <script>
-        ons.getScriptPage().onInit = function () {
-        this.querySelector('ons-toolbar div.center').textContent = this.data.title;
-      }
-      </script>
-    </ons-page>
-  </ons-template>
-  
   <ons-template id="login_sex.html">
-    <ons-page>
+    <ons-page id="login_sex">
       <ons-toolbar>
         <div class="left"><ons-back-button>ー</ons-back-button></div>
-        <div class="right"><ons-toolbar-button onclick="document.querySelector('#topNavigator').pushPage('login_mail.html', {data: {title: 'test'}});">スキップ</ons-toolbar-button></div>
+        <div class="right"><ons-toolbar-button onclick="document.querySelector('#topNavigator').pushPage('login_birthyear.html', {data: {title: 'test'}});">スキップ</ons-toolbar-button></div>
       </ons-toolbar>
       <div style="padding-left:20px;margin-top: 30px;">
         <h1>パーソナライズ</h1>
@@ -271,7 +253,7 @@
     <ons-page id="login_birthyear">
       <ons-toolbar>
         <div class="left"><ons-back-button>ー</ons-back-button></div>
-        <div class="right"><ons-toolbar-button onclick="document.querySelector('#topNavigator').pushPage('login_mail.html', {data: {title: 'test'}});">スキップ</ons-toolbar-button></div>
+        <div class="right"><ons-toolbar-button>スキップ</ons-toolbar-button></div>
       </ons-toolbar>
       <div style="padding-left:20px;margin-top: 30px;">
         <h2>何年生まれ</h2>
@@ -281,7 +263,7 @@
         </div>
         <div style="text-align: center;margin-top:20%">
           <p style="padding-left:70%">
-            <ons-button style="width:70px;" onclick="document.querySelector('#topNavigator').pushPage('login_height.html', {data: {title: 'test'}});">次へ</ons-button>
+            <ons-button style="width:70px;" id="birth_button" onclick="document.querySelector('#topNavigator').pushPage('login_height.html', {data: {title: 'test'}});">次へ</ons-button>
           </p>  
         </div>
       </div>
@@ -289,22 +271,22 @@
   </ons-template>
 
   <ons-template id="login_height.html">
-    <ons-page>
+    <ons-page id="login_height">
       <ons-toolbar>
         <div class="left"><ons-back-button>ー</ons-back-button></div>
-        <div class="right"><ons-toolbar-button onclick="document.querySelector('#topNavigator').pushPage('login_mail.html', {data: {title: 'test'}});">スキップ</ons-toolbar-button></div>
+        <div class="right"><ons-toolbar-button >スキップ</ons-toolbar-button></div>
       </ons-toolbar>
       <div style="padding-left:20px;margin-top: 30px;">
         <h2>身長</h2>
         <div style="text-align: center;margin-top:30%">
           <p style="font-size:40px">
-            <input type="number" pattern="\d*" value="160" style="width:40%;height:60px;font-size:60px;" >
+            <input id="height-input" type="number" pattern="\d*" value="160" style="width:40%;height:60px;font-size:60px;" >
             cm
           </p>  
         </div>
         <div style="text-align: center;margin-top:20%">
           <p style="padding-left:70%">
-            <ons-button style="width:70px;" onclick="document.querySelector('#topNavigator').pushPage('login_weight.html', {data: {title: 'test'}});">次へ</ons-button>
+            <ons-button style="width:70px;" id="height_button" onclick="document.querySelector('#topNavigator').pushPage('login_weight.html', {data: {title: 'test'}});">次へ</ons-button>
           </p>  
         </div>
       </div>
@@ -312,33 +294,33 @@
   </ons-template>
 
   <ons-template id="login_weight.html">
-    <ons-page>
+    <ons-page id="login_weight">
       <ons-toolbar>
         <div class="left"><ons-back-button>ー</ons-back-button></div>
-        <div class="right"><ons-toolbar-button onclick="document.querySelector('#topNavigator').pushPage('login_mail.html', {data: {title: 'test'}});">スキップ</ons-toolbar-button></div>
+        <div class="right"><ons-toolbar-button >スキップ</ons-toolbar-button></div>
       </ons-toolbar>
       <div style="padding-left:20px;margin-top: 30px;">
         <h2>体重</h2>
         <div style="text-align: center;margin-top:30%">
           <p style="font-size:40px">
-            <input type="number" pattern="\d*" value="50" style="width:40%;height:60px;font-size:60px;">
+            <input id="weight-input" type="number" pattern="\d*" value="50" style="width:40%;height:60px;font-size:60px;">
             kg
           </p> 
         </div>
         <div style="text-align: center;margin-top:20%">
           <p style="padding-left:70%">
-            <ons-button style="width:70px;" onclick="document.querySelector('#topNavigator').pushPage('login_mail.html', {data: {title: 'test'}});">次へ</ons-button>
+            <ons-button style="width:70px;" id="weight_button" onclick="document.querySelector('#topNavigator').pushPage('create_mail.html', {data: {title: 'test'}});">次へ</ons-button>
           </p>  
         </div>
       </div>
     </ons-page>
   </ons-template>
 
-  <ons-template id="login_mail.html">
-    <ons-page>
+  <ons-template id="create_mail.html">
+    <ons-page id="create_mail">
       <ons-toolbar>
         <div class="left"><ons-back-button>ー</ons-back-button></div>
-        <div class="right"><ons-toolbar-button onclick="window.location.href='Home.html';">スキップ</ons-toolbar-button></div>
+        <div class="right"><ons-toolbar-button onclick="document.querySelector('#topNavigator').pushPage('Home.html', {data: {title: 'test'}});">スキップ</ons-toolbar-button></div>
       </ons-toolbar>
        <!--空間制御-->
       <div style="padding-left:20px;margin-top: 30px;">
@@ -348,10 +330,10 @@
         <p>アカウント</p>
       <div style="text-align: center;">
           <p>
-            <ons-input id="username" modifier="underbar" placeholder="Username" style="width: 250px" float></ons-input>
+            <ons-input id="username_input" modifier="underbar" placeholder="Username" style="width: 250px" float></ons-input>
           </p>
           <p>
-            <ons-input id="password" modifier="underbar" type="password" placeholder="Password" style="width: 250px" float></ons-input>
+            <ons-input id="password_input" modifier="underbar" type="password" placeholder="Password" style="width: 250px" float></ons-input>
           </p>
           <p style="margin-top: 30px;">
             <ons-button onclick="login()" style="width: 220px"> サインアップ </ons-button>
