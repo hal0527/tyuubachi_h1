@@ -151,12 +151,12 @@
 
     <ons-list-title style="margin-top: 10px">Links</ons-list-title>
     <ons-list>
-      <ons-list-item onclick="fn.loadLink('https://onsen.io/v2/docs/guide/js/')">
+      <ons-list-item onclick="fn.loadLink('https://aiit-isa.backlog.jp/gantt/2018YC')">
         <div class="left">
           <ons-icon fixed-width class="list-item__icon" icon="ion-document-text"></ons-icon>
         </div>
         <div class="center">
-          Docs
+          Backlog
         </div>
         <div class="right">
           <ons-icon icon="fa-external-link"></ons-icon>
@@ -205,7 +205,6 @@
 
 <template id="home.html">
   <ons-page>
-    <a href="Top.html">Top ページ</a>
     <p class="intro">
       <ons-list-item style="left: 20%;right: 20%;">
       <span id="name-display">Hello anonymous!</span>
@@ -214,17 +213,25 @@
       <br><br>
     </p>
     
-    <ons-card onclick="fn.pushPage({'id': 'ba_photo.html', 'title': '自分の変化'})">
+    <ons-card onclick="fn.pushPage({'id': 'ba_photo.html', 'title': '自分の変化'})"　>
       <div class="title"><ons-icon icon="ion-aperture" size="30px" fixed-width="true"></ons-icon>写真</div>
       <div class="content">before&after</div>
     </ons-card>
     <ons-card onclick="window.location.href='Share.html';">
       <div class="title"><ons-icon icon="ion-bonfire" size="30px" fixed-width="true"></ons-icon>交流</div>
-      <div class="content">the data report.</div>
+      <div class="content">毎日の気持ちを書きます.</div>
     </ons-card>
     <ons-card onclick="fn.pushPage({'id': 'report_2.html', 'title': 'Progress'})">
       <div class="title"><ons-icon icon="ion-pie-graph" size="30px" fixed-width="true"></ons-icon>レポート</div>
-      <div class="content">the data report.</div>
+      <div class="content">運動以来のデータ分析.</div>
+    </ons-card>
+    <ons-card onclick="window.location.href='keju3.html';">
+      <div class="title"><i class="fas fa-book-open" size="3x" style="margin-left:10px;"> </i>おすすめ運動</div>
+      <div class="content">オススメ運動の提示と説明</div>
+    </ons-card>
+    <ons-card onclick="window.location.href='firstcoding/lujie2.html';">
+      <div class="title"><i class="fas fa-star-half" size="3x" style="margin-left:10px;"></i></ons-icon>達成メーセージ</div>
+      <div class="content">自分の意気込み.</div>
     </ons-card>
 
     <ons-speed-dial position="bottom right" direction="up" :open.sync="spdOpen">
@@ -677,7 +684,7 @@
       function logout(){
           localStorage.removeItem("LoginUsername");
           localStorage.clear();
-          window.location.href='Top.html';
+          window.location.href='index.html';
       }
 
       function total_data(){
@@ -1026,7 +1033,7 @@
         function logout(){
           localStorage.removeItem("LoginUsername");
           localStorage.clear();
-          window.location.href='Top.html';
+          window.location.href='index.html';
         }
       </script>
     </ons-page>
