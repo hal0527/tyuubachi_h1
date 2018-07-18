@@ -617,6 +617,9 @@
        
       </div>
       </ons-list-item>
+      <p >
+        <ons-button id="logout"  onclick="logout()" modifier="material" >ログアウト</ons-button>
+      </p>
     </ons-list>
     <script>
       ons.ready(function() { 
@@ -670,6 +673,12 @@
                       });
         total_data();
       });
+
+      function logout(){
+          localStorage.removeItem("LoginUsername");
+          localStorage.clear();
+          window.location.href='Top.html';
+      }
 
       function total_data(){
         var ncmb = new NCMB("dd411920ff7852038a3d55414c3447b88c5e842ace7268254078b113d065398c","23304def33b24aeed4fe1ae5325a77c1ffbe3e44067c0a3716b47aefd4297e05");
@@ -859,6 +868,7 @@
           }
       }
 
+  
       function save_objectId(){
         var username = localStorage.getItem("UserName");
         var ncmb = new NCMB("dd411920ff7852038a3d55414c3447b88c5e842ace7268254078b113d065398c","23304def33b24aeed4fe1ae5325a77c1ffbe3e44067c0a3716b47aefd4297e05");
@@ -933,9 +943,8 @@
         var LoginUsername = localStorage.getItem("LoginUsername");
         var LoginEmail = localStorage.getItem("LoginEmail");
         var user_img = localStorage.getItem("user_img");
-
-        var c_img= document.getElementById('user_img');
-        c_img.src = user_img;
+        var c_img.src = user_img;
+        
         if(LoginUsername == undefined && LoginEmail == undefined){
           var mychar1 = document.getElementById('signup').style.display="block";
           var mychar2 = document.getElementById('logout').style.display="none";
