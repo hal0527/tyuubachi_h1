@@ -6,12 +6,16 @@
   <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
   <script src="components/loader.js"></script>
   <script src="lib/onsenui/js/onsenui.min.js"></script>
+  <script src="js/mobileSelect.js"></script>
 
   <link rel="stylesheet" href="components/loader.css">
   <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
   <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
   <link rel="stylesheet" href="css/style.css">
-    
+  <link rel="stylesheet" href="css/mobileSelect.css">
+  <link rel="stylesheet" type="text/css" href="css/mobileSelect.css">
+  <script src="js/mobileSelect.js" type="text/javascript"></script>
+  
       <style>
       ons-carousel-item {
   display: table;
@@ -39,7 +43,6 @@
     <script>
       ons.ready(function() {
         console.log("Onsen UI is ready!");
-        //localStorage.clear();
          //localStorage.clear();
         let test = localStorage.getItem("LoginUsername")+localStorage.getItem("LoginEmail");
         console.log(test);
@@ -64,6 +67,42 @@
           };
         } else if (page.id === 'login') {
           
+        } else if (page.id === 'login_birthyear') {
+            var d = new Date();
+            var year =d.getFullYear()-100
+            var yearArr = [];
+            for (var i=0; i<100; i++){
+              yearArr[i] = year + i ;
+            }
+
+            var mobileSelect1 = new MobileSelect({
+              trigger: '#trigger1',
+              title: '生年月日',
+              wheels: [
+                {data: yearArr}
+              ],
+              position:[70], 
+              transitionEnd:function(indexArr, data){
+                localStorage.setItem("Birthday_Year",parseInt(data));
+                //console.log(localStorage.getItem("Birthday_Year"));
+              },
+              callback:function(indexArr, data){
+                console.log(data);
+              }
+            });
+        } else if (page.id === 'login_sex') {
+           
+        } else if(page.id === 'login_height') {
+          var heightInput = document.getElementById('height-input').value;
+          localStorage.setItem("Height",parseInt(heightInput));
+        } else if(page.id === 'login_weight') {
+          var weightInput = document.getElementById('weight-input').value;
+          localStorage.setItem("Weight",parseInt(weightInput));
+        } else if(page.id === 'create_mail') {
+          console.log(localStorage.getItem("Sex"));
+          console.log(localStorage.getItem("Birthday_Year"));
+          console.log(localStorage.getItem("Height"));
+          console.log(localStorage.getItem("Weight"));
         }
       });
 
@@ -78,6 +117,15 @@
             } else {
               LoginUser();
             }
+          }
+
+          function female(){
+            localStorage.setItem("Sex","女性");
+            document.querySelector('#topNavigator').pushPage('login_birthyear.html', {data: {title: 'test'}});
+          }
+          function male(){
+            localStorage.setItem("Sex","男性");
+            document.querySelector('#topNavigator').pushPage('login_birthyear.html', {data: {title: 'test'}});
           }
 
           function LoginEmail(){
@@ -134,51 +182,167 @@
       
             }   
           }
+          function setYear(){
+			      var yearObj = document.getElementById("year");
+			      yearObj.options.length = 0;
+			      yearObj.options[0] = new Option("","");
+			      for(var i=1;i<=50;i++){
+				      if(i>10){
+					      yearObj.options[i-10] = new Option("20"+(i)+resources.chooserSetting_year,"20"+i);//年
+				      }
+			      }
+			      //设置年份 
+			      var yearTime='<c:out value="${cultivationPlan.year}" />';
+			      oldYear=yearTime;
+			      $("#year option[value='"+yearTime+"']").attr("selected","selected");
+		      }
+
     </script>
 </head>
 <body bgcolor="white">
-  <ons-navigator swipeable id="topNavigator" page="page0.html"></ons-navigator>
+  <ons-navigator swipeable id="topNavigator" page="page1.html"></ons-navigator>
     
-  <ons-template id="page0.html">
-    <ons-page id="page0">
-      <ons-carousel swipeable overscrollable auto-scroll fullscreen var="carousel">
-        <ons-carousel-item style="background-image:url(images/141226body_start_running-w960.jpg);background-size:600px 700px;">
-        
-        </ons-carousel-item>
-        <ons-carousel-item style="background-image:url(images/170927_swim2_top-w960.jpg);background-size:600px 500px;">
-        
-        </ons-carousel-item>
-        <ons-carousel-item style="background-image:url(images/1468108187.jpg);background-size:600px 600px;">
-     
-        </ons-carousel-item>
-        <ons-carousel-item style="background-image:url(images/efer.jpg);background-size:600px 600px;">
-      <ons-carousel-cover>
-     <div class="cover-label" style="text-align : center">
-        <br />
-    <ons-button  onclick="topNavigator.pushPage('page1.html', { animation : 'slide' } )" modifier="material">
-    <ons-ripple></ons-ripple>
-　　さあ、はじめよう！　　
-  </ons-button> </div>
-   </ons-carousel-cover>
-      
-  </ons-carousel>
-        </ons-carousel-item>
-  
-    
-    </ons-page>
-  </ons-template>
 
   <ons-template id="page1.html">
     <ons-page id="page1">
-      <div style="padding: 60% 0;">
+      <div>
+        <div style="height:200px">
+          <ons-button style="width:200px" onclick="document.querySelector('#topNavigator').pushPage('login_sex.html', {data: {title: 'test'}});">test</ons-button>
+        </div>
+      </div>
+      <div style="padding: 80% 0;">
         <p style="text-align:center">
-          <ons-button id="login-button" style="width:100px">ログイン</ons-button>
-        
-          <ons-button style="width:100px" onclick="document.querySelector('#topNavigator').pushPage('logup.html', {data: {title: '登録'}});">登録</ons-button>
+          <ons-button style="width:200px" onclick="document.querySelector('#topNavigator').pushPage('logup.html', {data: {title: '登録'}});">新規ユーザー</ons-button>
         </p>
         <p style="text-align:center">
+          <ons-button  id="login-button" style="width:200px;color:#C0C0C0">リピーター</ons-button>
+        </p>
+        <p style="text-align:center;margin-top:10px;color:#FFFFFF">中鉢PBL</p>
+        <!--p style="text-align:center">
           <ons-button modifier="outline" onclick="window.location.href='Home.html'">スキップ</ons-button>
-        </p>
+        </p-->
+      </div>
+       
+    </ons-page>
+  </ons-template>
+
+  <ons-template id="login_sex.html">
+    <ons-page id="login_sex">
+      <ons-toolbar>
+        <div class="left"><ons-back-button>ー</ons-back-button></div>
+        <div class="right"><ons-toolbar-button onclick="document.querySelector('#topNavigator').pushPage('login_birthyear.html', {data: {title: 'test'}});">スキップ</ons-toolbar-button></div>
+      </ons-toolbar>
+      <div style="padding-left:20px;margin-top: 30px;">
+        <h1>パーソナライズ</h1>
+        <h2>性別</h2>
+      <div style="text-align: center;margin-top:30%">
+          <p>
+            <img src="/icon/female.png" style="width:100px" onclick="female()" />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <img src="/icon/male.png" style="width:100px" onclick="male()" />
+          </p>  
+        </div>
+      </div>
+      <script>
+       
+      </script>
+    </ons-page>
+  </ons-template>
+
+  <ons-template id="login_birthyear.html">
+    <ons-page id="login_birthyear">
+      <ons-toolbar>
+        <div class="left"><ons-back-button>ー</ons-back-button></div>
+        <div class="right"><ons-toolbar-button>スキップ</ons-toolbar-button></div>
+      </ons-toolbar>
+      <div style="padding-left:20px;margin-top: 30px;">
+        <h2>何年生まれ</h2>
+        <h2>ですか？</h2>
+        <div style="text-align: center;margin-top:20%">
+          <div id="trigger1" style="width:80%;height:60px;font-size:60px">生年月日</div>
+        </div>
+        <div style="text-align: center;margin-top:20%">
+          <p style="padding-left:70%">
+            <ons-button style="width:70px;" id="birth_button" onclick="document.querySelector('#topNavigator').pushPage('login_height.html', {data: {title: 'test'}});">次へ</ons-button>
+          </p>  
+        </div>
+      </div>
+    </ons-page>
+  </ons-template>
+
+  <ons-template id="login_height.html">
+    <ons-page id="login_height">
+      <ons-toolbar>
+        <div class="left"><ons-back-button>ー</ons-back-button></div>
+        <div class="right"><ons-toolbar-button >スキップ</ons-toolbar-button></div>
+      </ons-toolbar>
+      <div style="padding-left:20px;margin-top: 30px;">
+        <h2>身長</h2>
+        <div style="text-align: center;margin-top:30%">
+          <p style="font-size:40px">
+            <input id="height-input" type="number" pattern="\d*" value="160" style="width:40%;height:60px;font-size:60px;" >
+            cm
+          </p>  
+        </div>
+        <div style="text-align: center;margin-top:20%">
+          <p style="padding-left:70%">
+            <ons-button style="width:70px;" id="height_button" onclick="document.querySelector('#topNavigator').pushPage('login_weight.html', {data: {title: 'test'}});">次へ</ons-button>
+          </p>  
+        </div>
+      </div>
+    </ons-page>
+  </ons-template>
+
+  <ons-template id="login_weight.html">
+    <ons-page id="login_weight">
+      <ons-toolbar>
+        <div class="left"><ons-back-button>ー</ons-back-button></div>
+        <div class="right"><ons-toolbar-button >スキップ</ons-toolbar-button></div>
+      </ons-toolbar>
+      <div style="padding-left:20px;margin-top: 30px;">
+        <h2>体重</h2>
+        <div style="text-align: center;margin-top:30%">
+          <p style="font-size:40px">
+            <input id="weight-input" type="number" pattern="\d*" value="50" style="width:40%;height:60px;font-size:60px;">
+            kg
+          </p> 
+        </div>
+        <div style="text-align: center;margin-top:20%">
+          <p style="padding-left:70%">
+            <ons-button style="width:70px;" id="weight_button" onclick="document.querySelector('#topNavigator').pushPage('create_mail.html', {data: {title: 'test'}});">次へ</ons-button>
+          </p>  
+        </div>
+      </div>
+    </ons-page>
+  </ons-template>
+
+  <ons-template id="create_mail.html">
+    <ons-page id="create_mail">
+      <ons-toolbar>
+        <div class="left"><ons-back-button>ー</ons-back-button></div>
+        <div class="right"><ons-toolbar-button onclick="document.querySelector('#topNavigator').pushPage('Home.html', {data: {title: 'test'}});">スキップ</ons-toolbar-button></div>
+      </ons-toolbar>
+       <!--空間制御-->
+      <div style="padding-left:20px;margin-top: 30px;">
+        <p></p>
+        <p>新規作成</p>
+        <p>あなたの</p>
+        <p>アカウント</p>
+      <div style="text-align: center;">
+          <p>
+            <ons-input id="username_input" modifier="underbar" placeholder="Username" style="width: 250px" float></ons-input>
+          </p>
+          <p>
+            <ons-input id="password_input" modifier="underbar" type="password" placeholder="Password" style="width: 250px" float></ons-input>
+          </p>
+          <p style="margin-top: 30px;">
+            <ons-button onclick="login()" style="width: 220px"> サインアップ </ons-button>
+          </p>
+          <p style="margin-top: 10px;">
+            <ons-button onclick="facebook()" style="width: 220px">Facebookで登録</ons-button>
+          </p>
+        
+        </div>
       </div>
     </ons-page>
   </ons-template>
@@ -215,32 +379,32 @@
   </ons-template>
   
   <template id="logup.html">
-  <ons-page>
-    <ons-toolbar>
+    <ons-page>
+      <ons-toolbar>
         <div class="left"><ons-back-button>Back</ons-back-button></div>
         <div class="center">情報入力</div>
-    </ons-toolbar>
+      </ons-toolbar>
       <br/>
-    <div style="background-color: #fff;">
-      <div class="center" style="padding-left:25px;display: inline-block;">
-        <ons-list-item>
-          <div style="width: 100px">ユーザー名</div>
-          <ons-col>    
-            <ons-input type="text" id="user_name" placeholder=" Username" style=" width: 150px;"> </ons-input>
-          </ons-col>
-        </ons-list-item>
-        <ons-list-item>
-          <div style="width: 100px">パスワード</div>
-          <ons-col>    
-            <ons-input type="password" id="user_password" placeholder=" Password" style=" width: 150px;"> </ons-input>
-          </ons-col>
-        </ons-list-item>
-         <ons-list-item>
-          <div style="width: 120px">メールアドレス</div>
-          <ons-col>    
-            <ons-input type="email" id="user_email" placeholder="user01@sample.com" style=" width: 160px;"> </ons-input>
-          </ons-col>
-        </ons-list-item>
+      <div style="background-color: #fff;">
+        <div class="center" style="padding-left:25px;display: inline-block;">
+          <ons-list-item>
+            <div style="width: 100px">ユーザー名</div>
+            <ons-col>    
+              <ons-input type="text" id="user_name" placeholder=" Username" style=" width: 150px;"> </ons-input>
+            </ons-col>
+          </ons-list-item>
+          <ons-list-item>
+            <div style="width: 100px">パスワード</div>
+            <ons-col>    
+              <ons-input type="password" id="user_password" placeholder=" Password" style=" width: 150px;"> </ons-input>
+            </ons-col>
+          </ons-list-item>
+          <ons-list-item>
+            <div style="width: 120px">メールアドレス</div>
+            <ons-col>    
+              <ons-input type="email" id="user_email" placeholder="user01@sample.com" style=" width: 160px;"> </ons-input>
+            </ons-col>
+          </ons-list-item>
         <ons-list-item>
           <div style="width: 100px">性   別</div>
           <ons-col>

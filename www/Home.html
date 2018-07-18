@@ -6,18 +6,23 @@
   <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
   <script src="components/loader.js"></script>
   <script src="lib/onsenui/js/onsenui.min.js"></script>
-    <script src="components/ncmb/ncmb.min.js"></script>
-	    <script src="components/Chart.js/samples/utils.js"></script>
-      	<script src="components/Chart.js/dist/Chart.bundle.js"></script>
+  <script src="components/ncmb/ncmb.min.js"></script>
+	<script src="components/Chart.js/samples/utils.js"></script>
+  <script src="components/Chart.js/dist/Chart.bundle.js"></script>
+  <script src="js/mobileSelect.js" type="text/javascript"></script>
+
+
   <link rel="stylesheet" href="components/loader.css">
   <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
   <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" type="text/css" href="css/mobileSelect.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
 
   <script>
     ons.ready(function() {
       console.log("Onsen UI is ready!");
+
     });
     window.fn = {};
 
@@ -258,50 +263,105 @@
  <!--　目標と記録　ページ　-->
 <template id="target.html">
   <ons-page id="target-page">
+    
     <ons-list-item>
-      <div style="width:30%">
-        <p style="text-align : center">完成した</p>
-        <ons-progress-circular  secondary-value="60"  style="width:100px;height:100px"></ons-progress-circular>
+      <!--
+      <ons-card style="width:65%;height:50px;background-color:#2ecc71">aa</ons-card>
+      <ons-card style="width:25%;height:50px;background-color:#3498db">bb</ons-card>
+      -->
+      <p>
+      <div style="width:60%">
+        <canvas id="chart-area" ></canvas>
       </div>
-      <div style="width:30%">
-        <p style="text-align : center">完成中</p>
-        <ons-progress-circular value="50" secondary-value="60"  style="width:100px;height:100px"></ons-progress-circular>
+      <div style="width:40%">
+        <ons-card style="background-color:#2ecc71" onclick="fn.pushPage({'id': 'tar_complete.html', 'title': '達成した目標'}, 'fade-ios')">
+          目標記録
+        </ons-card>
+        <ons-card style="background-color:#3498db" onclick="fn.pushPage({'id': 'tar_defeate.html', 'title': '失敗した目標'}, 'fade-ios')">
+          実績記録
+        </ons-card>
       </div>
-      <div style="width:30%">
-        <p style="text-align : center">失敗した</p>
-        <ons-progress-circular value="50" secondary-value="60"  style="width:100px;height:100px"></ons-progress-circular>
-      </div>
+      </p>
     </ons-list-item>
-    <ons-card onclick="fn.pushPage({'id': 'keju.html', 'title': '目標設定'})">
+    <div>
+      <div style="height:150px">
+        <ons-carousel id="carousel" fullscreen swipeable auto-scroll overscrollable initial-index="1">
+      <!--月間記録-->
+      <ons-carousel-item class="carousel-item" style="background-color: gray"> 
+      </ons-carousel-item>
+      <!--週間記録-->
+      <ons-carousel-item class="carousel-item" style="background-color: white">
+        <div style="text-align : center">
+          <ons-list-header style="width: 350px;display: inline-block;text-align : center;font-size:15px">今週設定した目標</ons-list-header>
+          <ons-list-item style="width: 350px;display: inline-block;background-color:#FFF ">
+            <p class="tar_mess" style="margin-top:-20px"></p>
+            <p>
+              <div style="width:14%;margin-top:-20px">
+                <p style="text-align : center">日</p>
+                <ons-progress-circular id="week_0" value="0" secondary-value="100"></ons-progress-circular>
+              </div>
+              <div style="width:14%;margin-top:-20px">
+                <p style="text-align : center">月</p>
+                <ons-progress-circular id="week_1" value="50" secondary-value="60"></ons-progress-circular>
+              </div>
+              <div style="width:14%;margin-top:-20px">
+                <p style="text-align : center">火</p>
+                <ons-progress-circular id="week_2" value="70" secondary-value="60"></ons-progress-circular>
+              </div>
+              <div style="width:14%;margin-top:-20px">
+                <p style="text-align : center">水</p>
+                <ons-progress-circular id="week_3" value="20" secondary-value="60"></ons-progress-circular>
+              </div>
+              <div style="width:14%;margin-top:-20px">
+                <p style="text-align : center">木</p>
+                <ons-progress-circular id="week_4" value="0" secondary-value="100"></ons-progress-circular>
+              </div>
+              <div style="width:14%;margin-top:-20px">
+                <p style="text-align : center">金</p>
+                <ons-progress-circular id="week_5" value="0" secondary-value="100"></ons-progress-circular>
+              </div>
+              <div style="width:14%;margin-top:-20px">
+                <p style="text-align : center">土</p>
+                <ons-progress-circular id="week_6" value="0" secondary-value="100"></ons-progress-circular>
+              </div>
+            </p>
+          </ons-list-item>
+        </div>
+      </ons-carousel-item>
+      <!--年間記録-->
+      <ons-carousel-item class="carousel-item" style="background-color: blue">
+        
+      </ons-carousel-item>
+    </ons-carousel>
+
+    <div class="dots">
+      <span id="dot0" class="dot" onclick="fn.swipe(this)">
+        &#9679;
+      </span>
+      <span id="dot1" class="dot" onclick="fn.swipe(this)">
+        &#9675;
+      </span>
+      <span id="dot2" class="dot" onclick="fn.swipe(this)">
+        &#9675;
+      </span>
+    </div>
+      </div>
+    </div>
+    <ons-card style="height:90px" onclick="fn.pushPage({'id': 'target_set.html', 'title': '目標設定'})">
       <div class="title"><i class="fas fa-bullseye" size="5x"></i> 目標設定</div>
       <div class="content"><p id="target_p">運動時間の目標設定.</p></div>
     </ons-card>
-
-    <ons-card onclick="fn.pushPage({'id': 'koyanagi.html', 'title': '実績記録'})">
-      <div class="title"><ons-icon icon="ion-compass" size="30px" fixed-width="true"></ons-icon>実績記録</div>
+    <ons-card style="height:90px" onclick="fn.pushPage({'id': 'sport_in.html', 'title': '実績記録'})">
+      <div class="title"><ons-icon icon="ion-compass" size="23px" fixed-width="true"></ons-icon>実績記録</div>
       <div class="content"><p id="performance_p">運動時間の実績を記録する.</p></div>
     </ons-card>
-    <ons-list-header>設定した目標</ons-list-header>
-    <ons-list-item>
-      <div>
-        <ons-card id="pending-list">
-          <p class="tar_mess"></p>
-        </ons-card>
-      </div>
-    </ons-list-item>
-    <ons-list-header>記録</ons-list-header>
-    <ons-list-item>
-      <div>
-        <ons-card id="performance-list">
-          <p class="per_mess"></p>
-        </ons-card>
-      </div>
-    </ons-list-item>
+    
 
     <style>
       .right-icon {
         margin-left: 10px;
       }
+
 
       .right-label {
         color: #666;
@@ -316,13 +376,188 @@
       ons.ready(function(){
         var tarmess = localStorage.getItem("Tar_message");
         document.querySelector('ons-list-item .tar_mess').innerHTML += tarmess;
-        var permess = localStorage.getItem("Per_message");
-        document.querySelector('ons-list-item .per_mess').innerHTML += permess;
+        show_chart();
       });
+
+      var randomScalingFactor = function() {
+			  return Math.round(Math.random() * 100);
+		  };
+
+       function show_target(){
+        var week_tar = ["0","0","0","0","0","0","0"];
+        var week_tar_data = ["0","0","0","0","0","0","0"];
+        var tar_week_0= document.getElementById('week_0');
+        var tar_week_1= document.getElementById('week_1');
+        var tar_week_2= document.getElementById('week_2');
+        var tar_week_3= document.getElementById('week_3');
+        var tar_week_4= document.getElementById('week_4');
+        var tar_week_5= document.getElementById('week_5');
+        var tar_week_6= document.getElementById('week_6');
+
+        var weekday = new Date().getDay();  
+        var per_week = document.getElementById('per_week');
+        per_week.selectedIndex = weekday;
+        //tar_week_(weekday) = ;
+        
+      }
+
+	    function show_chart(){
+			  var ctx = document.getElementById("chart-area").getContext('2d');
+        var myChart = new Chart(ctx, {
+        type: 'horizontalBar',
+        data: {
+          labels: ["達成", "失敗"],
+          datasets: [{
+            backgroundColor: ["#2ecc71","#3498db"],
+            data: [7, 3]
+          }]
+        }
+        });
+      }
+
     </script>
   </ons-page>
 </template>
 
+<template id="tar_complete.html">
+  <ons-page>
+    <ons-toolbar>
+      <div class="left"><ons-back-button>Back</ons-back-button></div>
+      <div class="center">目標</div>
+    </ons-toolbar>
+    <ons-pull-hook id="pull-hook" threshold-height="120px">
+      <ons-icon id="pull-hook-icon" size="22px" class="pull-hook-content" icon="fa-arrow-down"></ons-icon>
+    </ons-pull-hook>
+    <ons-list id="target-list">
+      <ons-list-header>Pull to refresh</ons-list-header>
+      <p class="mess_list"></p>
+    </ons-list>
+
+    <script>
+      ons.ready(function() {
+      var pullHook = document.getElementById('pull-hook');
+      getdata();
+
+      pullHook.addEventListener('changestate', function(event) {
+      var message = '';
+
+      switch (event.state) {
+        case 'initial':
+          message = 'Pull to refresh';
+          break;
+        case 'preaction':
+          message = 'Release';
+          break;
+        case 'action':
+          message = 'Loading...';
+          break;
+      }
+
+      pullHook.innerHTML = message;
+    });
+
+    pullHook.onAction = function(done) {
+      setTimeout(done, 1000);
+    };
+
+    //var getdata = 
+    function getdata() {
+      
+      var user_id = localStorage.getItem("objectId");
+      
+      var ncmb = new NCMB("dd411920ff7852038a3d55414c3447b88c5e842ace7268254078b113d065398c","23304def33b24aeed4fe1ae5325a77c1ffbe3e44067c0a3716b47aefd4297e05");
+      var targetClass = ncmb.DataStore("targetClass");
+      targetClass.equalTo("user_Id",user_id)
+                　.fetchAll()
+                  .then(function(results){
+                    for (var i = 0; i < results.length; i++) {
+                      var object = results[i];
+                      var mess_list =""+object.get("week_Num")+ " -  週" + object.get("tar_Times")+"日 - " +object.get("tar_TimeLen")+"分 - " +object.get("tar_Status");
+                      document.querySelector('.mess_list').innerHTML +="<ons-list-item>"+ mess_list+"</ons-list-item>"+"<br />";
+                    }
+                  })
+                  .catch(function(err){
+                    console.log(err);
+                  });
+          
+        
+          //return names[Math.floor(Math.random() * names.length)];
+        };
+  });
+    </script>
+
+
+  </ons-page>
+</template>
+
+<template id="tar_under.html">
+  <ons-page>
+    <ons-toolbar>
+        <div class="left"><ons-back-button>Back</ons-back-button></div>
+        <div class="center">進行中目標</div>
+    </ons-toolbar>
+      tar_under.html
+  </ons-page>
+</template>
+
+<template id="tar_defeate.html">
+  <ons-page>
+    <ons-toolbar>
+        <div class="left"><ons-back-button>Back</ons-back-button></div>
+        <div class="center">実績</div>
+    </ons-toolbar>
+    <ons-pull-hook id="pull-hook" threshold-height="120px">
+      <ons-icon id="pull-hook-icon" size="22px" class="pull-hook-content" icon="fa-arrow-down"></ons-icon>
+    </ons-pull-hook>
+    <ons-list id="records-list">
+      <ons-list-header>Pull to refresh</ons-list-header>
+      <p class="mess_list"></p>
+    </ons-list>
+    <script>
+      ons.ready(function() {
+        getdata();  
+      });
+
+      function getdata() {
+      var user_id = localStorage.getItem("objectId");
+      var ncmb = new NCMB("dd411920ff7852038a3d55414c3447b88c5e842ace7268254078b113d065398c","23304def33b24aeed4fe1ae5325a77c1ffbe3e44067c0a3716b47aefd4297e05");
+      var recordsClass = ncmb.DataStore("recordsClass");
+      recordsClass.equalTo("user_id",user_id)
+                　.fetchAll()
+                  .then(function(results){
+                    for (var i = 0; i < results.length; i++) {
+                      var object = results[i];
+                      var mess_list =""+object.get("week_Num")+ " -  " + object.get("Week")+" - " +object.get("Sport" )+" - " +object.get("Time")+"分";
+                      document.querySelector('.mess_list').innerHTML +="<ons-list-item>"+ mess_list+"</ons-list-item>"+"<br />";
+                    }
+                  })
+                  .catch(function(err){
+                    console.log(err);
+                  });
+          
+        
+          //return names[Math.floor(Math.random() * names.length)];
+        };
+    </script>
+  </ons-page>
+</template>
+
+ <!-- new mypage
+<template id="total_mypage.html">
+  <ons-page>
+    <ons-tabbar position="top">
+      <ons-tab label="個人情報" page="mypage.html" active></ons-tab>
+      <ons-tab label="運動データ" page="datapage.html"></ons-tab>
+    </ons-tabbar>
+    <script>
+    </script>
+  </ons-page>
+</template>
+<template id="datapage.html">
+  <ons-page>
+    123
+  </ons-page>
+</template>-->
 <!-- mypage -->
 <template id="mypage.html">
   <ons-page> 
@@ -339,45 +574,12 @@
         <ons-card style="height:20px" onclick="fn.pushPage({'id': 'changeData.html', 'title': '基本情報'})">
           <div class="center" style="padding-left:20px"><p class="card_02" style="text-align:center;margin-top:-10px">未登録</p></div>
         </ons-card>
-  
-
-      <div style="text-align : center">
-        <ons-list-header style="width: 350px;display: inline-block;text-align : center;font-size:15px">週間記録</ons-list-header>
-        <ons-list-item style="width: 350px;display: inline-block;background-color:#FFF ">
-          <p>
-            <div style="width:14%">
-              <p style="text-align : center">月</p>
-              <ons-progress-circular value="50" secondary-value="60"></ons-progress-circular>
-            </div>
-            <div style="width:14%">
-              <p style="text-align : center">火</p>
-              <ons-progress-circular value="70" secondary-value="60"></ons-progress-circular>
-            </div>
-            <div style="width:14%">
-              <p style="text-align : center">水</p>
-              <ons-progress-circular value="20" secondary-value="60"></ons-progress-circular>
-            </div>
-            <div style="width:14%">
-              <p style="text-align : center">木</p>
-              <ons-progress-circular value="0" secondary-value="100"></ons-progress-circular>
-            </div>
-            <div style="width:14%">
-              <p style="text-align : center">金</p>
-              <ons-progress-circular value="0" secondary-value="100"></ons-progress-circular>
-            </div>
-            <div style="width:14%">
-              <p style="text-align : center">土</p>
-              <ons-progress-circular value="0" secondary-value="100"></ons-progress-circular>
-            </div>
-            <div style="width:14%">
-              <p style="text-align : center">日</p>
-              <ons-progress-circular value="0" secondary-value="100"></ons-progress-circular>
-            </div>
-          </p>
-          <i class="far fa-clipboard"></i>
-              <i class="fas fa-clipboard-check"></i>
-        </ons-list-item>
-      </div>
+            <ons-card style="height:13%" onclick="fn.pushPage({'id': 'sport_type.html', 'title': '運動別のデータ'})">
+              <p class="sport_time_show1" style="text-align: center;margin-top:-10px">運動時間：</p>
+              <p class="sport_time_show2" style="text-align: center">運動距離：</p>
+            </ons-card>
+       
+        
       <ons-list-header style="width: 350px;display: inline-block;text-align : center;font-size:15px">運動別データ</ons-list-header>
       <ons-list-item>
       <div style="width: 50%">
@@ -394,7 +596,7 @@
             </ons-card>
             <ons-card style="height:100px">
               <div class="title" style="font-size:16px"><i class="fas fa-bicycle"></i> 自転車</div>
-              <div class="content">時間：<p　style="text-align:center" class="bicycle_p">0 時</p></div>
+              <div class="content">時間：<p　style="text-align:center" class="bicycle_p">0 分</p></div>
             </ons-card>
        
       </div>
@@ -402,15 +604,15 @@
        
             <ons-card style="height:100px">
               <div class="title" style="font-size:16px"><i class="fas fa-walking"></i> ランニング</div>
-              <div class="content">時間：<p style="text-align:center" class="running_p">0 時</p></div>
+              <div class="content">時間：<p style="text-align:center" class="running_p">0 分</p></div>
             </ons-card>
             <ons-card style="height:100px">
               <div class="title" style="font-size:16px"><i class="fas fa-swimmer"></i> 水泳</div>
-              <div class="content">時間：<p style="text-align:center" class="swimming_p">0 時</p></div>
+              <div class="content">時間：<p style="text-align:center" class="swimming_p">0 分</p></div>
             </ons-card>
             <ons-card style="height:100px">
               <div class="title" style="font-size:16px"><i class="fas fa-baseball-ball"></i> 野球</div>
-              <div class="content">時間：<p style="text-align:center" class="baseball_p">0 時</p></div>
+              <div class="content">時間：<p style="text-align:center" class="baseball_p">0 分</p></div>
             </ons-card>
        
       </div>
@@ -453,7 +655,7 @@
                             localStorage.setItem("objectId",objectId);
                             localStorage.setItem("Username",username);
                             localStorage.setItem("Sex",sex);
-                            localStorage.setItem("Birthday",birthday);
+                            localStorage.getItem("Birthday_Year",birthday);
                             localStorage.setItem("Height",height);
                             localStorage.setItem("Weight",weight);
 
@@ -502,13 +704,18 @@
                       }
                     }  
                     console.log(total_sport_time);
-                    document.querySelector('ons-card .walking_p').innerHTML = total_sport_time[1]+"時";
+                    document.querySelector('ons-card .walking_p').innerHTML = total_sport_time[1]+"分";
                     //document.querySelector('ons-card .card_01').innerHTML = "   "+username;
-                    document.querySelector('ons-card .bicycle_p').innerHTML = total_sport_time[3]+"時";
-                    document.querySelector('ons-card .running_p').innerHTML = total_sport_time[0]+"時";
-                    document.querySelector('ons-card .swimming_p').innerHTML = total_sport_time[8]+"時";
-                    document.querySelector('ons-card .baseball_p').innerHTML = total_sport_time[5]+"時";
+                    document.querySelector('ons-card .bicycle_p').innerHTML = total_sport_time[3]+"分";
+                    document.querySelector('ons-card .running_p').innerHTML = total_sport_time[0]+"分";
+                    document.querySelector('ons-card .swimming_p').innerHTML = total_sport_time[8]+"分";
+                    document.querySelector('ons-card .baseball_p').innerHTML = total_sport_time[5]+"分";
+                    var total_time = total_sport_time[1]+ total_sport_time[3]+total_sport_time[0]+total_sport_time[8]+total_sport_time[5];
+                    var total_step = total_sport_time[1]*70+ total_sport_time[3]*109+total_sport_time[0]*133+total_sport_time[8]*213+total_sport_time[5]*149;
+                    var total_far = (total_step/1333).toFixed(2);
 
+                    document.querySelector('ons-card .sport_time_show1').innerHTML = "運動時間： "+total_time+"分&nbsp;&nbsp;"+"運動距離："+total_far+"km";
+                    document.querySelector('ons-card .sport_time_show2').innerHTML = "距離京都："+(370.55-total_far)+"km";
                   })
                 .catch(function(err){
                   console.log(err);
@@ -739,7 +946,7 @@
           //localStorage.clear();
           var username = localStorage.getItem("Username");
           var sex = localStorage.getItem("Sex");
-          var birthday = localStorage.getItem("Birthday");
+          var birthday = localStorage.getItem("Birthday_Year");
           var height = localStorage.getItem("Height");
           var weight = localStorage.getItem("Weight");
           var b_year = birthday.substr(0, 4);
@@ -845,7 +1052,7 @@
     <p style="text-align: center">
       <ons-button id="update-data" style=" width: 100px" modifier="material" onclick="save()">修正</ons-button>
    </p>
-
+    </div>
   <script>
     ons.ready(function() {
       
@@ -896,9 +1103,16 @@
           .then(function(data){
             // 更新に成功した場合の処理
             ons.notification.alert("更新済み");
+            <ons-modal id="modal-dialog" onclick="fn.hideDialog('modal-dialog')">
+      <p style="text-align: center">
+        Loading
+        <ons-icon icon="fa-spinner" spin></ons-icon>
+        <br><br> Click or wait
+      </p>
+    </ons-modal>
             //localStorage.setItem("Height",height);
             //localStorage.setItem("Weight",weight);
-            location.reload();
+            document.getElementById('appNavigator').popPage();
           })
           .catch(function(err){
             // 更新に失敗した場合の処理
@@ -914,115 +1128,196 @@
 </template>
 
  <!-- 目標入力ページ -->
-<template id="keju.html">
+<template id="target_set.html">
   <ons-page id="target_set">
     <ons-toolbar> 
       <div class="left"><ons-back-button>戻り</ons-back-button></div>
-      <div class="center" >目標設定</div>
+      <div class="center">週間目標設定</div>
     </ons-toolbar>
-    <div style="background-color:#fff">
-    <ons-list-header style="font-size:15px">予定終了日</ons-list-header>
+    <ons-list-header>今週何日運動しますか？　 -　 <span id="checkboxes-header1"></span>(日)</ons-list-header>
     <ons-list-item>
-      <div>
-        <input type="date" id="user_date" name="user_date"><font color=red>(必須)</font>
-      </div>
+        <p ></p>
+      <ons-row>
+        <ons-col>
+          <ons-range id="range-slider1" value="1" min="1" max="7" step="1" style="width: 100%;"></ons-range>
+        </ons-col>
+      </ons-row>
     </ons-list-item>
-    <ons-list-header style="font-size:15px">頻度</ons-list-header>
+    <ons-list-header> 毎回何時間ですか？　 -　 <span id="checkboxes-header2"></span>(Mim)</ons-list-header>
     <ons-list-item>
-      <ons-input type="number" id="user_number" name="number" style="width: 50px"　 value="3" min="0"　onclick="check()">
-      </ons-input> 
-      <ons-select id="user_list">
-        <option>回数</option>
-        <option>時間</option>
-        <option>時</option>
-      </ons-select> ／
-      <ons-select  id="user_time">
-        <option>週</option>
-        <option>日</option>
-        <option>月</option>
-      </ons-select> <font color=red>(必須)</font>
+      <p ></p>
+      <ons-row>
+        <ons-col>
+          <ons-range id="range-slider2"value="30" min="10" max="120" step="10" style="width: 100%;"></ons-range>
+        </ons-col>
+      </ons-row>
     </ons-list-item>
-    <ons-list-header style="font-size:15px">運動種類</ons-list-header>
-    <ons-list-item>
-      <ons-select  id="user_sport">
-          <option >ランニング</option>
-          <option >ウォーキング</option>
-          <option >ラジオ体操</option>
-          <option >自転車</option>
-          <option >バドミントン</option>
-          <option >野球</option>
-          <option >ヨガ</option>
-          <option >テニス</option>
-          <option >水泳</option>
-          <option >ゴルフ</option>
-      </ons-select>
-      <font color=red>(必須)</font>
-    </ons-list-item>
+    <!--<ons-list-header>やりたい運動 ： <span id="checkboxes-header">ウォーキング,ウォーキング</span></ons-list-header>-->
+      <ons-list-item>
+        <div id="trigger3">やりたい運動</div>
+      </ons-list-item>
+      
+      <!--<ons-list-item tappable>
+        <label class="left">
+          <ons-checkbox class="checkbox-sport" input-id="checkbox-0" value="ランニング" checked></ons-checkbox>
+        </label>
+        <label class="center" for="checkbox-0">
+          ランニング
+        </label>
+      </ons-list-item>
+      <ons-list-item tappable>
+        <label class="left">
+          <ons-checkbox class="checkbox-sport" input-id="checkbox-1" value="ウォーキング" checked></ons-checkbox>
+        </label>
+        <label class="center" for="checkbox-1">
+          ウォーキング
+        </label>
+      </ons-list-item>
+      <ons-list-item tappable>                          
+        <label class="left">
+          <ons-checkbox class="checkbox-sport" input-id="checkbox-2" value="水泳"></ons-checkbox>
+        </label>
+        <label class="center" for="checkbox-2">
+          水泳
+        </label>
+      </ons-list-item>
+      <ons-list-item tappable>
+        <label class="left">
+          <ons-checkbox class="checkbox-sport" input-id="checkbox-3" value="自転車"></ons-checkbox>
+        </label>
+        <label class="center" for="checkbox-3">
+          自転車
+        </label>
+      </ons-list-item>
+      <ons-list-item tappable>
+        <label class="left">
+          <ons-checkbox class="checkbox-sport" input-id="checkbox-4" value="野球"></ons-checkbox>
+        </label>
+        <label class="center" for="checkbox-4">
+          野球
+        </label>
+    </ons-list-item> -->
     <ons-list-header style="font-size:15px">意気込み</ons-list-header>
     <ons-list-item>
-      <ons-input type="text" id="user_target"  placeholder="頑張りましょう！" style="margin-top:8px; width: 100%;"　autocomplete="on"></ons-input>
+      <ons-input type="text" id="tar_message"  placeholder="頑張りましょう！" style="margin-top:8px; width: 100%;"　autocomplete="on"></ons-input>
     </ons-list-item>
     </div>
     <p style="text-align:center">
+      目標は今週から初めます。
+      <br>
       <ons-button onclick="showProfile()" style="width: 95%; margin: 0 auto;">目標設定</button>                         
       </ons-button>
     </p>   
     <script>
+      var currentColors = ['ランニング', 'ウォーキング'];
+      var today = new Date();
+      var yearNum = today.getFullYear();
+      var weekNum =yearNum +"-"+getWeekOfYear();
+      const checkboxes = document.querySelectorAll('.checkbox-sport');
+      for (var i = 0; i < checkboxes.length; i++) {
+        var checkbox = checkboxes[i];
+        checkbox.addEventListener('change', function (event) {
+          if (!currentColors.includes(event.target.value)) {
+            currentColors.push(event.target.value);
+          } else {
+            var index = currentColors.indexOf(event.target.value);
+            currentColors.splice(index, 1);
+          }
+          document.getElementById('checkboxes-header').innerHTML = currentColors;
+        })
+      }
+      var sportArr=['','ランニング', 'ウォーキング','水泳','自転車','野球','ラジオ体操','バドミントン','ヨガ','テニス','ゴルフ'];
+      var mobileSelect3 = new MobileSelect({
+        trigger: '#trigger3',
+        title: '選択',
+        wheels: [
+                {data: sportArr},
+                {data: sportArr},
+                {data: sportArr}
+        ],
+        position:[0,0,0],
+        transitionEnd:function(indexArr, data){
+        console.log(data);
+        localStorage.setItem("tar_Sport",data);
+        },
+        callback:function(indexArr, data){
+          //console.log(data);
+        }
+      });
+
+      document.getElementById('checkboxes-header1').innerHTML = 1;
+      document.getElementById('checkboxes-header2').innerHTML = 30;
+
+      document.getElementById('range-slider1').addEventListener('input', function (event) {
+        document.getElementById('checkboxes-header1').innerHTML = event.target.value;
+        new_stimes = event.target.value;
+      })
+      document.getElementById('range-slider2').addEventListener('input', function (event) {
+        document.getElementById('checkboxes-header2').innerHTML = event.target.value;
+        new_stime = event.target.value;
+      })
       function showProfile(){
         var ncmb = new NCMB("dd411920ff7852038a3d55414c3447b88c5e842ace7268254078b113d065398c","23304def33b24aeed4fe1ae5325a77c1ffbe3e44067c0a3716b47aefd4297e05");
-        var date = document.getElementById("user_date").value;
-        var list = document.getElementById("user_list").value;
-        var num = document.getElementById("user_number").value;
-        var userid = localStorage.getItem("objectId");
-        //var username = localStorage.getItem("Username");
-        var time = document.getElementById("user_time").value;
-        var sport = document.getElementById("user_sport").value;
-        var target = document.getElementById("user_target").value;
-          //document.getElementById('box').innerHTML = date+"まで"+time+objectId+number+list+sport+"をやります。"+"意気込み:"+target;
-          //ons.notification.alert(date+"まで"+time+number+list+sport+"をやります。"+"意気込み:"+target);
-                
-        if ( document.getElementById("user_number").value ==""){ 
-            ons.notification.alert('単位入力してください。');   
-            return false;  
-         } else if( document.getElementById("user_date").value ==""){ 
-            ons.notification.alert('時間入力してください。');   
-            return false;  
-         } else {
+        var tar_times = document.getElementById("range-slider1").value;
+        var tar_time = document.getElementById("range-slider2").value;
+        var tar_sport = localStorage.getItem("tar_Sport");
+        var user_id = localStorage.getItem("objectId");
+        var tar_message = document.getElementById("tar_message").value;
+
+        var testNum = localStorage.getItem("weekNum");
+        console.log(testNum);
+        console.log(weekNum);
+        if( testNum === weekNum){
+          alert("まず今週の目標を完成してください。");
+          document.getElementById('appNavigator').popPage();
+        } else {          
            var targetClass = ncmb.DataStore("targetClass");
            var targetClass = new targetClass();
-           targetClass.set("user_date",date)
-                  　.set("user_time",time)
-                    .set("user_number",num)
-                    .set("user_id",userid)
-                    .set("user_list",list)
-                    .set("user_sport",sport)
-                    .set("user_target",target)
-                    .set("Status","完成中")
-                    .save()
-                    .then(function(res){
+           targetClass.set("week_Num",weekNum)
+                      .set("user_Id",user_id)
+                      .set("tar_Times",tar_times)
+                      .set("tar_TimeLen",tar_time)
+                      .set("tar_Sport",tar_sport)
+                      .set("tar_Message",tar_message)
+                      .set("tar_Status","達成中")
+                      .save()
+                      .then(function(res){
                            // 保存に成功した場合の処理
-                       ons.notification.alert("成功");
-                       //fn.pushPage({'id': 'target.html'},{data:{target_date: user_date}});
-                       var tarmess = date+"まで"+time+list+sport+"をやります。"+"意気込み:"+target;
-                       localStorage.setItem("Tar_message",tarmess);
-                       location.reload();
-                       //document.getElementById('appNavigator').pushPage("target.html",{data{target_date: user_date});
-                    })
-                    .catch(function(err){
+                        alert("成功");
+                        var tar_check = [weekNum,tar_times,tar_time,"0","達成中"];
+                        localStorage.setItem("Tar_check",tar_check);
+                        var tarmess = "今週は"+tar_times+"日、"+tar_time+"分、"+tar_sport+"<br />"+"意気込み:"+tar_message;
+                        localStorage.setItem("Tar_message",tarmess);
+                        localStorage.setItem("weekNum",weekNum);
+                        //location.reload();
+                        document.getElementById('appNavigator').popPage();
+                      })
+                      .catch(function(err){
                       // 保存に失敗した場合の処理
-                    });
-          document.getElementById('box').innerHTML = date+"まで",objectId+time+number+list+"<br />"+sport+"をやります。"+"意気込み:"+target;
-                 //ons.notification.alert(date+"まで"+time+number+list+sport+"をやります。"+"意気込み:"+target);
-         }
+                      });
+        }
   
         
          
-      }
+      };
+      function getWeekOfYear(){
+            var today = new Date();
+            var firstDay = new Date(today.getFullYear(),0, 1);
+            var dayOfWeek = firstDay.getDay(); 
+            var spendDay= 1;
+            if (dayOfWeek !=0) {
+              spendDay=7-dayOfWeek+1;
+            }
+            firstDay = new Date(today.getFullYear(),0, 1+spendDay);
+            var d =Math.ceil((today.valueOf()- firstDay.valueOf())/ 86400000);
+            var result =Math.ceil(d/7);
+            return result+1;
+      };
     </script>
   </ons-page>
 </template>
   <!-- 実績記録ページ -->
-<template id="koyanagi.html">
+<template id="sport_in.html">
   <ons-page id="per_input">
     <ons-toolbar>
       <div class="left"><ons-back-button>戻り</ons-back-button></div>
@@ -1036,13 +1331,13 @@
       <ons-list-header style="font-size:15px">曜日を選択してください。</ons-list-header>
       <ons-list-item>
         <ons-select id="per_week" required>
-          <option>月曜日</option>
-          <option>火曜日</option>
-          <option>水曜日</option>
-          <option>木曜日</option>
-          <option>金曜日</option>
-          <option>土曜日</option>
-          <option>日曜日</option>
+          <option >日曜日</option>
+          <option >月曜日</option>
+          <option >火曜日</option>
+          <option >水曜日</option>
+          <option >木曜日</option>
+          <option >金曜日</option>
+          <option >土曜日</option>
         </ons-select>
       </ons-list-item>
       <ons-list-header style="font-size:15px">運動の種類を記録してください。</ons-list-header>
@@ -1062,7 +1357,7 @@
       </ons-list-item>
       <ons-list-header style="font-size:15px">運動の時間を記録してください。</ons-list-header>
       <ons-list-item>
-        <ons-input id="per_time" type="number" min="0" max="1000" name="times" value="60" style="width: 50px;"></ons-input>分
+        <ons-input id="per_time" type="number" min="0" max="1000" name="times" value="30" style="width: 50px;"></ons-input>分
       </ons-list-item>
     </div>
     <p style="text-align:center">
@@ -1070,12 +1365,18 @@
     </p>
 
     <script>
+      //var a = new Array("日", "月", "火", "水", "木", "金", "土");  
+      var weekday = new Date().getDay();  
+      var per_week = document.getElementById('per_week');
+      per_week.selectedIndex = weekday;
+
       function onTrack(){
         //var per_date =document.getElementById("per_date").value;
         var per_week =document.getElementById("per_week").value;
         var per_sport =document.getElementById("per_sport").value;
         var per_time =document.getElementById("per_time").value;
         var userid = localStorage.getItem("objectId");
+        var weekNum = localStorage.getItem("weekNum");
         //DB
         var ncmb = new NCMB("dd411920ff7852038a3d55414c3447b88c5e842ace7268254078b113d065398c","23304def33b24aeed4fe1ae5325a77c1ffbe3e44067c0a3716b47aefd4297e05");
         var recordsClass = ncmb.DataStore('recordsClass');
@@ -1088,6 +1389,7 @@
         } else {
           recordsClass.set("user_id",userid)
                       //.set("Date",per_date)
+                      .set("week_Num",weekNum)
                       .set("Week",per_week)
                       .set("Sport",per_sport)
                       .set("Time",per_time)
@@ -1100,7 +1402,7 @@
                         //localStorage.setItem("Week",per_week);
                         //localStorage.setItem("Sport",per_sport);
                         //localStorage.setItem("Time",per_time);
-                        fn.pushPage({'id': 'target.html'});
+                        document.getElementById('appNavigator').popPage();
 
                       })
                       .catch(function(err){
@@ -1147,12 +1449,10 @@
 		      var result=document.getElementById("result");
 		      result.innerHTML='<img src="'+this.result+'" alt="" style="width:80px;height:80px"/>';
           localStorage.setItem("user_img",this.result);
-          console.log(this);
-          console.log(result);
-          console.log(this.result);
+
           if(this === this.result){
             console.log('ok');
-            location.reload();
+            document.getElementById('appNavigator').popPage();
           }
 	      }
 	      //var test1 = localStorage.getItem("user_img");
