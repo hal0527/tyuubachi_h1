@@ -39,10 +39,57 @@
 
   <template id="tab1.html">
   <ons-page id="Tab1">
+
+        <ons-card  >
       <div>
         <canvas id="canvas_1"></canvas>
       </div>
-      <div>
+      <!-- <div> -->
+        </ons-card  >
+
+  <div style=>
+      <!-- <ons-card style="height:210px" > -->
+        <ons-card  >
+      <div class="content"   style="font-size:11px" style="text-align:left" >7月10日　運動時間</div>
+       <div class="content" style="text-align:center" >35<ons-icon icon="ion-compass" size="30px" fixed-width="true"></ons-icon></div>
+
+                  <!-- <div class="title" style="font-size:16px"><i class="fas fa-shoe-prints"></i>ウォーキング</div> -->
+                  <div class="content">
+                    <p>時間(min)：</p>
+                    <p style="text-align:center" class="walking_p">60</p>
+                    <p>消費カロリー(kcal)：</p>
+                    <p style="text-align:center">300kcal</p>
+                  </div>
+        </ons-card>
+
+
+            <!-- <ons-card style="height:100px">
+              <div class="title" style="font-size:16px"><i class="fas fa-bicycle"></i> 自転車</div>
+              <div class="content">時間：<p　style="text-align:center" class="bicycle_p">0 時</p></div>
+            </ons-card> -->
+       
+      </div>
+
+  <!-- <ul class="list">
+    <li class="list-item list-item--expandable expanded">
+      <div class="list-item__top">
+        <div class="list-item__center">運動時間</div>
+
+        <div class="list-item__right">
+          <span class="list-item__expand-chevron">
+
+            完成
+
+
+          </span>
+        </div>
+
+      </div>
+      <div class="list-item__expandable-content"></div>
+
+    </li>
+  </ul>
+
     <ons-list-header>運動総時間</ons-list-header>
     <ons-list-item>
       <div>
@@ -51,7 +98,9 @@
         </ons-list>
       </div>
     </ons-list-item>
+
     <ons-list-header>履歴</ons-list-header>
+
     <ons-list-item>
       <div>
         <ons-list id="performance-list">
@@ -59,18 +108,18 @@
       </div>
     </ons-list-item>
 
-</div>
+</div> -->
   </ons-page>
 </template>
 
 
   <template id="tab2.html">
   <ons-page id="Tab2">
-
+        <ons-card  >
       <div>
         <canvas id="canvas_3"></canvas>
       </div>
-      
+              </ons-card  >
   </ons-page>
 </template>
 
@@ -93,8 +142,8 @@
 //  var apikey = "fc3a8b35e955fe5f0a83a49be8c1e60a5321974325e10739e7f8734b27665bb4";
 //  var clientkey = "f8e0a822a6a2956144237a5a2ece5053bc2f6ca392835b70fcaf1f6b3b5d609f";
 
-  var apikey ="dd411920ff7852038a3d55414c3447b88c5e842ace7268254078b113d065398c";
-  var clientkey ="23304def33b24aeed4fe1ae5325a77c1ffbe3e44067c0a3716b47aefd4297e05";
+   var apikey ="dd411920ff7852038a3d55414c3447b88c5e842ace7268254078b113d065398c";
+   var clientkey ="23304def33b24aeed4fe1ae5325a77c1ffbe3e44067c0a3716b47aefd4297e05";
 
     var arr_timeList;
     var sum_time;
