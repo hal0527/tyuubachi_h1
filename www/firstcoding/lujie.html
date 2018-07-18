@@ -11,9 +11,42 @@
     <link rel="stylesheet" href="../lib/onsenui/css/onsen-css-components.css">
     <link rel="stylesheet" href="../css/style.css">
 </head>
-  <body>　　
-     <h1>個人情報</h1>
-         <p><img class="list-item__thumbnail" src="https://placekitten.com/g/40/40"><input type="text"placeholder="ニックネーム入れてください" style="width:50%;"></p>
+  <body>
+<p><!--<img class="list-item__thumbnail" src="https://placekitten.com/g/40/40">-->
+         <style>
+  .red-text {
+    color: red;
+  }
+
+  h1 {
+    font-family: Lobster, Monospace;
+  }
+
+  p {
+    font-size: 16px;
+    font-family: Monospace;
+  }
+
+  .thick-red-border {
+    border-color: green;
+    border-width: 10px;
+    border-style: solid;
+    border-radius: 50%;
+  }
+
+  .smaller-image {
+    width: 100px;
+  }
+</style>
+
+<h1 class="red-text">個人情報</h1>
+
+<p>Click here for <a href="       ">cat photos</a>.</p>
+
+<img class="smaller-image thick-green-border" src="/images/relaxing-cat.jpg">
+
+
+   <input type="text"placeholder="ニックネーム入れてください" style="width:50%;"></p>
          <hr>
      <h2>名前<input type="text"placeholder="入れてください">
           性別 <ons-select> 
@@ -28,6 +61,14 @@
     </h2>
     <font color=red>(必須)</font>
     <hr>
+    <h3>お気に入りな運動写真</h3>
+    
+
+  <a href="#"><img class="smaller-image thick-green-border" src="/images/relaxing-cat.jpg"></a>
+
+  <img src="/images/running-cat.jpg" class="img-responsive">
+  <button class="btn">Like</button>
+  <p>運動写真にまつわるエビソート等</p>
     <!--unction setOptions(srcType) {
     var options = {
         // Some common settings are 20, 50, and 100
