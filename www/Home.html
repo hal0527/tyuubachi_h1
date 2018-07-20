@@ -550,7 +550,7 @@
 </template>
 
  <!-- new mypage
-<template id="total_mypage.html">
+  <template id="total_mypage.html">
   <ons-page>
     <ons-tabbar position="top">
       <ons-tab label="個人情報" page="mypage.html" active></ons-tab>
@@ -559,13 +559,13 @@
     <script>
     </script>
   </ons-page>
-</template>
-<template id="datapage.html">
+  </template>
+  <template id="datapage.html">
   <ons-page>
     123
   </ons-page>
-</template>-->
-<!-- mypage -->
+  </template>-->
+  <!-- mypage -->
 <template id="mypage.html">
   <ons-page> 
         <ons-card style="height:100px">
@@ -581,10 +581,13 @@
         <ons-card style="height:20px" onclick="fn.pushPage({'id': 'changeData.html', 'title': '基本情報'})">
           <div class="center" style="padding-left:20px"><p class="card_02" style="text-align:center;margin-top:-10px">未登録</p></div>
         </ons-card>
-            <ons-card style="height:13%" onclick="fn.pushPage({'id': 'sport_type.html', 'title': '運動別のデータ'})">
+        <!-- <ons-card style="height:13%" onclick="fn.pushPage({'id': 'sport_type.html', 'title': '運動別のデータ'})">
               <p class="sport_time_show1" style="text-align: center;margin-top:-10px">運動時間：</p>
               <p class="sport_time_show2" style="text-align: center">運動距離：</p>
-            </ons-card>
+            </ons-card> -->
+        <ons-card style="background:url(images/total_data.png);background-size:100%;height:130px" onclick="fn.pushPage({'id': 'tar_defeate.html', 'title': '実績'}, 'fade-ios')">
+          <p class="total_data_show" style="text-align: center;margin-top:-10px;color:white;"></p>
+        </ons-card>
        
         
       <ons-list-header style="width: 350px;display: inline-block;text-align : center;font-size:15px">運動別データ</ons-list-header>
@@ -595,9 +598,9 @@
               <div class="title" style="font-size:16px"><i class="fas fa-shoe-prints"></i>ウォーキング</div>
               <div class="content">
                 <p>時間：</p>
-                <p style="text-align:center" class="walking_p">11</p>
+                <p style="text-align:center" class="walking_p">0分</p>
                 <p>消費カロリー：</p>
-                <p style="text-align:center">220kcal</p>
+                <p style="text-align:center" class="walking_s">0kcal</p>
 
               </div>
             </ons-card>
@@ -624,67 +627,33 @@
        
       </div>
       </ons-list-item>
-      <p >
-        <ons-button id="logout"  onclick="logout()" modifier="material" >ログアウト</ons-button>
-      </p>
+      <ons-button id="logout"  onclick="logout()" modifier="material" >ログアウト</ons-button>
     </ons-list>
     <script>
       ons.ready(function() { 
-        var ncmb = new NCMB("dd411920ff7852038a3d55414c3447b88c5e842ace7268254078b113d065398c","23304def33b24aeed4fe1ae5325a77c1ffbe3e44067c0a3716b47aefd4297e05");
         var user_img = localStorage.getItem("user_img");
         if( user_img === null){
           user_img = "https://placekitten.com/200/300";
         } 
         var c_img= document.getElementById('user_img');
         c_img.src = user_img;
-        var key1,key2;
-            var LoginUsername = localStorage.getItem("LoginUsername");
-            var LoginEmail = localStorage.getItem("LoginEmail");
-  
-            if (LoginUsername == undefined ){
-              key1 = "mailAddress";
-              key2 = LoginEmail;
-            } else if(LoginEmail == undefined){
-              key1 = "userName";
-              key2 = LoginUsername;
-            }
-          
-            ncmb.User.equalTo(key1, key2)
-                     .fetchAll()
-                     .then(function(results){
-                            for (var i = 0; i < results.length; i++) {
-                              var object = results[i];
-                              var objectId = object.get("objectId");
-                              var username = object.get("userName");
-                              var sex = object.get("sex");
-                              var birthday = object.get("Birthday");
-                              var height = object.get("height");
-                              var weight = object.get("weight");
-                            }
+        var username = localStorage.getItem("LoginUsername");
+        var sex = localStorage.getItem("Sex");
+        var birthday = localStorage.getItem("Birthday_Year");
+        var height = localStorage.getItem("Height");
+        var weight = localStorage.getItem("Weight");
+ 
+        var bmi=weight/(height*height/10000);
+        document.querySelector('ons-card .card_01').innerHTML = "   "+username;
+        document.querySelector('ons-card .card_02').innerHTML = weight +" 体重(kg)  "+Math.round(bmi*100)/100+" BMI  " +height+" 身長(cm)";
 
-                            localStorage.setItem("objectId",objectId);
-                            localStorage.setItem("Username",username);
-                            localStorage.setItem("Sex",sex);
-                            localStorage.getItem("Birthday_Year",birthday);
-                            localStorage.setItem("Height",height);
-                            localStorage.setItem("Weight",weight);
-
-                            var bmi=weight/(height*height/10000);
-          
-                            document.querySelector('ons-card .card_01').innerHTML = "   "+username;
-                            document.querySelector('ons-card .card_02').innerHTML = weight +" 体重(kg)  "+Math.round(bmi*100)/100+" BMI  " +height+" 身長(cm)";
-                            //document.querySelector('ons-card .card_02').innerHTML += "   総運動時間:";
-                      })
-                     .catch(function(err){
-                          console.log(err);
-                      });
         total_data();
       });
 
       function logout(){
           localStorage.removeItem("LoginUsername");
           localStorage.clear();
-          window.location.href='index.html';
+          window.location.href='Top.html';
       }
 
       function total_data(){
@@ -720,8 +689,9 @@
                       }
                     }  
                     console.log(total_sport_time);
+                    var total_kal_walk = total_sport_time[1]*5;
                     document.querySelector('ons-card .walking_p').innerHTML = total_sport_time[1]+"分";
-                    //document.querySelector('ons-card .card_01').innerHTML = "   "+username;
+                    document.querySelector('ons-card .walking_s').innerHTML = total_kal_walk+"kcal";
                     document.querySelector('ons-card .bicycle_p').innerHTML = total_sport_time[3]+"分";
                     document.querySelector('ons-card .running_p').innerHTML = total_sport_time[0]+"分";
                     document.querySelector('ons-card .swimming_p').innerHTML = total_sport_time[8]+"分";
@@ -730,8 +700,9 @@
                     var total_step = total_sport_time[1]*70+ total_sport_time[3]*109+total_sport_time[0]*133+total_sport_time[8]*213+total_sport_time[5]*149;
                     var total_far = (total_step/1333).toFixed(2);
 
-                    document.querySelector('ons-card .sport_time_show1').innerHTML = "運動時間： "+total_time+"分&nbsp;&nbsp;"+"運動距離："+total_far+"km";
-                    document.querySelector('ons-card .sport_time_show2').innerHTML = "距離京都："+(370.55-total_far)+"km";
+                    //document.querySelector('ons-card .sport_time_show1').innerHTML = "運動時間： "+total_time+"分&nbsp;&nbsp;"+"運動距離："+total_far+"km";
+                    //document.querySelector('ons-card .sport_time_show2').innerHTML = "距離京都："+(370.55-total_far)+"km";
+                    document.querySelector('ons-card .total_data_show').innerHTML = "飛行時間:"+total_time+"分&nbsp;&nbsp;&nbsp;&nbsp;飛行距離："+total_far+"km <br/>あどは"+(384000-total_far)+"km";
                   })
                 .catch(function(err){
                   console.log(err);
@@ -875,7 +846,6 @@
           }
       }
 
-  
       function save_objectId(){
         var username = localStorage.getItem("UserName");
         var ncmb = new NCMB("dd411920ff7852038a3d55414c3447b88c5e842ace7268254078b113d065398c","23304def33b24aeed4fe1ae5325a77c1ffbe3e44067c0a3716b47aefd4297e05");
@@ -914,9 +884,9 @@
         <div class="title">基本情報</div>
       <ons-list-header>ユーザー</ons-list-header>
       <ons-list-item>
-        <div class="left">
-          <img class="list-item__thumbnail" id="user_img" src="https://placekitten.com/g/40/40"　onclick="fn.pushPage({'id': 'user_photo.html', 'title': '写真'}, 'fade-ios')">
-        </div>
+        <!--<div class="left">
+          <img src="https://placekitten.com/200/300" id="user_img" style="width:50px;height:50px" onclick="fn.pushPage({'id': 'user_photo.html', 'title': '写真'}, 'fade-ios')">
+        </div> -->
         <div class="center">
           <span class="list-item__title"><b class="user_data1">未登録</b></span>
           <span class="list-item__subtitle"></span>
@@ -949,9 +919,8 @@
         ons.ready(function() { 
         var LoginUsername = localStorage.getItem("LoginUsername");
         var LoginEmail = localStorage.getItem("LoginEmail");
-        var user_img = localStorage.getItem("user_img");
-        var c_img.src = user_img;
-        
+        document.getElementById("user_img").src = localStorage.getItem("user_img");
+      
         if(LoginUsername == undefined && LoginEmail == undefined){
           var mychar1 = document.getElementById('signup').style.display="block";
           var mychar2 = document.getElementById('logout').style.display="none";
@@ -960,7 +929,7 @@
           var mychar2 = document.getElementById('logout').style.display="block";
         }
           //localStorage.clear();
-          var username = localStorage.getItem("Username");
+          var username = localStorage.getItem("LoginUsername");
           var sex = localStorage.getItem("Sex");
           var birthday = localStorage.getItem("Birthday_Year");
           var height = localStorage.getItem("Height");
@@ -1465,10 +1434,10 @@
 		      var result=document.getElementById("result");
 		      result.innerHTML='<img src="'+this.result+'" alt="" style="width:80px;height:80px"/>';
           localStorage.setItem("user_img",this.result);
+          document.getElementById('appNavigator').popPage();
 
           if(this === this.result){
             console.log('ok');
-            document.getElementById('appNavigator').popPage();
           }
 	      }
 	      //var test1 = localStorage.getItem("user_img");
