@@ -15,7 +15,11 @@
   <script>
 document.addEventListener('init', function(event) {
 var page = event.target;
-
+if (page.id === 'top') {
+  page.querySelector('#top').onclick = function() {
+    document.querySelector('#myNavigator').pushPage('page1.html', {data: {title: 'Page 1'}});
+  };  
+}
 if (page.id === 'page1') {
   page.querySelector('#r1').onclick = function() {
     document.querySelector('#myNavigator').pushPage('page2.html', {data: {title: 'Page 2'}});
@@ -76,9 +80,25 @@ if (page.id === 'page4') {
  });
   </script>
 </head>
+
 <body>
+  <ons-navigator swipeable id="myNavigator" page="top.html"></ons-navigator>
+<template id="top.html">
+  <ons-page id="top">
+    <ons-toolbar>
+      <div class="center">心理テスト</div>
+    </ons-toolbar>
+    <br>
+    <p><style="margin-left:auto; margin-right:auto;"" ><strong>【説明】</strong></p>
+ダイエットに運動不足は禁物とわかっているけれど、ジム通いやランニングなどは続かない…。<br>
+定期的に時間をとってトレーニングをするのが苦手なら、生活の中に運動をプラスして習慣化するのも手。<br>
+あなたが無理なく続けられるスキマ時間エクサを、深層心理から探ってみて。<br><br><br>
+<p><button class="button button--outline" id="top" style="width: 95%; margin: 0 auto;">【心理テストにトライ！】</button></p>
+<a href="https://ameblo.jp/morifuyumi/" ><font color=red>森冬生さん監修：公式ブログ</font></a>
+  </ons-page>
+</template>
+
   <!--問題1-->
-<ons-navigator swipeable id="myNavigator" page="page1.html"></ons-navigator>
 <template id="page1.html">
   <ons-page id="page1">
     <ons-toolbar>
@@ -280,13 +300,15 @@ if (page.id === 'page4') {
 <template id="page-a.html">
   <ons-page id="page-a">
     <ons-toolbar>
-      <div class="center">心理テスト</div>
+      <div class="left"><ons-back-button onclick="window.location.href='Home.html'">TOP</ons-back-button></div>
     </ons-toolbar>
     <p><h2>「階段を使う！」を習慣にして代謝UP！<h2></p>
        <ul class="list">
     <li class="list-item list-item--tappable">
     <div class="list-item__left">
-     向上心高めのあなたは、1度決めて習慣化すると何事も長続きするタイプ。これからは脱エスカレーター＆エレベーターを実践してみない？　駅や建物内などで“基本、階段を使う”！　毎日それを心がけるだけで、代謝量が上がり、痩せやすい体になりそう。正しい姿勢で腕を振りながら昇り降りするのが効果的。
+     向上心高めのあなたは、1度決めて習慣化すると何事も長続きするタイプ。<br>これからは脱エスカレーター＆エレベーターを実践してみない？<br>
+     駅や建物内などで“基本、階段を使う”！<br>　
+     毎日それを心がけるだけで、代謝量が上がり、痩せやすい体になりそう。正しい姿勢で腕を振りながら昇り降りするのが効果的。
     </div> 
     </li>
     </ul>
@@ -296,13 +318,16 @@ if (page.id === 'page4') {
 <template id="page-b.html">
   <ons-page id="page-b">
     <ons-toolbar>
-      <div class="center">心理テスト</div>
+      <div class="left"><ons-back-button onclick="window.location.href='Home.html'">TOP</ons-back-button></div>
     </ons-toolbar>
     <p><h2>「風呂トレ」でデトックス＆美痩せを！！<h2></p>
        <ul class="list">
     <li class="list-item list-item--tappable">
     <div class="list-item__left">
-   いつも少し頑張りすぎるあなたは、ストレスをためやすいタイプ。リラックスしながらバスタイムにできる“風呂トレ”がオススメ！　低めの温度の湯船の中で自分のペースでストレッチを。お風呂の浮力で楽に運動できるし、寝る前に行えば睡眠中に脂肪燃焼効果も期待できそう。    </div> 
+   いつも少し頑張りすぎるあなたは、ストレスをためやすいタイプ。<br>
+   リラックスしながらバスタイムにできる“風呂トレ”がオススメ！<br>
+   　低めの温度の湯船の中で自分のペースでストレッチを。<br>
+   お風呂の浮力で楽に運動できるし、寝る前に行えば睡眠中に脂肪燃焼効果も期待できそう。    </div> 
     </li>
     </ul>
 </template>
@@ -312,13 +337,16 @@ if (page.id === 'page4') {
 <template id="page-c.html">
   <ons-page id="page-c">
     <ons-toolbar>
-      <div class="center">心理テスト</div>
+      <div class="left"><ons-back-button onclick="window.location.href='Home.html'">TOP</ons-back-button></div>
     </ons-toolbar>
     <p><h2>「ながら運動」でちりつも筋トレ！<h2></p>
        <ul class="list">
     <li class="list-item list-item--tappable">
     <div class="list-item__left">
-  合理的で器用なあなたは、2つのことを平行してやるのが得意なタイプ。そんなあなたにピッタリなのは「ながら運動」。歯磨きしながらかかとの上げ下ろしをしたり、テレビを見ながら腰ひねりやスクワットをしたり…。“ちりも積もれば山となる”で、気がつけば、筋肉強化できそう！    </li>
+  合理的で器用なあなたは、2つのことを平行してやるのが得意なタイプ。<br>
+  そんなあなたにピッタリなのは「ながら運動」。<br>
+  歯磨きしながらかかとの上げ下ろしをしたり、テレビを見ながら腰ひねりやスクワットをしたり…。<br>
+  “ちりも積もれば山となる”で、気がつけば、筋肉強化できそう！    </li>
     </ul>
 </template>
 
@@ -327,13 +355,16 @@ if (page.id === 'page4') {
 <template id="page-d.html">
   <ons-page id="page-d">
     <ons-toolbar>
-      <div class="center">心理テスト</div>
+      <div class="left"><ons-back-button onclick="window.location.href='Home.html'">TOP</ons-back-button></div>
     </ons-toolbar>
     <p><h2>「お腹をへこますドローイン」でインナーマッスルを鍛えて！<h2></p>
        <ul class="list">
     <li class="list-item list-item--tappable">
     <div class="list-item__left">
-  縛られるのが嫌いなあなたは、時間帯や場所に関係なくいつでもできる運動が理想的。オススメは、腹筋を使った“ドローイン”。息を吸い込みながらお腹をへこませ、息を吐きながらさらにお腹をへこませて、そのまましばらくキープ。気が向いたときにやっているうちに、インナーマッスルが鍛えられるはず！    </ul>
+  縛られるのが嫌いなあなたは、時間帯や場所に関係なくいつでもできる運動が理想的。<br>
+  オススメは、腹筋を使った“ドローイン”。<br>
+  息を吸い込みながらお腹をへこませ、息を吐きながらさらにお腹をへこませて、そのまましばらくキープ。<br>
+  気が向いたときにやっているうちに、インナーマッスルが鍛えられるはず！    </ul>
 </template>
 
 </body>
