@@ -217,7 +217,7 @@
       <div class="title"><ons-icon icon="ion-aperture" size="30px" fixed-width="true"></ons-icon>写真</div>
       <div class="content">before&after</div>
     </ons-card>
-    <ons-card onclick="window.location.href='Share.html';">
+    <ons-card onclick="window.location.href='kiryuu5.html';">
       <div class="title"><ons-icon icon="ion-bonfire" size="30px" fixed-width="true"></ons-icon>交流</div>
       <div class="content">毎日の気持ちを書きます.</div>
     </ons-card>
@@ -226,8 +226,8 @@
       <div class="content">運動以来のデータ分析.</div>
     </ons-card>
     <ons-card onclick="window.location.href='keju3.html';">
-      <div class="title"><i class="fas fa-book-open" size="3x" style="margin-left:10px;"> </i>おすすめ運動</div>
-      <div class="content">オススメ運動の提示と説明</div>
+      <div class="title"><i class="fas fa-book-open" size="3x" style="margin-left:10px;"> </i>習慣化運動テスト</div>
+      <div class="content">テストの結果に基づいて簡単な運動を推薦する．</div>
     </ons-card>
     <ons-card onclick="window.location.href='firstcoding/lujie2.html';">
       <div class="title"><i class="fas fa-star-half" size="3x" style="margin-left:10px;"></i></ons-icon>達成メーセージ</div>
@@ -270,38 +270,24 @@
  <!--　目標と記録　ページ　-->
 <template id="target.html">
   <ons-page id="target-page">
-    
-    <ons-list-item>
-      <!--
-      <ons-card style="width:65%;height:50px;background-color:#2ecc71">aa</ons-card>
-      <ons-card style="width:25%;height:50px;background-color:#3498db">bb</ons-card>
-      -->
-      <p>
-      <div style="width:60%">
-        <canvas id="chart-area" ></canvas>
-      </div>
-      <div style="width:40%">
-        <ons-card style="background-color:#2ecc71" onclick="fn.pushPage({'id': 'tar_complete.html', 'title': '達成した目標'}, 'fade-ios')">
-          目標記録
-        </ons-card>
-        <ons-card style="background-color:#3498db" onclick="fn.pushPage({'id': 'tar_defeate.html', 'title': '失敗した目標'}, 'fade-ios')">
-          実績記録
-        </ons-card>
-      </div>
-      </p>
-    </ons-list-item>
     <div>
-      <div style="height:150px">
-        <ons-carousel id="carousel" fullscreen swipeable auto-scroll overscrollable initial-index="1">
-      <!--月間記録-->
-      <ons-carousel-item class="carousel-item" style="background-color: gray"> 
+      <div style="height:100px">
+        <ons-carousel id="carousel" fullscreen swipeable auto-scroll overscrollable initial-index="0">
+      <!--当日記録-->
+      <ons-carousel-item class="carousel-item" style="background-color: white"> 
+        <div style="text-align : center">
+          <ons-list-header style="width: 350px;display: inline-block;text-align : center;font-size:15px">今日の目標</ons-list-header>
+          <ons-list-item style="width: 350px;display: inline-block;background-color:#FFF ">
+              <p style="text-align : center">運動時間: 0分</p> 
+              <p style="text-align : center">カロリー消費: 0kcal</p>
+          </ons-list-item>
+        </div>
       </ons-carousel-item>
       <!--週間記録-->
       <ons-carousel-item class="carousel-item" style="background-color: white">
         <div style="text-align : center">
-          <ons-list-header style="width: 350px;display: inline-block;text-align : center;font-size:15px">今週設定した目標</ons-list-header>
+          <ons-list-header style="width: 350px;display: inline-block;text-align : center;font-size:15px">週間の目標</ons-list-header>
           <ons-list-item style="width: 350px;display: inline-block;background-color:#FFF ">
-            <p class="tar_mess" style="margin-top:-20px"></p>
             <p>   
               <div style="width:14%;margin-top:-20px">
                 <p style="text-align : center">日</p>
@@ -335,32 +321,43 @@
           </ons-list-item>
         </div>
       </ons-carousel-item>
-      <!--年間記録-->
-      <ons-carousel-item class="carousel-item" style="background-color: blue">
-        
-      </ons-carousel-item>
     </ons-carousel>
-
-    <div class="dots">
-      <span id="dot0" class="dot" onclick="fn.swipe(this)">
-        &#9679;
-      </span>
-      <span id="dot1" class="dot" onclick="fn.swipe(this)">
-        &#9675;
-      </span>
-      <span id="dot2" class="dot" onclick="fn.swipe(this)">
-        &#9675;
-      </span>
-    </div>
       </div>
     </div>
-    <ons-card style="height:90px" onclick="fn.pushPage({'id': 'target_set.html', 'title': '目標設定'})">
+    
+    <ons-list-item>
+      <!--
+      <ons-card style="width:65%;height:50px;background-color:#2ecc71">aa</ons-card>
+      <ons-card style="width:25%;height:50px;background-color:#3498db">bb</ons-card>
+      -->
+      <p>
+      <div style="width:60%">
+        <canvas id="chart-area" ></canvas>
+      </div>
+      <div style="width:40%">
+        <ons-card style="background-color:#2ecc71" onclick="fn.pushPage({'id': 'tar_complete.html', 'title': '達成した目標'}, 'fade-ios')">
+          目標記録
+        </ons-card>
+        <ons-card style="background-color:#3498db" onclick="fn.pushPage({'id': 'tar_defeate.html', 'title': '失敗した目標'}, 'fade-ios')">
+          実績記録
+        </ons-card>
+      </div>
+      </p>
+    </ons-list-item>
+
+    <ons-card style="height:120px" onclick="fn.pushPage({'id': 'target_set.html', 'title': '目標設定'})">
       <div class="title"><i class="fas fa-bullseye" size="5x"></i> 目標設定</div>
-      <div class="content"><p id="target_p">運動時間の目標設定.</p></div>
+      <div class="content">
+        <p id="target_p">運動時間の目標設定.</p><p class="tar_mess"></p>
+      </div>
     </ons-card>
     <ons-card style="height:90px" onclick="fn.pushPage({'id': 'sport_in.html', 'title': '実績記録'})">
       <div class="title"><ons-icon icon="ion-compass" size="23px" fixed-width="true"></ons-icon>実績記録</div>
       <div class="content"><p id="performance_p">運動時間の実績を記録する.</p></div>
+    </ons-card>
+    <ons-card style="height:90px" onclick="fn.pushPage({'id': 'sport_in.html', 'title': 'オススメ運動'})">
+      <div class="title"><ons-icon icon="ion-compass" size="23px" fixed-width="true"></ons-icon>オススメ運動</div>
+      <div class="content"><p id="performance_p">推奨運動.</p></div>
     </ons-card>
     
 
@@ -382,7 +379,11 @@
                         //localStorage.getItem("Time");
       ons.ready(function(){
         var tarmess = localStorage.getItem("Tar_message");
-        document.querySelector('ons-list-item .tar_mess').innerHTML += tarmess;
+        if(tarmess === null){
+           document.querySelector('ons-card .tar_mess').innerHTML +="(目標未設定)";
+        } else{
+          document.querySelector('ons-card .tar_mess').innerHTML += tarmess;
+        }
         show_chart();
       });
 
