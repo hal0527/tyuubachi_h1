@@ -1,0 +1,88 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+    <script src="components/loader.js"></script>
+    <script src="lib/onsenui/js/onsenui.min.js"></script>
+  
+
+    <link rel="stylesheet" href="components/loader.css">
+    <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
+    <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
+    <link rel="stylesheet" href="css/style.css">
+ 
+    <script>
+        //
+        // TODO: Write JavaScript code here
+        //
+    </script>
+</head>
+<body>
+    <ons-toolbar>
+      <div class="left"><ons-toolbar-button onclick="window.location.href='Home.html';">Back</ons-toolbar-button></div>
+      <div class="center">目標達成に</div>
+    </ons-toolbar>
+    <p style="margin-top:50px">&nbsp;&nbsp;&nbsp;自分へのご褒美を考えよう！</p>
+    <ons-list-header>
+      目標にたどり着いたら、どんないいことがあるでしょう？<br/>
+      行動目標続けたら、何かいいことありそう？
+    </ons-list-header>
+    <ons-list-item>
+      <ons-input id="goodpoint_input" float maxlength="100" placeholder="いいこと"></ons-input>
+    </ons-list-item>
+  
+    <ons-list-header>
+      日常でちょっと頑張る毎日の目標を決めましょう!<br/>
+      現在の行動の問題点。
+    </ons-list-header>
+    <ons-list-item>
+      <ons-input id="badpoint_input" float maxlength="100" placeholder="存在の問題"></ons-input>
+    </ons-list-item>
+
+    <ons-list-header>
+      具体的な戦略を考えよう!行動目標にはどんな障害がある？<br/>
+      どうやって、クリアしようか？
+    </ons-list-header>
+    <ons-list-item>
+      <ons-input id="badpoint_input" float maxlength="100" placeholder="解消方法"></ons-input>
+    </ons-list-item>
+
+    <ons-list-header>
+      行動目標、あなたのやる気と自信のほどは？
+    </ons-list-header>
+    <ons-list-item>
+      <ons-select id="select_input">
+            <option value="全然ない">
+              全然ない
+            </option>
+            <option value="まあやれそう">
+              まあやれそう
+            </option>
+            <option value="やる気十分">
+              やる気十分
+            </option>
+            <option value="自信満々">
+              自信満々
+            </option>
+          </ons-select>
+    </ons-list-item>
+
+     <ons-list-header>
+      あなたの応援団を決めよう。
+    どなたにどうやって、応援してもらおう？
+    </ons-list-header>
+    <ons-list-item>
+      <div class="center" style="width:30%">
+        <ons-input id="badpoint_input"  float maxlength="20" placeholder="応援団の名前"></ons-input>
+      </div>
+      <div class="right right-label" style="width:70%">
+        <ons-input id="badpoint_input" float maxlength="100" placeholder="応援方法"></ons-input>
+      </div>
+    </ons-list-item>
+    <p style="text-align:center">
+      <ons-button style="width:50%">確認</ons-button>
+    </p>
+</body>
+</html>
