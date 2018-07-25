@@ -24,9 +24,94 @@
   /* margin:0;
         padding:0; */
 	}
+
+.dv-big-page{
+clear:both;
+width: 960px;
+height: 30px;
+margin-left:auto;
+margin-right:auto;
+}
+.dv-page-position-box{
+width:320px;
+height:30px;
+margin:auto;
+}
+.dv-margin-left{
+float:left;
+width: 210px;
+height: 30px;
+}
+.dv-page-box{
+float:left;
+margin-top:40px;
+margin-bottom:40px;
+width: 750px;
+height: 30px;
+}
+.li_prew{
+    width: 38px;
+    height: 28px;
+    border: solid 1px #e3e3e3;
+    text-align: center;
+    list-style: none;
+    cursor: pointer;
+    float: left;
+    font-size: 18px;
+    color:#858585;
+    line-height:28px;
+}
+.li_btn{
+    width: 38px;
+    height: 28px;
+    border: solid 1px #e3e3e3;
+    text-align: center;
+    list-style: none;
+    cursor: pointer;
+    float: left;
+    line-height:28px;
+    font-size: 18px;
+    color:#858585;
+}
+.li_btn:hover{
+cursor: pointer;
+line-height:28px;
+    font-size: 18px;
+    background-color: #00bcd4;
+    color:#fff;
+}
+ 
+.li_next{
+    width: 38px;
+    height: 28px;
+    border: solid 1px #e3e3e3;
+    text-align: center;
+    list-style: none;
+    cursor: pointer;
+    float: left;
+    line-height:28px;
+    font-size: 18px;
+    color:#858585;
+}
+.dv_btns_box{
+width: 280px;
+}
+.li_next:hover,
+.li_prew:hover{
+cursor: pointer;
+line-height:28px;
+    font-size: 18px;
+    background-color: #00bcd4;
+    color:#fff;
+}
+#div_li_btn_mid{
+    width: 240px;
+    height: 30px;
+    float: left;
+    overflow: hidden;
+}
+
 	</style>
-
-
   <ons-tabbar swipeable position="auto">
     <ons-tab page="tab1.html" label="実績" icon = "chart-bar" >
      <!-- icon="ion-home, material:md-home" > -->
@@ -40,113 +125,89 @@
   <template id="tab1.html">
   <ons-page id="Tab1">
 
-        <ons-card  >
-      <div>
-        <canvas id="canvas_1"></canvas>
+    <ons-toolbar>
+      <div class="center">
+        <ons-segment id="segment" tabbar-id="tabbar" style="width: 100%">
+          <button>週</button>
+          <button>月</button>
+          <button>年</button>
+          <button>総</button>
+        </ons-segment>
       </div>
-      <!-- <div> -->
+    </ons-toolbar>
+
+    <ons-tabbar id="tabbar">
+      <ons-tab page="report_week.html" active></ons-tab>
+      <ons-tab page="report_month.html"></ons-tab>
+      <ons-tab page="report_year.html"></ons-tab>
+      <ons-tab page="report_total.html"></ons-tab>
+    </ons-tabbar>
+  </ons-page>
+</template>
+
+
+  <template id="report_week.html">
+  <ons-page >
+      <div >
+        <!-- <ons-card  > -->
+            <div>
+            <canvas id="canvas_week"></canvas>
+            </div>
+        <div class="content"   style="font-size:11px" style="text-align:left" >7月10日　運動時間</div>
+        <div class="content" style="text-align:center" >35<ons-icon icon="ion-compass" size="30px" fixed-width="true"></ons-icon></div>
+
+                    <!-- <div class="title" style="font-size:16px"><i class="fas fa-shoe-prints"></i>ウォーキング</div> -->
+                    <div class="content">
+                      <p>時間(min)：</p>
+                      <p style="text-align:center" class="walking_p">60</p>
+                      <p>消費カロリー(kcal)：</p>
+                      <p style="text-align:center">300kcal</p>
+                    </div>
+          <!-- </ons-card>        -->
+      </div>
+  </ons-page>
+</template>
+  <template id="report_month.html">
+    <ons-page >
+        <ons-card  >
+            <div>
+            <canvas id="canvas_3"></canvas>
+            </div>
         </ons-card  >
-
-  <div style=>
-      <!-- <ons-card style="height:210px" > -->
-        <ons-card  >
-      <div class="content"   style="font-size:11px" style="text-align:left" >7月10日　運動時間</div>
-       <div class="content" style="text-align:center" >35<ons-icon icon="ion-compass" size="30px" fixed-width="true"></ons-icon></div>
-
-                  <!-- <div class="title" style="font-size:16px"><i class="fas fa-shoe-prints"></i>ウォーキング</div> -->
-                  <div class="content">
-                    <p>時間(min)：</p>
-                    <p style="text-align:center" class="walking_p">60</p>
-                    <p>消費カロリー(kcal)：</p>
-                    <p style="text-align:center">300kcal</p>
-                  </div>
-        </ons-card>
-
-
-            <!-- <ons-card style="height:100px">
-              <div class="title" style="font-size:16px"><i class="fas fa-bicycle"></i> 自転車</div>
-              <div class="content">時間：<p　style="text-align:center" class="bicycle_p">0 時</p></div>
-            </ons-card> -->
-       
-      </div>
-
-  <!-- <ul class="list">
-    <li class="list-item list-item--expandable expanded">
-      <div class="list-item__top">
-        <div class="list-item__center">運動時間</div>
-
-        <div class="list-item__right">
-          <span class="list-item__expand-chevron">
-
-            完成
-
-
-          </span>
-        </div>
-
-      </div>
-      <div class="list-item__expandable-content"></div>
-
-    </li>
-  </ul>
-
-    <ons-list-header>運動総時間</ons-list-header>
-    <ons-list-item>
-      <div>
-        <ons-list id="pending-list">
-          <p id="total_time"></p>
-        </ons-list>
-      </div>
-    </ons-list-item>
-
-    <ons-list-header>履歴</ons-list-header>
-
-    <ons-list-item>
-      <div>
-        <ons-list id="performance-list">
-        </ons-list>
-      </div>
-    </ons-list-item>
-
-</div> -->
-  </ons-page>
+    </ons-page>
 </template>
 
-
-  <template id="tab2.html">
-  <ons-page id="Tab2">
+  <template id="report_year.html">
+    <ons-page >
         <ons-card  >
-      <div>
-        <canvas id="canvas_3"></canvas>
-      </div>
-              </ons-card  >
-  </ons-page>
+            <div>
+            <canvas id="canvas_year"></canvas>
+            </div>
+        </ons-card  >
+    </ons-page>
 </template>
-
-
-
-      <!-- <div>
-        <canvas id="canvas_1"></canvas>
-      </div> -->
-<!-- 
-	<div id="container"  >
-		<canvas id="canvas_2" ></canvas>
-	</div> -->
-<!-- <div> </div>
-  	<div id="container"> 
-		<canvas id="canvas_3"></canvas>
-	</div> -->
-
     
+<template id="report_total.html">
+    <ons-page >
+        <ons-card  >
+            <div>
+            <canvas id="canvas_total"></canvas>
+            </div>
+        </ons-card  >
+    </ons-page>
+</template>
+
   <script >
 //  var apikey = "fc3a8b35e955fe5f0a83a49be8c1e60a5321974325e10739e7f8734b27665bb4";
 //  var clientkey = "f8e0a822a6a2956144237a5a2ece5053bc2f6ca392835b70fcaf1f6b3b5d609f";
-
+alert("11");
    var apikey ="dd411920ff7852038a3d55414c3447b88c5e842ace7268254078b113d065398c";
    var clientkey ="23304def33b24aeed4fe1ae5325a77c1ffbe3e44067c0a3716b47aefd4297e05";
-
+   var arr_week =new Array(7);
+    var arr_month=new Array(31);
     var arr_timeList;
     var sum_time;
+    var user_id = localStorage.getItem("objectId");
 
 		var SPORTS = ['ランニング', 'ウォーキング', 'ラジオ体操', '自転車', 'バドミントン', '野球', 'ヨガ', 'テニス', '水泳', 'ゴルフ'];
 		var color = Chart.helpers.color;
@@ -156,74 +217,62 @@
 
   // function get_Active_info(){
     var ncmb = new NCMB(apikey,clientkey);
-  
-    // 保存先クラスの作成
+      // 保存先クラスの作成
     var TestClass = ncmb.DataStore("recordsClass");
-    arr_timeList = new Array(["月曜日",0],
-                                         ["火曜日",0],
-                                         ["水曜日",0],
-                                         ["木曜日",0],
-                                         ["金曜日",0],
-                                         ["土曜日",0],
-                                         ["日曜日",0]);
-    TestClass.fetchAll().then(function(results){
+     arr_timeList = new Array();
+    // arr_timeList = new Array(["月曜日",0],
+    //                                      ["火曜日",0],
+    //                                      ["水曜日",0],
+    //                                      ["木曜日",0],
+    //                                      ["金曜日",0],
+    //                                      ["土曜日",0],
+    //                                      ["日曜日",0]);
+
+          // targetClass.equalTo("user_Id",user_id)
+          //      .fetchAll()
+          //      .then(function(results){
+
+    TestClass.equalTo("user_Id",user_id)
+                 .fetchAll().then(function(results){
     //TestClass.fetchAll().then(() =>{
+        var flg = "";
+
         for (var i = 0; i < results.length; i++) {
-          var object = results[i];  
-                if ( object.get("Week") == "月曜日" ){
-                    arr_timeList[0][1] =  arr_timeList[0][1]  + parseInt( object.get("Time"));
-                }
-                else if ( object.get("Week") == "火曜日" ){
-                    arr_timeList[1][1] = arr_timeList[1][1]  +  parseInt( object.get("Time"));
-                }
-                else if ( object.get("Week") == "水曜日" ){
-                    arr_timeList[2][1] = arr_timeList[2][1]  +  parseInt( object.get("Time"));
-                }
-                else if ( object.get("Week") == "木曜日" ){
-                    arr_timeList[3][1] = arr_timeList[3][1]  +  parseInt( object.get("Time"));
-                }
-                else if ( object.get("Week") == "金曜日" ){
-                    arr_timeList[4][1] = arr_timeList[4][1]  +  parseInt( object.get("Time"));
-                }
-                else if ( object.get("Week") == "土曜日" ){
-                    arr_timeList[5][1] = arr_timeList[5][1]  +  parseInt( object.get("Time"));
-                }
-                else if ( object.get("Week") == "日曜日" ){
-                    arr_timeList[6][1] = arr_timeList[6][1]  +  parseInt( object.get("Time"));
-                }
-        
-               if (object.get("Sport") =="ランニング"){
-                  arr_chart_2[0] = arr_chart_2[0] +parseInt( object.get("Time"));
-               }
-               else if (object.get("Sport") =="ウォーキング"){
-                  arr_chart_2[1] = arr_chart_2[1] +parseInt( object.get("Time"));
-               }
-               else if (object.get("Sport") =="ラジオ体操"){
-                  arr_chart_2[2] = arr_chart_2[2] +parseInt( object.get("Time"));
-               }
-               else if (object.get("Sport") =="自転車"){
-                  arr_chart_2[3] = arr_chart_2[3] +parseInt( object.get("Time"));
-               }
-               else if (object.get("Sport") =="バドミントン"){
-                  arr_chart_2[4] = arr_chart_2[4] +parseInt( object.get("Time"));
-               }
-               else if (object.get("Sport") =="野球"){
-                  arr_chart_2[5] = arr_chart_2[5] +parseInt( object.get("Time"));
-               }
-               else if (object.get("Sport") =="ヨガ"){
-                  arr_chart_2[6] = arr_chart_2[6] +parseInt( object.get("Time"));
-               }
-               else if (object.get("Sport") =="テニス"){
-                  arr_chart_2[7] = arr_chart_2[7] +parseInt( object.get("Time"));
-               }
-               else if (object.get("Sport") =="水泳"){
-                  arr_chart_2[8] = arr_chart_2[8] +parseInt( object.get("Time"));
-               }
-               else if (object.get("Sport") =="ゴルフ"){
-                  arr_chart_2[9] = arr_chart_2[9] +parseInt( object.get("Time"));
-               }
-          // sum_time +=  parseInt( object.get("Time"));
-        
+            var object = results[i];  
+            var var_date = new Date(object.get("createDate")); 
+
+            var n_year    = var_date.getFullYear(); 
+            var n_month = var_date.getMonth()+1;
+            var n_date    = var_date.getDate();
+            
+           var str_date = n_year +"-" + n_month+"-"  + n_date;
+   
+           var j = 0;
+           flg = "";
+           for( j = 0 ;j < arr_timeList.length;j++){
+            
+              if ( arr_timeList[j][1]  == str_date ){
+                 flg = "X";
+                 break;
+              }
+           }
+           
+           if (flg == "X"){
+            arr_timeList[j][2] = arr_timeList[j][2] + parseInt( object.get("Time"));
+           }
+           else{
+               if (arr_timeList.length == 0 ) {
+                 arr_timeList[0] = new Array(); 
+                 arr_timeList[0][1] =str_date;
+                 arr_timeList[0][2] =parseInt( object.get("Time"));                 
+              }
+              else{
+                var row = arr_timeList.length;
+                 arr_timeList[row] = new Array(); 
+                arr_timeList[row][1] =str_date;
+                arr_timeList[row][2] =parseInt( object.get("Time"));   
+              }
+           }
         }
        res();   
       })
@@ -231,14 +280,96 @@
         console.log(err);
       })
       .then(function(){
-
-        show_chart();
+// alert("aa222"); 
+        // show_chart();
+         show_chart_week();
         show_chart4();
+        show_chart_year();
         // show_chart_2();
         // show_chart_3();
       });
 }
 
+function get_arrayData(strType){
+   var myDate = new Date();
+    var n_year = myDate.getFullYear(); 
+    var n_month = myDate.getMonth()+1;
+    var n_date = myDate.getDate();
+    var n_day = myDate.getDay();
+
+  if (strType == "1") {
+//     // 週
+        delete arr_week;
+        arr_week[0] = 0;
+        arr_week[1] = 0;
+        arr_week[2] = 0;
+        arr_week[3] = 0;
+        arr_week[4] = 0;
+        arr_week[5] = 0;
+        arr_week[6] = 0;
+
+        while(n_day){
+
+        var str_curDate = n_year +"-" + n_month+"-"  + n_date;
+
+        for(var i=0;i<arr_timeList.length;i++){
+          if ( str_curDate == arr_timeList[i][1]  ){            
+            arr_week[n_day - 1] = arr_timeList[i][2];
+            break; 
+          }  
+        }
+      n_day = n_day - 1;
+  }
+  }else if (strType == "2") {
+
+  }
+}
+
+function show_chart_week(){
+    
+    get_arrayData("1");
+
+    var barChartData = {
+          scaleStartValue : null,  //y轴的起始值
+          scaleLabel : "<%=value%>",// 标签显示值
+          scaleBeginAtZero: true, // y轴标记是否从0开始
+        labels: ['月','火','水','木','金','土','日' ],
+        datasets: [
+        {
+            label: '',
+            data: [
+
+        arr_week[0] ,
+        arr_week[1] ,
+        arr_week[2] ,
+        arr_week[3] ,
+        arr_week[4] ,
+        arr_week[5] ,
+        arr_week[6]             
+            ],
+            borderColor : "rgba(54,164,235,0.8)",
+            backgroundColor : "rgba(54,164,235,0.5)",
+        },
+        ],
+      };
+
+    var  ctx = document.getElementById("canvas_week").getContext("2d");
+      window.myBar = new Chart(ctx, {
+          type: 'bar', // ここは bar にする必要があります
+          data: barChartData,
+          // options: complexChartOption
+			options: {
+				responsive: true,
+				title: {
+					display: true,
+//					text: 'Chart with Multiline Labels'
+				},
+			}
+      });
+
+
+
+}
 // chartの表示
 function show_chart(){
 		var config = {
@@ -270,10 +401,53 @@ function show_chart(){
 			}
 		};
 
-			var ctx = document.getElementById('canvas_1').getContext('2d');
+			var ctx = document.getElementById('canvas_week').getContext('2d');
 			window.myLine = new Chart(ctx, config);
     }
 
+function  show_chart_year(){
+//     var complexChartOption = {
+//     responsive: true,
+// };
+
+    var barChartData = {
+      scaleStartValue : null,  //y轴的起始值
+      scaleLabel : "<%=value%>",// 标签显示值
+      scaleBeginAtZero: true, // y轴标记是否从0开始
+    labels: ['2015','2016','2017','2018'    ],
+    datasets: [
+    {
+        label: '総：1200km',
+        data: ['180','400','450','200'],
+        borderColor : "rgba(54,164,235,0.8)",
+        backgroundColor : "rgba(54,164,235,0.5)",
+    },
+    // {
+    //     label: 'sample-bar',
+    //     data: ['0.3','0.1','0.1','0.3','0.4','0.2','0.0',
+    //         '0.2','0.3','0.11','0.5','0.2','0.5','0.4',
+    //         '0.0','0.3','0.7','0.3','0.6','0.4','0.9',
+    //         '0.7','0.4','0.8','0.7','0.4','0.7','0.8'
+    //     ],
+    //     borderColor : "rgba(54,164,235,0.8)",
+    //     backgroundColor : "rgba(54,164,235,0.5)",
+    // },
+    ],
+};
+    var  ctx = document.getElementById("canvas_year").getContext("2d");
+      window.myBar = new Chart(ctx, {
+          type: 'bar', // ここは bar にする必要があります
+          data: barChartData,
+          // options: complexChartOption
+			options: {
+				responsive: true,
+				title: {
+					display: true,
+//					text: 'Chart with Multiline Labels'
+				},
+			}
+      });
+    }
 
     function show_chart_2(){
       var barChartData = {
@@ -365,9 +539,6 @@ function show_chart(){
 					}
 				}
 			});
-		// };
-
-
     }
 function show_chart4(){
 
