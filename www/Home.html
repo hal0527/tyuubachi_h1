@@ -680,7 +680,7 @@
       </p>
     </ons-list>
     <script>
-      ons.ready(function() { 
+      
         var user_img = localStorage.getItem("user_img");
         if( user_img === null){
           user_img = "https://placekitten.com/200/300";
@@ -699,7 +699,7 @@
         document.querySelector('.card_02_2').innerHTML ="BMI<br />" +Math.round(bmi*100)/100;
         document.querySelector('.card_02_3').innerHTML = "身長(cm)<br />"+height;
         total_data();
-      });
+      
 
       function logout(){
           localStorage.removeItem("LoginUsername");
