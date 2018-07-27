@@ -147,9 +147,14 @@ line-height:28px;
 
 
   <template id="report_week.html">
-  <ons-page >
+  <ons-page id="report_week-page">
       <div >
         <!-- <ons-card  > -->
+          <div>
+            <ons-icon icon="md-face"  id = "page_back"></ons-icon>
+            
+            <ons-icon icon="md-face"  id = "page_next"></ons-icon>
+          </div>
             <div>
             <canvas id="canvas_week"></canvas>
             </div>
@@ -200,7 +205,36 @@ line-height:28px;
   <script >
 //  var apikey = "fc3a8b35e955fe5f0a83a49be8c1e60a5321974325e10739e7f8734b27665bb4";
 //  var clientkey = "f8e0a822a6a2956144237a5a2ece5053bc2f6ca392835b70fcaf1f6b3b5d609f";
-alert("11");
+  var G_weeks;
+
+  document.addEventListener('init', function(event) {
+  // console.log('This is a lifecycle event!', event.target);
+
+  var page = event.target;
+  if (page.matches('#report_week-page')) {
+    // page.querySelector('ons-toolbar .center').innerHTML = 'My app';
+    // page.querySelector('ons-button').onclick = function() {
+      page.querySelector('ons-icon#page_back').onclick = function() {
+      // ons.notification.alert('Hello world!');
+          //週実績の取得
+          // get_arrayData("1",-1)
+          show_chart_week(-1);
+    };
+
+      page.querySelector('ons-icon#page_next').onclick = function() {
+      // ons.notification.alert('Hello world!');
+          //週実績の取得
+          // get_arrayData("1",1);
+          show_chart_week(1);
+
+    };
+
+  }
+});
+
+
+  // function 
+
    var apikey ="dd411920ff7852038a3d55414c3447b88c5e842ace7268254078b113d065398c";
    var clientkey ="23304def33b24aeed4fe1ae5325a77c1ffbe3e44067c0a3716b47aefd4297e05";
    var arr_week =new Array(7);
@@ -232,9 +266,10 @@ alert("11");
           //      .fetchAll()
           //      .then(function(results){
 
-    TestClass.equalTo("user_Id",user_id)
+    // TestClass.equalTo("user_Id",user_id)
+    TestClass
                  .fetchAll().then(function(results){
-    //TestClass.fetchAll().then(() =>{
+    // TestClass.fetchAll().then(() =>{
         var flg = "";
 
         for (var i = 0; i < results.length; i++) {
@@ -244,7 +279,8 @@ alert("11");
             var n_year    = var_date.getFullYear(); 
             var n_month = var_date.getMonth()+1;
             var n_date    = var_date.getDate();
-            
+            var n_weekOfYear ;
+
            var str_date = n_year +"-" + n_month+"-"  + n_date;
    
            var j = 0;
@@ -264,13 +300,17 @@ alert("11");
                if (arr_timeList.length == 0 ) {
                  arr_timeList[0] = new Array(); 
                  arr_timeList[0][1] =str_date;
-                 arr_timeList[0][2] =parseInt( object.get("Time"));                 
+                 arr_timeList[0][2] =parseInt( object.get("Time"));  
+                 arr_timeList[0][3] =  String(object.get("week_Num"));
+                 arr_timeList[0][4] = var_date.getDay();               
               }
               else{
                 var row = arr_timeList.length;
                  arr_timeList[row] = new Array(); 
                 arr_timeList[row][1] =str_date;
-                arr_timeList[row][2] =parseInt( object.get("Time"));   
+                arr_timeList[row][2] =parseInt( object.get("Time")); 
+                arr_timeList[row][3] = String( object.get("week_Num"))
+                arr_timeList[row][4] = var_date.getDay();  
               }
            }
         }
@@ -282,7 +322,7 @@ alert("11");
       .then(function(){
 // alert("aa222"); 
         // show_chart();
-         show_chart_week();
+         show_chart_week(0);
         show_chart4();
         show_chart_year();
         // show_chart_2();
@@ -290,13 +330,41 @@ alert("11");
       });
 }
 
-function get_arrayData(strType){
+//
+  function getWeekOfYear(){
+        var today = new Date();
+        var firstDay = new Date(today.getFullYear(),0, 1);
+        var dayOfWeek = firstDay.getDay(); 
+        var spendDay= 1;
+        if (dayOfWeek !=0) {
+          spendDay=7-dayOfWeek+1;
+        }
+        firstDay = new Date(today.getFullYear(),0, 1+spendDay);
+        var d =Math.ceil((today.valueOf()- firstDay.valueOf())/ 86400000);
+        var result =Math.ceil(d/7);
+        return result+1;
+  };
+
+function get_arrayData(strType,offset){
    var myDate = new Date();
     var n_year = myDate.getFullYear(); 
     var n_month = myDate.getMonth()+1;
     var n_date = myDate.getDate();
     var n_day = myDate.getDay();
+    var n_weekOfYear;
 
+   if (offset == 0){
+     G_weeks = getWeekOfYear();
+    n_weekOfYear = n_year+"-"+G_weeks;
+  }
+   else{
+      G_weeks = G_weeks + offset;
+      n_weekOfYear = n_year+"-"+G_weeks;
+   }
+
+  //  alert(G_weeks);
+console.log("G_weeks:"+G_weeks);
+// n_weekOfYear
   if (strType == "1") {
 //     // 週
         delete arr_week;
@@ -308,26 +376,32 @@ function get_arrayData(strType){
         arr_week[5] = 0;
         arr_week[6] = 0;
 
-        while(n_day){
+        // while(n_day){
 
         var str_curDate = n_year +"-" + n_month+"-"  + n_date;
+// alert("arr_timeList.length:"+arr_timeList.length);
 
         for(var i=0;i<arr_timeList.length;i++){
-          if ( str_curDate == arr_timeList[i][1]  ){            
-            arr_week[n_day - 1] = arr_timeList[i][2];
-            break; 
+          // if ( str_curDate == arr_timeList[i][1]  ){
+            // alert(n_weekOfYear );
+            //  alert(arr_timeList[i][2]);
+
+            if (n_weekOfYear == arr_timeList[i][3] ){            
+              // alert(arr_timeList[i][2]);
+            arr_week[arr_timeList[i][4] - 1] = arr_timeList[i][2];
+            // break; 
           }  
         }
-      n_day = n_day - 1;
-  }
+  //     n_day = n_day - 1;
+  // }
   }else if (strType == "2") {
 
   }
 }
 
-function show_chart_week(){
-    
-    get_arrayData("1");
+function show_chart_week(offset){
+    //週実績の取得
+    get_arrayData("1",offset);
 
     var barChartData = {
           scaleStartValue : null,  //y轴的起始值
