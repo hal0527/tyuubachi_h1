@@ -271,13 +271,53 @@ line-height:28px;
 </template>
     
 <template id="report_total.html">
-    <ons-page >
+<ons-page id="report_total-page">
+      <ons-card style="height:250px">
+          <ons-list-item style="margin-top:-20px">
+            
+            <div  style='width:100%;text-align: center'>
+               <ons-icon icon="chess-king" ></ons-icon>
+              運動キャリア</div>
+          </ons-list-item>
+
+          <div style ="width:100%;margin-top:-20px">
+          <canvas id="canvas_total"></canvas>
+          </div>
+      </ons-card>
+      <ons-card>
+      <ons-list>
+        <ons-list-header>累計</ons-list-header>
+          <ons-list-item>
+            <div class="center">
+                <ons-icon icon="clock"  fixed-width="true" ></ons-icon>総時間
+            </div>
+            <div class="right" id ="total_time">
+            1000
+            </div>
+          </ons-list-item>
+          <ons-list-item>
+            <div class="center">
+              <ons-icon icon="fire"  fixed-width="true" ></ons-icon>消費カロリー(kcal)
+            </div>
+            <div class="right" id ="total_calories">1000</div>
+          </ons-list-item>
+          <!-- <ons-list-item>
+            <div class="center">
+              <ons-icon icon="chart-pie"  fixed-width="true" ></ons-icon>目標達成
+            </div>
+            <div class="right" id ="year_percent">0%</div>
+          </ons-list-item> -->
+      </ons-list>
+</ons-card>
+</ons-page>
+
+    <!-- <ons-page >
         <ons-card  >
             <div>
             <canvas id="canvas_total"></canvas>
             </div>
         </ons-card  >
-    </ons-page>
+    </ons-page> -->
 </template>
 
   <script >
@@ -324,13 +364,12 @@ line-height:28px;
   }
 });
 
-
-
    var apikey ="dd411920ff7852038a3d55414c3447b88c5e842ace7268254078b113d065398c";
    var clientkey ="23304def33b24aeed4fe1ae5325a77c1ffbe3e44067c0a3716b47aefd4297e05";
    var arr_week =new Array(7);
     var arr_month=new Array(31);
     var arr_year = new Array(12);
+    var arr_total = new Array(5);
     var arr_timeList;
     var sum_time;
     var user_id = localStorage.getItem("objectId");
@@ -404,6 +443,7 @@ line-height:28px;
          show_chart_week(0);
          show_chart_month(0);
         show_chart_year(0);
+        show_chart_total();
         // show_chart4();
 //        show_chart_year(0);
         // show_chart_2();
@@ -464,6 +504,8 @@ function get_arrayData(strType,offset){
     var month_total_calories = 0;
     var year_total_time = 0;
     var year_total_calories = 0;
+    var total_time = 0;
+     var total_calories = 0;
     var arr_index 
 
 
@@ -489,7 +531,6 @@ function get_arrayData(strType,offset){
           }
             n_monthOfYear = n_year+"-"+getFormatZero(G_months);
 
-            alert("aadas:"+n_monthOfYear);
    }else if(strType == "3"){
           if (offset == 0){
  
@@ -501,9 +542,7 @@ function get_arrayData(strType,offset){
           }
    }
 
-   
    var var_date = new Date("2018/01/01");
-
   var_date.setDate(var_date.getDate() + G_weeks * 7 -1);
   var str_day_to = var_date.getFullYear() + '-' + getFormatDate(var_date.getMonth() + 1) + '-' + getFormatDate(var_date.getDate());
   var_date.setDate(var_date.getDate() - 6 );
@@ -634,6 +673,34 @@ console.log("G_weeks:"+G_weeks);
               year_total_time = year_total_time + parseInt(arr_timeList[i][2]); 
           }  
         }
+  }else if (strType == "4") {
+     // 合計
+        delete arr_total;
+        arr_total[0] = 0;
+        arr_total[1] = 0;
+        arr_total[2] = 0;
+        arr_total[3] = 0;
+        arr_total[4] = 0;
+      
+
+        for(var i=0;i<arr_timeList.length;i++){
+                // alert("2018"+String(arr_timeList[i][1]).substring(0,4));
+            if (String(arr_timeList[i][1]).substring(0,4) == "2014"){ 
+              arr_total[0] = arr_total[0] + parseInt(arr_timeList[i][2]);
+            }else if (String(arr_timeList[i][1]).substring(0,4) == "2015"){ 
+              arr_total[1] = arr_total[1] + parseInt(arr_timeList[i][2]);
+            }else if (String(arr_timeList[i][1]).substring(0,4) == "2016"){ 
+              arr_total[2] = arr_total[2] + parseInt(arr_timeList[i][2]);
+            }else if (String(arr_timeList[i][1]).substring(0,4) == "2017"){ 
+              arr_total[3] = arr_total[3] + parseInt(arr_timeList[i][2]);
+            }else if (String(arr_timeList[i][1]).substring(0,4) == "2018"){ 
+              // alert("2018"+arr_total[4]);
+              arr_total[4] = arr_total[4] + parseInt(arr_timeList[i][2]);
+            }
+
+             total_time = total_time + parseInt(arr_timeList[i][2]); 
+           
+        }
   }
 
    if (strType == "1"){
@@ -659,6 +726,14 @@ console.log("G_weeks:"+G_weeks);
       document.querySelector('#year_calories').innerHTML = year_total_calories;
       year_percent = 100*(Math.floor(year_total_time/60) / 10);
       document.querySelector('#year_percent').innerHTML = year_percent+"%"; 
+
+}  else if (strType == "4"){
+      // var year_percent;
+      document.querySelector('#total_time').innerHTML =getFormatZero(Math.floor(total_time/60)) + ":" +getFormatZero(total_time%60)+":00" ;
+      total_calories =  parseInt(total_time*3/4); 
+      document.querySelector('#total_calories').innerHTML = total_calories;
+      // year_percent = 100*(Math.floor(total_time/60) / 10);
+      // document.querySelector('#total_percent').innerHTML = percent+"%"; 
 
 }
 
@@ -688,8 +763,10 @@ function show_chart_week(offset){
         arr_week[5] ,
         arr_week[6]             
             ],
-            borderColor : "rgba(54,164,235,0.8)",
-            backgroundColor : "rgba(54,164,235,0.5)",
+            // borderColor : "rgba(54,164,235,0.8)",
+             borderColor : "rgba(0,255,0,0.8)",
+            // backgroundColor : "rgba(54,164,235,0.5)",
+            backgroundColor : "rgba(0,255,0,0.5)",
         },
         ],
       };
@@ -754,8 +831,9 @@ function show_chart_month(offset){
         arr_month[29],
         arr_month[30]             
             ],
-            borderColor : "rgba(54,164,235,0.8)",
-            backgroundColor : "rgba(54,164,235,0.5)",
+             borderColor : "rgba(0,255,0,0.8)",
+            // backgroundColor : "rgba(54,164,235,0.5)",
+            backgroundColor : "rgba(0,255,0,0.5)",
         },
         ],
       };
@@ -801,8 +879,9 @@ function show_chart_year(offset){
         arr_year[10] ,
         arr_year[11]         
             ],
-            borderColor : "rgba(54,164,235,0.8)",
-            backgroundColor : "rgba(54,164,235,0.5)",
+             borderColor : "rgba(0,255,0,0.8)",
+            // backgroundColor : "rgba(54,164,235,0.5)",
+            backgroundColor : "rgba(0,255,0,0.5)",
         },
         ],
       };
@@ -822,9 +901,49 @@ function show_chart_year(offset){
       });
 }
 
-function show_chart4(){
+function show_chart_total(){
+    //週実績の取得
+    get_arrayData("4",0);
 
-var ctx = document.getElementById("canvas_3").getContext('2d');
+    var barChartData = {
+          scaleStartValue : null,  //y轴的起始值
+          scaleLabel : "<%=value%>",// 标签显示值
+          scaleBeginAtZero: true, // y轴标记是否从0开始
+        labels: ['2014','2015','2016','2017','2018' ],
+        datasets: [
+        {
+            label: '',
+            data: [
+        arr_total[0] ,
+        arr_total[1] ,
+        arr_total[2] ,
+        arr_total[3] ,
+        arr_total[4]         
+            ],
+             borderColor : "rgba(0,255,0,0.8)",
+            // backgroundColor : "rgba(54,164,235,0.5)",
+            backgroundColor : "rgba(0,255,0,0.5)",
+        },
+        ],
+      };
+
+    var  ctx = document.getElementById("canvas_total").getContext("2d");
+      window.myBar = new Chart(ctx, {
+          type: 'bar', // ここは bar にする必要があります
+          data: barChartData,
+          // options: complexChartOption
+			options: {
+				responsive: true,
+				title: {
+					display: true,
+
+				},
+			}
+      });
+}
+
+function show_chart_total_1(){
+var ctx = document.getElementById("canvas_total").getContext('2d');
 var myChart = new Chart(ctx, {
   type: 'pie',
   data: {
@@ -854,8 +973,6 @@ var myChart = new Chart(ctx, {
     }]
   }
 });
-
-
 }
      </script>
 </ons-page>
