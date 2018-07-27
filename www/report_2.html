@@ -149,40 +149,63 @@ line-height:28px;
   <template id="report_week.html">
   <ons-page id="report_week-page">
 
-        <ons-card style="height:50px">
+        <ons-card style="height:250px">
            <!-- onclick="fn.pushPage({'id': 'changeData.html', 'title': '基本情報'})"> -->
           <ons-list-item style="margin-top:-20px">
-            <div class="card_02_1" style='width:10%;text-align: center'>
-<ons-icon icon="md-face"  id = "page_back"></ons-icon>
-
+            <div class="card_02_1"  id = "card_02_1_div" style='width:10%;text-align: left'>
+                <ons-icon icon="angle-left"  id = "page_back"></ons-icon>
             </div>
             <div class="card_02_2" id = "card_02_2_div"  style='width:80%;text-align: center'></div>
-            <div class="card_02_3"  style='width:10%;text-align: center'>
-<ons-icon icon="md-face"  id = "page_next"></ons-icon>
-
+            <div class="card_02_3" id = "card_02_3_div" style='width:10%;text-align: right'>
+                <ons-icon icon="angle-right"  id = "page_next"></ons-icon>
             </div>
           </ons-list-item>
 
-<ons-list-item style="margin-top:20px">
-  <div>
-<canvas id="canvas_week"></canvas>
-</div>
-</ons-list-item>
+      <ons-list-item style="margin-top:-10px">
+        <div style ="width:100%">
+        <canvas id="canvas_week"></canvas>
+        </div>
+      </ons-list-item>
+</ons-card>
 
-<ons-list-item>
-<div class="content"   style="font-size:11px" style="text-align:left" >7月10日　運動時間</div>
-        <div class="content" style="text-align:center" >35<ons-icon icon="ion-compass" size="30px" fixed-width="true"></ons-icon></div>
+<ons-card>
+    <ons-list-item>
+<!-- <div class="content"   style="font-size:11px" style="text-align:left" >7月10日　運動時間</div>
+ -->
+ <!-- <div class="content" style="text-align:center" > -->
+        <div class="content" style="width:100%">
+          <div style='width:60%;text-align: left ;display:inline;'>
+          <ons-icon icon="clock"  fixed-width="true" ></ons-icon>
+          総時間(min)
+          </div>
+        <div style='width:100%;text-align: right;display:inline;' id ="div_week_time">
+            1000
+        </div>
+
+        </div>
+       <div class="content" style="width:100%">
+         <!-- <li> -->
+          <div style='width:60%;text-align: left;display:inline;float:left'>
+          <ons-icon icon="fire"  fixed-width="true" ></ons-icon>
+          消費カロリー(kcal)
+          </div>
+        <div style='width:100%;text-align: right ;display:inline;float:left' id ="div_week_calorie">
+            1000
+        </div>
+        <!-- </li> -->
+        </div>
+
+
 
                     <!-- <div class="title" style="font-size:16px"><i class="fas fa-shoe-prints"></i>ウォーキング</div> -->
-                    <div class="content">
+                    <!-- <div class="content">
                       <p>時間(min)：</p>
                       <p style="text-align:center" class="walking_p">60</p>
                       <p>消費カロリー(kcal)：</p>
                       <p style="text-align:center">300kcal</p>
                     </div>
-         
       </div>
-</div>
+</div> -->
 
 </ons-list-item>
         </ons-card>
@@ -425,9 +448,22 @@ function get_arrayData(strType,offset){
   var str_day = str_day_from + " ~ "+str_day_to;
 
   // alert("str_day:"+str_day);
-  document.querySelector('#card_02_2_div').innerHTML = str_day;
+  
   // document.querySelector('.card_02_2').innerHTML = "sdfas"+str_day;
+  // var now_date = new Date();
 
+  var now_weeks = getWeekOfYear();
+  
+  if (now_weeks == G_weeks){
+    document.getElementById("card_02_3_div").style.visibility="hidden";
+    str_day = "今週";
+  }
+  else{
+   document.getElementById("card_02_3_div").style.visibility="visible";
+ 
+  };
+  
+  document.querySelector('#card_02_2_div').innerHTML = str_day;
 
   //  alert(G_weeks);
 console.log("G_weeks:"+G_weeks);
