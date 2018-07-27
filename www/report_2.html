@@ -225,21 +225,49 @@ line-height:28px;
 </template>
 
   <template id="report_year.html">
-    <ons-page >
-        <ons-card  >
-            <div>
-            <canvas id="canvas_3"></canvas>
+ <ons-page id="report_year-page">
+        <ons-card style="height:250px">
+          <ons-list-item style="margin-top:-20px">
+            <div id = "div_year_01" style='width:10%;text-align: left'>
+                <ons-icon icon="angle-left"  id = "page_back"></ons-icon>
             </div>
-        </ons-card  >
-    </ons-page>
-   
-    <ons-page >
-        <ons-card  >
-            <div>
+            <div  id = "div_year_02"  style='width:80%;text-align: center'></div>
+            <div  id = "div_year_03" style='width:10%;text-align: right'>
+                <ons-icon icon="angle-right"  id = "page_next"></ons-icon>
+            </div>
+          </ons-list-item>
+            <div style ="width:100%;margin-top:-20px">
             <canvas id="canvas_year"></canvas>
             </div>
-        </ons-card  >
-    </ons-page>
+          <!-- </ons-list-item> -->
+    </ons-card>
+    <ons-card>
+
+  <ons-list>
+    <ons-list-header>累計</ons-list-header>
+      <ons-list-item>
+        <div class="center">
+            <ons-icon icon="clock"  fixed-width="true" ></ons-icon>総時間
+        </div>
+        <div class="right" id ="year_time">
+        1000
+        </div>
+      </ons-list-item>
+      <ons-list-item>
+        <div class="center">
+          <ons-icon icon="fire"  fixed-width="true" ></ons-icon>消費カロリー(kcal)
+        </div>
+        <div class="right" id ="year_calories">1000</div>
+      </ons-list-item>
+      <ons-list-item>
+        <div class="center">
+          <ons-icon icon="chart-pie"  fixed-width="true" ></ons-icon>目標達成
+        </div>
+        <div class="right" id ="year_percent">0%</div>
+      </ons-list-item>
+  </ons-list>
+</ons-card>
+</ons-page>
 </template>
     
 <template id="report_total.html">
@@ -284,6 +312,16 @@ line-height:28px;
           show_chart_month(1);
     };
   }
+  if (page.matches('#report_year-page')) {
+      page.querySelector('ons-icon#page_back').onclick = function() {
+          //実績の取得
+          show_chart_year(-1);
+    };
+      page.querySelector('ons-icon#page_next').onclick = function() {
+          //実績の取得
+          show_chart_year(1);
+    };
+  }
 });
 
 
@@ -292,6 +330,7 @@ line-height:28px;
    var clientkey ="23304def33b24aeed4fe1ae5325a77c1ffbe3e44067c0a3716b47aefd4297e05";
    var arr_week =new Array(7);
     var arr_month=new Array(31);
+    var arr_year = new Array(12);
     var arr_timeList;
     var sum_time;
     var user_id = localStorage.getItem("objectId");
@@ -363,8 +402,8 @@ line-height:28px;
       })
       .then(function(){
          show_chart_week(0);
-        show_chart_month(0);
-
+         show_chart_month(0);
+        show_chart_year(0);
         // show_chart4();
 //        show_chart_year(0);
         // show_chart_2();
@@ -419,8 +458,14 @@ function get_arrayData(strType,offset){
     var n_weekOfYear;
     var n_monthOfYear;
     var n_month_now;
-      var total_time = 0;
-      var total_calories = 0;
+    var week_total_time = 0;
+    var week_total_calories = 0;
+    var month_total_time = 0;
+    var month_total_calories = 0;
+    var year_total_time = 0;
+    var year_total_calories = 0;
+    var arr_index 
+
 
    n_month_now = n_year+"-"+getFormatZero(n_month);
 
@@ -434,16 +479,26 @@ function get_arrayData(strType,offset){
           n_weekOfYear = n_year+"-"+G_weeks;
       }
    }else if(strType == "2"){
-      if (offset == 0){
-        G_months = ar_date.getMonth()+1;
-        n_monthOfYear = n_year+"-"+getFormatZero(G_months);
-      }
-      else{
-          G_months = G_months + offset;
-          n_monthOfYear = n_year+"-"+getFormatZero(G_months);
-      }
-   }else if(strType == "3"){
+        //  alert(strType);
+          if (offset == 0){
+            G_months = myDate.getMonth()+1;
+            // n_monthOfYear = n_year+"-"+getFormatZero(G_months);
+          }
+          else{
+              G_months = G_months + offset;
+          }
+            n_monthOfYear = n_year+"-"+getFormatZero(G_months);
 
+            alert("aadas:"+n_monthOfYear);
+   }else if(strType == "3"){
+          if (offset == 0){
+ 
+            G_years = myDate.getFullYear();
+          }
+          else{
+              G_years = G_years + offset;
+              // n_monthOfYear = n_year+"-"+getFormatZero(G_months);
+          }
    }
 
    
@@ -456,34 +511,41 @@ function get_arrayData(strType,offset){
   var str_day = str_day_from + " ~ "+str_day_to;
   var now_weeks = getWeekOfYear();
   
-  //  if (strType == "1"){
-  //  }else if (strType == "2"){
-  //  }else if (strType == "3"){
-  //  }
-  if (now_weeks == G_weeks){
-    document.getElementById("div_week_03").style.visibility="hidden";
-    str_day = "今週";
-  }
-  else{
-   document.getElementById("div_week_03").style.visibility="visible";
-  };
-  document.querySelector('#div_week_02').innerHTML = str_day;
-
-// 
-  if (n_month_now == G_months){
-    document.getElementById("div_month_03").style.visibility="hidden";
-    str_day = "今月";
-  }
-  else{
-   document.getElementById("div_month_03").style.visibility="visible";
-       str_day = n_monthOfYear;
-  };
-  document.querySelector('#div_month_02').innerHTML = str_day;
-
-
+  if (strType == "1") {
+      if (now_weeks == G_weeks){
+        document.getElementById("div_week_03").style.visibility="hidden";
+        str_day = "今週";
+      }
+      else{
+      document.getElementById("div_week_03").style.visibility="visible";
+      };
+      document.querySelector('#div_week_02').innerHTML = str_day;
+}else if (strType == "2") {
+      if (n_month_now == n_monthOfYear){
+        document.getElementById("div_month_03").style.visibility="hidden";
+        str_day = "今月";
+      }
+      else{
+      document.getElementById("div_month_03").style.visibility="visible";
+          str_day = n_monthOfYear;
+      };
+      document.querySelector('#div_month_02').innerHTML = str_day;
+}else if (strType == "3") {
+    // 年
+      if (myDate.getFullYear() == G_years){
+        document.getElementById("div_year_03").style.visibility="hidden";
+        str_day = "今年";
+      }
+      else{
+      document.getElementById("div_year_03").style.visibility="visible";
+          str_day = G_years+"年";
+      };
+      document.querySelector('#div_year_02').innerHTML = str_day;
+}
   //  alert(G_weeks);
 console.log("G_weeks:"+G_weeks);
 // n_weekOfYear
+    // alert(G_years);
   if (strType == "1") {
      // 週
         delete arr_week;
@@ -497,18 +559,11 @@ console.log("G_weeks:"+G_weeks);
 
         var str_curDate = n_year +"-" + n_month+"-"  + n_date;
         for(var i=0;i<arr_timeList.length;i++){
-          // if ( str_curDate == arr_timeList[i][1]  ){
-            // alert(n_weekOfYear );
-            //  alert(arr_timeList[i][2]);
-
             if (n_weekOfYear == arr_timeList[i][3] ){            
-              // alert(arr_timeList[i][2]);
             arr_week[arr_timeList[i][4] - 1] = arr_timeList[i][2];
-            total_time = total_time + parseInt(arr_timeList[i][2]); 
+            week_total_time = week_total_time + parseInt(arr_timeList[i][2]); 
           }  
         }
-  //     n_day = n_day - 1;
-  // }
   }else if (strType == "2") {
      // 週
         delete arr_month;
@@ -544,36 +599,69 @@ console.log("G_weeks:"+G_weeks);
         arr_month[29] = 0;
         arr_month[30] = 0;
 
-        // var total_time = 0;
-        // var total_calories = 0;
-
-        // var str_curDate = n_year +"-" + n_month+"-"  + n_date;
         for(var i=0;i<arr_timeList.length;i++){
-            alert(String(arr_timeList[i][3]).substring(0,7));
-            if (n_monthOfYear == String(arr_timeList[i][3]).substring(0,7) ){ 
+            // alert(String(arr_timeList[i][1]).substring(0,7));
+            if (n_monthOfYear == String(arr_timeList[i][1]).substring(0,7) ){ 
+              arr_index = parseInt(String(n_monthOfYear).substring(5,7));
+              arr_month[arr_index - 1] = arr_month[arr_index - 1] + parseInt(arr_timeList[i][2]);
+              month_total_time = month_total_time + parseInt(arr_timeList[i][2]); 
+          }  
+        }
+  }else if (strType == "3") {
 
-              arr_month[arr_timeList[i][4] - 1] = arr_timeList[i][2];
-              total_time = total_time + parseInt(arr_timeList[i][2]); 
+    // alert("strType"+strType);
+     // 年
+        delete arr_year;
+        arr_year[0] = 0;
+        arr_year[1] = 0;
+        arr_year[2] = 0;
+        arr_year[3] = 0;
+        arr_year[4] = 0;
+        arr_year[5] = 0;
+        arr_year[6] = 0;
+        arr_year[7] = 0;
+        arr_year[8] = 0;
+        arr_year[9] = 0;
+        arr_year[10] = 0;
+        arr_year[11] = 0;
+    // alert("G_years:"+G_years);
+        for(var i=0;i<arr_timeList.length;i++){
+            // alert("xxxxx:"+String(arr_timeList[i][1]).substring(0,7));
+            if (G_years == String(arr_timeList[i][1]).substring(0,4) ){ 
+               arr_index = parseInt(String(arr_timeList[i][1]).substring(5,7));
+              // alert("arr_index:"+arr_index);
+              arr_year[arr_index - 1] = arr_year[arr_index - 1] + parseInt(arr_timeList[i][2]);
+              year_total_time = year_total_time + parseInt(arr_timeList[i][2]); 
           }  
         }
   }
-// // total time
-//  alert(Math.floor(total_time/60));
-//   alert(total_time%60);
-  document.querySelector('#week_time').innerHTML =getFormatZero(Math.floor(total_time/60)) + ":" +getFormatZero(total_time%60)+":00" ;
- total_calories =  parseInt(total_time*3/4); 
-  document.querySelector('#week_calories').innerHTML = total_calories;
-  
-  var week_percent;
 
-  week_percent = 100*(Math.floor(total_time/60) / 10);
+   if (strType == "1"){
+    var week_percent;
+    document.querySelector('#week_time').innerHTML =getFormatZero(Math.floor(week_total_time/60)) + ":" +getFormatZero(week_total_time%60)+":00" ;
+    week_total_calories =  parseInt(week_total_time*3/4); 
+    document.querySelector('#week_calories').innerHTML = week_total_calories;
+
+    week_percent = 100*(Math.floor(week_total_time/60) / 10);
     document.querySelector('#week_percent').innerHTML = week_percent+"%";
-  // if ( Math.floor(total_time/60) > 10 ){
-  //   week_percent = "100%";
-  // }
-  // else{
+   }
+    else if (strType == "2"){
+      var month_percent;
+      document.querySelector('#month_time').innerHTML =getFormatZero(Math.floor(month_total_time/60)) + ":" +getFormatZero(month_total_time%60)+":00" ;
+      month_total_calories =  parseInt(month_total_time*3/4); 
+      document.querySelector('#month_calories').innerHTML = month_total_calories;
+      month_percent = 100*(Math.floor(month_total_time/60) / 10);
+      document.querySelector('#month_percent').innerHTML = month_percent+"%"; 
+}  else if (strType == "3"){
+      var year_percent;
+      document.querySelector('#year_time').innerHTML =getFormatZero(Math.floor(year_total_time/60)) + ":" +getFormatZero(year_total_time%60)+":00" ;
+      year_total_calories =  parseInt(year_total_time*3/4); 
+      document.querySelector('#year_calories').innerHTML = year_total_calories;
+      year_percent = 100*(Math.floor(year_total_time/60) / 10);
+      document.querySelector('#year_percent').innerHTML = year_percent+"%"; 
 
-  // } 
+}
+
 
 
 }
@@ -687,70 +775,38 @@ function show_chart_month(offset){
       });
 }
 
-// chartの表示
-function show_chart(){
-		var config = {
-			          type: 'line',
-			data: {
-          labels: ['月曜日', '火曜日', '水曜日', '木曜日', '金曜日', '土曜日', '日曜日'],			
-            datasets: [{
-                              label: '曜日計',
-                              fill: false,
-                              backgroundColor: window.chartColors.red,
-                              borderColor: window.chartColors.red,
-					data: [
-						arr_timeList[0][1] ,
-						arr_timeList[1][1] ,
-						arr_timeList[2][1] ,
-						arr_timeList[3][1] ,
-						arr_timeList[4][1] ,
-						arr_timeList[5][1] ,
-						arr_timeList[6][1] 
-					]
-				}]
-			},
-			options: {
-				responsive: true,
-				title: {
-					display: true,
-//					text: 'Chart with Multiline Labels'
-				},
-			}
-		};
-
-			var ctx = document.getElementById('canvas_week').getContext('2d');
-			window.myLine = new Chart(ctx, config);
-    }
-
-function  show_chart_year(){
-//     var complexChartOption = {
-//     responsive: true,
-// };
+function show_chart_year(offset){
+    //週実績の取得
+    get_arrayData("3",offset);
 
     var barChartData = {
-      scaleStartValue : null,  //y轴的起始值
-      scaleLabel : "<%=value%>",// 标签显示值
-      scaleBeginAtZero: true, // y轴标记是否从0开始
-    labels: ['2015','2016','2017','2018'    ],
-    datasets: [
-    {
-        label: '総：1200km',
-        data: ['180','400','450','200'],
-        borderColor : "rgba(54,164,235,0.8)",
-        backgroundColor : "rgba(54,164,235,0.5)",
-    },
-    // {
-    //     label: 'sample-bar',
-    //     data: ['0.3','0.1','0.1','0.3','0.4','0.2','0.0',
-    //         '0.2','0.3','0.11','0.5','0.2','0.5','0.4',
-    //         '0.0','0.3','0.7','0.3','0.6','0.4','0.9',
-    //         '0.7','0.4','0.8','0.7','0.4','0.7','0.8'
-    //     ],
-    //     borderColor : "rgba(54,164,235,0.8)",
-    //     backgroundColor : "rgba(54,164,235,0.5)",
-    // },
-    ],
-};
+          scaleStartValue : null,  //y轴的起始值
+          scaleLabel : "<%=value%>",// 标签显示值
+          scaleBeginAtZero: true, // y轴标记是否从0开始
+        labels: ['1','2','3','4','5','6','7','8','9','10','11','12' ],
+        datasets: [
+        {
+            label: '',
+            data: [
+        arr_year[0] ,
+        arr_year[1] ,
+        arr_year[2] ,
+        arr_year[3] ,
+        arr_year[4] ,
+        arr_year[5] ,
+        arr_year[6] ,
+        arr_year[7] ,
+        arr_year[8] ,
+        arr_year[9],
+        arr_year[10] ,
+        arr_year[11]         
+            ],
+            borderColor : "rgba(54,164,235,0.8)",
+            backgroundColor : "rgba(54,164,235,0.5)",
+        },
+        ],
+      };
+
     var  ctx = document.getElementById("canvas_year").getContext("2d");
       window.myBar = new Chart(ctx, {
           type: 'bar', // ここは bar にする必要があります
@@ -764,7 +820,7 @@ function  show_chart_year(){
 				},
 			}
       });
-    }
+}
 
 function show_chart4(){
 
