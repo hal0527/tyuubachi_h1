@@ -81,6 +81,7 @@
     <ons-tabbar swipeable id="appTabbar" position="auto">
       <ons-tab label="ホーム" icon="ion-home" page="home.html" active></ons-tab>
       <ons-tab label="目標と記録" icon="ion-edit" page="target.html"></ons-tab>
+      <!--<ons-tab label="分析" icon="ion-pie-graph" page="report2.html"></ons-tab>-->
       <ons-tab label="個人ページ" icon="md-face" page="mypage.html"></ons-tab>
     </ons-tabbar>
     <script>
@@ -131,17 +132,6 @@
         </div>
         <div class="center">
           個人ページ
-        </div>
-        <div class="right">
-          <ons-icon icon="fa-link"></ons-icon>
-        </div>
-      </ons-list-item>
-      <ons-list-item onclick="">
-        <div class="left">
-          <ons-icon fixed-width class="list-item__icon" icon="ion-settings, material:md-settings"></ons-icon>
-        </div>
-        <div class="center">
-          設定
         </div>
         <div class="right">
           <ons-icon icon="fa-link"></ons-icon>
@@ -267,17 +257,19 @@
     </style>
   </ons-page>
 </template>
+
  <!--　目標と記録　ページ　-->
 <template id="target.html">
   <ons-page id="target-page">
     <div>
-      <div style="height:120px">
+      <div style="height:10%">
         <ons-carousel id="carousel" fullscreen swipeable auto-scroll overscrollable initial-index="0">
       <!--当日記録-->
       <ons-carousel-item class="carousel-item" style="background-color: white"> 
         <div style="text-align : center">
-          <ons-list-header style="width: 350px;display: inline-block;text-align : center;font-size:15px">今日の目標</ons-list-header>
-          <ons-list-item style="width: 350px;display: inline-block;background-color:#FFF ">
+          <br />
+          <ons-list-header style="width: 100%;display: inline-block;text-align : center;font-size:20px">今日の目標</ons-list-header>
+          <ons-list-item style="width: 100%;display: inline-block;background-color:#FFF ">
             <div style="width:20%;text-align : center">
               kCal
               <p class="today_ka" style="color:red;font-size:20px">0</p>
@@ -296,8 +288,8 @@
       <!--週間記録-->
       <ons-carousel-item class="carousel-item" style="background-color: white">
         <div style="text-align : center">
-          <ons-list-header style="width: 350px;display: inline-block;text-align : center;font-size:15px">週間の目標</ons-list-header>
-          <ons-list-item style="width: 350px;display: inline-block;background-color:#FFF ">
+          <ons-list-header style="width: 100%;display: inline-block;text-align : center;font-size:15px">週間の目標</ons-list-header>
+          <ons-list-item style="width: 100%;display: inline-block;background-color:#FFF ">
             <p>   
               <div style="width:14%;margin-top:-20px;text-align : center">
                 <p>日</p>
@@ -334,23 +326,20 @@
     </ons-carousel>
       </div>
     </div>
-    
-  
-
+    <ons-card style="height:90px" onclick="fn.pushPage({'id': 'show_sport.html', 'title': 'オススメ運動'})">
+      <div class="title"><ons-icon icon="ion-ios-bookmarks" size="23px" fixed-width="true"></ons-icon>運動選択</div>
+      <div class="content"><p id="performance_p">運動のテスト、運動に関する資料.</p></div>
+    </ons-card>
     <ons-card style="height:120px" onclick="fn.pushPage({'id': 'target_set.html', 'title': '目標設定'})">
       <div class="title"><i class="fas fa-bullseye" size="5x"></i> 目標設定</div>
       <div class="content">
         <p id="target_p">運動時間の目標設定.</p>
-        <p  class="target_set"></p>
+        <p  class="target_set">(目標未設定)</p>
       </div>
     </ons-card>
     <ons-card style="height:90px" onclick="fn.pushPage({'id': 'sport_in.html', 'title': '実績記録'})">
       <div class="title"><ons-icon icon="ion-compass" size="23px" fixed-width="true"></ons-icon>実績記録</div>
       <div class="content"><p id="performance_p">運動時間の実績を記録する.</p></div>
-    </ons-card>
-    <ons-card style="height:90px" onclick="fn.pushPage({'id': 'sport_in.html', 'title': 'オススメ運動'})">
-      <div class="title"><ons-icon icon="ion-compass" size="23px" fixed-width="true"></ons-icon>オススメ運動</div>
-      <div class="content"><p id="performance_p">推奨運動.</p></div>
     </ons-card>
     <ons-list-item>
         <ons-card style="background-color:#2ecc71;width:45%;text-align:center" onclick="fn.pushPage({'id': 'tar_complete.html', 'title': '達成した目標'}, 'fade-ios')">
@@ -373,6 +362,7 @@
     </style>
 
     <script>
+      
       ons.ready(function(){
         //catch_target();
        // today_check();
@@ -381,24 +371,28 @@
         var tar_check_times = JSON.parse(localStorage.getItem("tar_Check_times"));
         var tarmess = localStorage.getItem("Tar_message");
         var today_check = parseInt(tar_check[weekday]);
-        var today_time =Math.floor(today_check/60) + "时" + (today_check%60) + "分"
-        if(tarmess === null){
-          document.querySelector('.target_set').innerHTML = "(目標未設定)";
-        } else if(tar_check[10] ==="目標達成" ){
-          document.querySelector('.target_set').innerHTML = tarmess+"(目標達成)";
-        } else {
-          document.querySelector('.target_set').innerHTML = tarmess;
-        }
+        var today_time =Math.floor(today_check/60) + "时" + (today_check%60) + "分";
+        console.log(tar_check);
+        console.log("4");
         if(tar_check === null){
+          console.log("1");
           document.querySelector('.today_time').innerHTML = 0;
           document.querySelector('.today_ka').innerHTML = 0;
           document.querySelector('.today_far').innerHTML = 0;
-        } else {
+        } else if(tar_check[10] ==="目標達成" ){
+          document.querySelector('.target_set').innerHTML = tarmess+"(目標達成)";
           document.querySelector('.today_time').innerHTML = today_time;
           document.querySelector('.today_ka').innerHTML = today_check* 3.4;
           document.querySelector('.today_far').innerHTML = (today_check*75/1333).toFixed(2);
+          console.log("2");
+        } else {
+          document.querySelector('.target_set').innerHTML = tarmess;
+          document.querySelector('.today_time').innerHTML = today_time;
+          document.querySelector('.today_ka').innerHTML = today_check* 3.4;
+          document.querySelector('.today_far').innerHTML = (today_check*75/1333).toFixed(2);
+          console.log("3");
         }
-       
+
         show_target();
       });
 
@@ -619,7 +613,7 @@
               <img src="https://placekitten.com/200/300" id="user_img" style="width:80px;height:80px" onclick="fn.pushPage({'id': 'user_photo.html', 'title': '写真'}, 'fade-ios')">
             </div>
             <div class="center" style="padding-left:5%" onclick="fn.pushPage({'id': 'baseData.html', 'title': '基本情報'})">
-              <p class="card_01" style="font-size:40px">未登録</p>
+              <p class="card_01" style="padding-left:20%;font-size:40px">未登録</p>
             </div>
           </ons-list-item>
         </ons-card>
@@ -637,12 +631,14 @@
         <ons-card style="background:url(images/total_data.png);background-size:100%;height:130px" onclick="fn.pushPage({'id': 'tar_defeate.html', 'title': '実績'}, 'fade-ios')">
           <p class="total_data_show" style="text-align: center;margin-top:-10px;color:white;"></p>
         </ons-card>
-       
+        <ons-list-item  style="left: 20%;right: 20%;">
+            <ons-icon icon="ion-bonfire" size="20px" fixed-width="true"></ons-icon>
+            <p class="total_kal_show">0kcal</p>
+        </ons-list-item>
         
-      <ons-list-header style="width: 350px;display: inline-block;text-align : center;font-size:15px">運動別データ</ons-list-header>
+      <ons-list-header style="width: 100%;display: inline-block;text-align : center;font-size:15px">運動別データ</ons-list-header>
       <ons-list-item>
       <div style="width: 50%">
-
             <ons-card style="height:210px">
               <div class="title" style="font-size:16px"><i class="fas fa-shoe-prints"></i>ウォーキング</div>
               <div class="content">
@@ -654,12 +650,11 @@
             </ons-card>
             <ons-card style="height:100px">
               <div class="title" style="font-size:16px"><i class="fas fa-bicycle"></i> 自転車</div>
-              <div class="content">時間：<p　style="text-align:center" class="bicycle_p">0 分</p></div>
+              <div class="content">時間：<p style="text-align:center" class="bicycle_p">0 分</p></div>
             </ons-card>
        
       </div>
       <div style="width: 50%">
-       
             <ons-card style="height:100px">
               <div class="title" style="font-size:16px"><i class="fas fa-walking"></i> ランニング</div>
               <div class="content">時間：<p style="text-align:center" class="running_p">0 分</p></div>
@@ -730,18 +725,24 @@
                       } 
                     }  
                     console.log(total_sport_time);
-                    var total_kal_walk = total_sport_time[1]*5;
+                    var total_kal_walk = total_sport_time[0]*3.1;
+                    var total_kal_run = total_sport_time[1]*7.8;
+                    var total_kal_swim = total_sport_time[2]*8.1;
+                    var total_kal_bicycle = total_sport_time[3]*6.0;
+                    var total_kal_baseball = total_sport_time[4]*7.1;
+                    var total_kal = total_kal_walk+total_kal_run+total_kal_swim+total_kal_bicycle+total_kal_baseball;
                     document.querySelector('ons-card .walking_p').innerHTML = total_sport_time[0]+"分";
                     document.querySelector('ons-card .walking_s').innerHTML = total_kal_walk+"kcal";
-                    document.querySelector('ons-card .bicycle_p').innerHTML = total_sport_time[3]+"分";
                     document.querySelector('ons-card .running_p').innerHTML = total_sport_time[1]+"分";
                     document.querySelector('ons-card .swimming_p').innerHTML = total_sport_time[2]+"分";
+                    document.querySelector('ons-card .bicycle_p').innerHTML = total_sport_time[3]+"分";
                     document.querySelector('ons-card .baseball_p').innerHTML = total_sport_time[4]+"分";
                     var total_time = total_sport_time[0]+ total_sport_time[1]+total_sport_time[2]+total_sport_time[3]+total_sport_time[4];
                     var total_step = total_sport_time[0]*70+ total_sport_time[3]*109+total_sport_time[1]*133+total_sport_time[2]*213+total_sport_time[4]*149;
                     var total_far = (total_step/1333).toFixed(2);
 
                     document.querySelector('ons-card .total_data_show').innerHTML = "飛行時間:"+total_time+"分&nbsp;&nbsp;&nbsp;&nbsp;飛行距離："+total_far+"km <br/>あどは"+(384000-total_far)+"km";
+                    document.querySelector('ons-list-item .total_kal_show').innerHTML = "総合消費カロリー: "+total_kal+"kcal";
                   })
                 .catch(function(err){
                   console.log(err);
@@ -1268,7 +1269,6 @@
                         localStorage.setItem("Tar_message",tarmess);
                         localStorage.setItem("weekNum",weekNum);
                         //location.reload();
-                        document.getElementById('appNavigator').popPage();
                         var week_check = [weekNum,tar_times,tar_time];
                         localStorage.setItem("weekTar",week_check);
                         console.log(localStorage.getItem("weekTar"));
@@ -1276,6 +1276,7 @@
                         var tar_check_times = [0,0,0,0,0,0,0];
                         localStorage.setItem("tar_Check", JSON.stringify(tar_check));
                         localStorage.setItem("tar_Check_times", JSON.stringify(tar_check_times));
+                        document.getElementById('appNavigator').popPage({refresh:true});
                       })
                       .catch(function(err){
                       // 保存に失敗した場合の処理
@@ -1303,7 +1304,7 @@
 </template>
   <!-- 実績記録ページ -->
 <template id="sport_in.html">
-  <ons-page id="per_input">
+  <ons-page id="per_input" >
     <ons-toolbar>
       <div class="left"><ons-back-button>戻り</ons-back-button></div>
       <div class="center">実績記録</div>
@@ -1360,7 +1361,6 @@
         var per_time =document.getElementById("per_time").value;
         var userid = localStorage.getItem("objectId");
         var weekNum = localStorage.getItem("weekNum");
-      
         //DB
         var ncmb = new NCMB("dd411920ff7852038a3d55414c3447b88c5e842ace7268254078b113d065398c","23304def33b24aeed4fe1ae5325a77c1ffbe3e44067c0a3716b47aefd4297e05");
         var recordsClass = ncmb.DataStore('recordsClass');
@@ -1380,18 +1380,18 @@
                       .save()
                       .then(function(results){
                         ons.notification.alert("実績を記録しました。");
-                        //document.querySelector('#appNavigator').pushPage('target.html', {data:{week:per_week,sport:per_sport,time:per_time }});
                         var per_message = per_week+"---"+per_sport+"--"+per_time+"分";
                         localStorage.setItem("Per_message",per_message);
-                        document.getElementById('appNavigator').popPage();
+                        
                         tar_check[per_week] =parseInt(tar_check[per_week])+ parseInt(per_time);
-                        if(parseInt(tar_check[per_week])>=tar_check[10]){
+                        if(parseInt(tar_check[per_week])>=tar_check[9]){
                           tar_check_times[per_week] = 1;
                         } 
                         var tar_test = 0;
                         for (var i = 0; i < tar_check_times.length; i++){
                           tar_test = tar_test + tar_check_times[i];
                          }
+                        console.log(tar_test);
                         if(tar_test >= parseInt(tar_check[8])){
                           tar_check[10] = "目標達成";
                         }
@@ -1399,8 +1399,8 @@
                         localStorage.setItem("tar_Check_times", JSON.stringify(tar_check_times));
                         console.log(localStorage.getItem("tar_Check"));
                         console.log(localStorage.getItem("tar_Check_times"));
+                        document.getElementById('appNavigator').popPage({refresh:true});
 
-                        //JSON.stringify(tar_check)
                       })
                       .catch(function(err){
                         ons.notification.alert("実績を記録エラー");
@@ -1473,6 +1473,133 @@
     <div class="after">
     </div>
     111
+  </ons-page>
+</template>
+
+<template id="show_sport.html">
+  <ons-page>
+    <ons-toolbar> 
+      <div class="left"><ons-back-button>戻り</ons-back-button></div>
+      <div class="center" >オススメ運動</div>
+    </ons-toolbar>
+    <p style="text-align:center">週2,000kcal未満対2,000kcal以上運動習慣なし対あり,<br />総死亡率を1.6％：2.4％を減少します.<br />運動不足を感じている方は全年齢の74.6%。<br />---平成26年版厚生労働白書</p>
+    <ons-card onclick="window.location.href='keju3.html';">
+      <div class="title"><ons-icon icon="ion-ios-book" size="30px" fixed-width="true"></ons-icon>習慣化運動テスト</div>
+      <div class="content">テストの結果に基づいて簡単な運動を推薦する．</div>
+    </ons-card>
+    <ons-card onclick="fn.pushPage({'id': 'sport_1.html'})">
+      <div class="title"><ons-icon icon="ion-ios-alarm" size="30px" fixed-width="true"></ons-icon>何のために運動したい？</div>
+      <div class="content">運動時間は必ず長くではない、運動目標に対して運動時間も違い。</div>
+    </ons-card>
+    <ons-card onclick="fn.pushPage({'id': 'sport_2.html'})">
+      <div class="title"><ons-icon icon="ion-flame" size="30px" fixed-width="true"></ons-icon>正常な運動</div>
+      <div class="content">普通運動の消費カロリーと運動量を紹介します。</div>
+    </ons-card>
+    <ons-card onclick="fn.pushPage({'id': 'sport_3.html'})">
+      <div class="title"><ons-icon icon="ion-ionic" size="30px" fixed-width="true"></ons-icon>他の運動と活動</div>
+      <div class="content">運動はランニング、水泳などですか？他の運動活動もあります。</div>
+    </ons-card>
+    
+  
+  </ons-page>
+</template>
+
+<template id="sport_1.html">
+  <ons-page>
+    <ons-toolbar> 
+      <div class="left"><ons-back-button>戻り</ons-back-button></div>
+      <div class="center" >オススメ運動</div>
+    </ons-toolbar>
+     <ons-card>
+      <div class="title">ダイエットのため</div>
+      <div class="content">運動には短距離走のように短時間で最大のパワーを発揮する無酸素運動（アネロビクス）とウォーキングやランニングなどに代表されるように、心拍数を一定のレベルに維持して長時間行う有酸素運動（エアロビクス）があります。
+          ダイエットのためには、酸素を利用して脂肪を燃焼する有酸素運動を行う必要があります。ランニングは毎日行うのが理想的ですが、体調に配慮しながら週3回位を目安にし、20分以上行うことが大切です。</div>
+    </ons-card>
+    <ons-card>
+      <div class="title">ストレス解消や体調管理</div>
+      <div class="content">20分以下でもいい、20分以上かということですが、脂肪の消費に関係があります。ランニングの始めは、脂肪よりもグリコーゲン（主に筋肉などに含まれ、体を動かすためのエネルギー物質）がエネルギーの主体となって消費されます。運動開始後20分を境に、グリコーゲンと脂肪の消費割合が逆転します。そのため、脂肪が燃焼し始める20分以降に、どれだけ運動時間を増やすかがポイントになります。</div>
+    </ons-card>
+    <ons-card>
+      <div class="title">運動初心者</div>
+      <div class="content">ランニングは脂肪燃焼を効率よく促してくれるため、非常におすすめしたいものですが、運動初心者の方へは体への負担は想像しているよりも高いでしょう。何分の踏み台昇降運動、エアロバイク、階段上りもいい。10分という短い時間であればタバタプロトコルや縄跳び、簡単な筋トレがいいでしょう。</div>
+    </ons-card>
+  </ons-page>
+</template>
+
+<template id="sport_2.html">
+  <ons-page>
+    <ons-toolbar> 
+      <div class="left"><ons-back-button>戻り</ons-back-button></div>
+      <div class="center" >オススメ運動</div>
+    </ons-toolbar>
+    <ons-card>
+      <div class="title">ウオーキング</div>
+      <div class="content">ウォーキングは、比較的軽い有酸素運動の一つです。しかし、息が少し上がるほどの強度で行うとさらに効果的かもしれません。30分ウォーキングを行うと100～160Calを消費することが出来ます。
+        <br />1時間 179-215kcal
+      </div>
+    </ons-card>
+    <ons-card>
+      <div class="title">ランニング</div>
+      <div class="content">ウォーキングよりも運動量の多いランニング。有酸素運動の王道とも言える必須の運動メニューです。ただし、いきなりピッチを上げてランニングをしても、継続することができません。ウォーキングよりも早いぐらいのペースで、まずは20分程度からはじめていきます。
+        <br />1時間 320-369kcal
+      </div>
+    </ons-card>
+    <ons-card>
+      <div class="title">水泳</div>
+      <div class="content">水の力はすごく、水中に入るだけでなんと、1.3トンもの圧力がかかります。その大きな水圧が動くことによって全身がマッサージされ、血流が良くなり老廃物を外に押し流してくれるのです。水泳ダイエットは自由に好きな動きや泳ぎ方をしてカロリー消費をすればいいものなんですが、その中でもオススメなのが「平泳ぎ」、基本は「30分以上ゆったりと泳ぐこと」です。
+        <br />1時間 768-887kcal
+      </div>
+    </ons-card>
+    <ons-card>
+      <div class="title">自転車</div>
+      <div class="content">下半身70％の筋肉使うため運動効率がいい、膝や腰への負担が少ないので、体重が多い人でも始めやすい。風を切って自転車をこいでいると、気分がよいもの。それは、スピード感や景色がどんどん変わって外からの刺激が多くなることで、脳からドーパミンという物質が分泌されることで起こります。
+        <br />1時間 257-287kcal
+      </div>
+    </ons-card>
+    <!--<ons-card>
+      <div class="title">野球</div>
+      <div class="content">20分以下でもいい、20分以上かということですが、脂肪の消費に関係があります。ランニングの始めは、脂肪よりもグリコーゲン（主に筋肉などに含まれ、体を動かすためのエネルギー物質）がエネルギーの主体となって消費されます。運動開始後20分を境に、グリコーゲンと脂肪の消費割合が逆転します。そのため、脂肪が燃焼し始める20分以降に、どれだけ運動時間を増やすかがポイントになります。
+        <br />1時間 550-600kcal
+      </div>
+    </ons-card> -->
+    <ons-card>
+      <div class="title">ジョギング</div>
+      <div class="content">ジョギングは有酸素運動の代表格ともいえる運動です。ウォーキングよりも強度が上がるため、それだけ消費カロリーも高くなります。だいたい30分のジョギングで150～250Calを消費することが出来るといわれています。
+        <br />1時間 491-567kcal
+      </div>
+    </ons-card>
+  </ons-page>
+</template>
+
+<template id="sport_3.html">
+  <ons-page>
+    <ons-toolbar> 
+      <div class="left"><ons-back-button>戻り</ons-back-button></div>
+      <div class="center" >オススメ運動</div>
+    </ons-toolbar>
+    <ons-card>
+      <div class="title">ペニーやミニクルーザー</div>
+      <div class="content">ペニーってはスケボーの小さいver.です。自転車よりも遅く、歩きよりも速い。そんな移動手段にもなります。ぼくも買ってからコイツで通勤しています。片手でカンタンに持ち運べちゃう。
+        ペニー＆ミニクルーザーは、その手軽さはもちろんのこと、一番の魅力はなんといってもオシャレなところ。</div>
+    </ons-card>
+    <ons-card>
+      <div class="title">夏フェス＆音楽ライブ</div>
+      <div class="content">夏フェスや音楽ライブにハマるのもおすすめです。んもうね、これは楽しすぎるし消費カロリーもすごい。みんなで踊ったり跳ねたり。例えばアニメライフ、三日間を進んで、毎日6時間以上のタオルを振り回したり、手を上げたり、ジャンプしたり、ずっと立っているのだってカロリーの消費がすごい。最初もFUJI ROCK FESTIVALがあります。</div>
+    </ons-card>
+    <ons-card>
+      <div class="title">週末登山</div>
+      <div class="content">夏や秋などは登山にいくのもオススメです。いい空気を呼吸し、しっかりと汗をかき、適度に筋肉も使い、なのに楽しくてリフレッシュできて最高でした。下山したあとの温泉もあります、いい短期旅行だと思います。</div>
+    </ons-card>
+    <ons-card>
+      <div class="title">一人カラオケ</div>
+      <div class="content">カラオケって意外とカロリー消費するんですよね。しっかりとお腹に力を入れるようにして歌うと声も出やすいしカロリーも消費できます。
+        しかも一人カラオケなら待つ時間もなく一人でドンドン歌えるし、人目を気にせず全力で歌えるし、ストレス発散にもなります。なにより楽しい。</div>
+    </ons-card>
+    <ons-card>
+      <div class="title"> 古い町に歩く</div>
+      <div class="content">考えごとをしながら歩くと良いアイデアが浮かんできやすいし、好きな音楽を聴きながら歩くとルンルンになります。空を見上げながら歩けば心が浄化される気がするし、いつも通らない道を歩いていい感じのお店を見つけたときなんかも嬉しくなります。仕事を忘れて、肩のチカラが抜けます。</div>
+    </ons-card>
+ 
   </ons-page>
 </template>
 <style>
