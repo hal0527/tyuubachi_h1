@@ -1,0 +1,146 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+  <script src="components/loader.js"></script>
+  <script src="lib/onsenui/js/onsenui.min.js"></script>
+  <script src="js/circle.js"></script>
+  <script src="js/page_event.js"></script>
+  <link rel="stylesheet" href="components/loader.css">
+  <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
+  <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
+  <link rel="stylesheet" href="css/style.css">
+   
+   <style type="text/css">
+.fadeout{
+opacity: 0;
+transition: 3s ease-in-out;
+-webkit-transition: 3s ease-in-out;
+}
+.fadein{
+opacity: 1;
+transition: 3s ease-in-out;
+-webkit-transition: 3s ease-in-out;
+}
+</style>
+<script type="text/javascript"><!--
+myImage = new Array(    // 画像ファイル名の設定
+
+);	
+myNowCnt = -1;		// 現在表示している配列番号
+myflg = 0;		// どっちを表示して、どっちを消すかのフラグ
+function myChange(){	// スライドショーメイン関数
+	myNowCnt = (myNowCnt<myImage.length-1) ? myNowCnt+1 : 0;		// 次の配列番号
+	myflg = (myflg==0) ? 1 : 0;						// 表示・非表示フラグ反転
+	if (myflg == 0){
+	 //	document.getElementById("idshow1").src = "data:image/jpeg;base64," + imageData;		// 次の画像をセットする
+		document.getElementById("idshow1").className = "fadein";		// フェードイン
+		document.getElementById("idshow2").className = "fadeout";	// フェードアウト
+	}else{
+	  //	document.getElementById("idshow2").src = myImage[myNowCnt];		// 次の画像をセットする
+		document.getElementById("idshow1").className = "fadeout";	// フェードアウト
+		document.getElementById("idshow2").className = "fadein";		// フェードイン
+	}
+	setTimeout( "myChange()" , 3000 );					// 4秒周期に画像を更新する
+}	
+// --></script>
+   <script>
+      var ncmb = new NCMB("dd411920ff7852038a3d55414c3447b88c5e842ace7268254078b113d065398c", "23304def33b24aeed4fe1ae5325a77c1ffbe3e44067c0a3716b47aefd4297e05");
+      var reader = new FileReader();
+    function snapPicture () {
+        navigator.camera.getPicture (onSuccess, onFail,
+            { quality: 50, destinationType: Camera.DestinationType.DATA_URL});
+
+        //成功した際に呼ばれるコールバック関数
+       function onSuccess (imageData) {
+            // 画像を表示
+            var image = document.getElementById ('idshow1');
+            image.src = "data:image/jpeg;base64," + imageData;
+
+            var byteCharacters = toBlob(imageData);
+            var myDate = new Date();
+            var time = myDate.getMilliseconds()
+            var filename = time + ".png"
+       ncmb.File.upload(filename, byteCharacters)
+            .then(function() {
+              alert(filename);
+            })
+            .catch(function(error) {
+              alert(JSON.stringify(error));
+            });
+      
+      }
+         
+
+        //失敗した場合に呼ばれるコールバック関数
+        function onFail (message) {
+            alert ('カメラエラーです: ' + message);
+        } 
+    }
+    
+    function toBlob(base64) {
+        var bin = atob(base64.replace(/^.*,/, ''));
+        var buffer = new Uint8Array(bin.length);
+        for (var i = 0; i < bin.length; i++) {
+            buffer[i] = bin.charCodeAt(i);
+        }
+        // Blobを作成
+        try{
+            var blob = new Blob([buffer.buffer], {
+                type: 'image/png'
+            });
+        }catch (e){
+            return false;
+        }
+        return blob;
+  }
+     reader.onload = function(e) {
+      var dataUrl = reader.result;
+      document.getElementById("idshow2").src = dataUrl;
+    }
+
+    function downloadImage(){
+      // ファイル名からファイルを取得
+      var fileName = "test.png";
+
+      // ダウンロード（データ形式をblobを指定）
+      ncmb.File.download(fileName, "blob")
+           .then(function(blob) {
+           // ファイルリーダーにデータを渡す
+           reader.readAsDataURL(blob);
+           })
+           .catch(function(err) {
+              console.error(err);
+           })
+    } 
+  
+
+    </script>
+</head>
+<body>
+<ons-toolbar>
+        <div class="left"><ons-back-button onclick="window.location.href='Home.html'">Back</ons-back-button></div>
+        <div class="center"> TAKE A PICTURE</div>
+      </ons-toolbar>
+     
+  <br><br><br><br>
+ <div class="center">
+      <ons-button  onclick="snapPicture()"  >TAKE A PICTURE</ons-button>
+      </div>
+      
+    <br>
+  <ons-button  onclick="downloadImage()"  >COMPARE</ons-button>
+  
+  <br><br>
+    <div class="center">  
+  <div style="border-style:ridge; border-width:8px; border-radius:10px; box-shadow:10px 10px 10px rgba(0,0,0,0.5); border-color:#808080; width:320px;">
+<img id="idshow1" class="fadeout"   style="position:absolute;"  width="320" height="240">
+<img id="idshow2" class="fadein" src="http://p2.qhimgs4.com/t01be93be2eca3249d5.jpg" width="320" height="240">
+</div>
+<script type="text/javascript"><!--
+myChange(); 
+// --></script>
+</body>
+</html>
