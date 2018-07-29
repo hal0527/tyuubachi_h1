@@ -1,7 +1,7 @@
 <ons-page  >
    
   <ons-toolbar>
-       <div class="left"><ons-back-button>戻り</ons-back-button></div>
+       <div class="left"><ons-back-button>Back</ons-back-button></div>
       <div class="center">
        レポート
       </div>
@@ -372,6 +372,8 @@ line-height:28px;
     var arr_total = new Array(5);
     var arr_timeList;
     var sum_time;
+    var var_week_Num;
+
     var user_id = localStorage.getItem("objectId");
 
 		var SPORTS = ['ランニング', 'ウォーキング', 'ラジオ体操', '自転車', 'バドミントン', '野球', 'ヨガ', 'テニス', '水泳', 'ゴルフ'];
@@ -392,6 +394,9 @@ line-height:28px;
     // TestClass.fetchAll().then(() =>{
         var flg = "";
 
+    // alert("aaa:"+results.length);
+
+
         for (var i = 0; i < results.length; i++) {
             var object = results[i];  
             var var_date = new Date(object.get("createDate")); 
@@ -406,13 +411,18 @@ line-height:28px;
            var j = 0;
            flg = "";
            for( j = 0 ;j < arr_timeList.length;j++){
-            
+<
+              // alert("aaa:"+arr_timeList.length);
               if ( arr_timeList[j][1]  == str_date ){
+                // alert("arr_timeList[j][1] :"+arr_timeList[j][1] );
+
                  flg = "X";
                  break;
               }
            }
-           
+
+          var_week_Num = var_date.getFullYear()+"-"+getFormatZero(getWeekOfYear_1(String(var_date)));
+    // alert("var_week_Num"+var_week_Num);
            if (flg == "X"){
             arr_timeList[j][2] = arr_timeList[j][2] + parseInt( object.get("Time"));
            }
@@ -421,15 +431,16 @@ line-height:28px;
                  arr_timeList[0] = new Array(); 
                  arr_timeList[0][1] =str_date;
                  arr_timeList[0][2] =parseInt( object.get("Time"));  
-                 arr_timeList[0][3] =  String(object.get("week_Num"));
+                 arr_timeList[0][3] =  var_week_Num;//String(object.get("week_Num"));
+
                  arr_timeList[0][4] = var_date.getDay();               
               }
               else{
                 var row = arr_timeList.length;
-                 arr_timeList[row] = new Array(); 
+                arr_timeList[row] = new Array(); 
                 arr_timeList[row][1] =str_date;
                 arr_timeList[row][2] =parseInt( object.get("Time")); 
-                arr_timeList[row][3] = String( object.get("week_Num"))
+                arr_timeList[row][3] = var_week_Num;//String( object.get("week_Num"))
                 arr_timeList[row][4] = var_date.getDay();  
               }
            }
@@ -465,6 +476,22 @@ line-height:28px;
         var result =Math.ceil(d/7);
         return result+1;
   };
+
+  function getWeekOfYear_1(strDate){
+        var today = new Date(strDate);
+        var firstDay = new Date(today.getFullYear(),0, 1);
+        var dayOfWeek = firstDay.getDay(); 
+        var spendDay= 1;
+        if (dayOfWeek !=0) {
+          spendDay=7-dayOfWeek+1;
+        }
+        firstDay = new Date(today.getFullYear(),0, 1+spendDay);
+        var d =Math.ceil((today.valueOf()- firstDay.valueOf())/ 86400000);
+        var result =Math.ceil(d/7);
+        return result+1;
+  };
+
+
   function getFormatDate(arg) {
       if (arg == undefined || arg == '') {
           return '';
@@ -843,6 +870,7 @@ function show_chart_month(offset){
           type: 'bar', // ここは bar にする必要があります
           data: barChartData,
           // options: complexChartOption
+
 			options: {
 				responsive: true,
 				title: {
@@ -853,6 +881,7 @@ function show_chart_month(offset){
       });
 }
 
+
 function show_chart_year(offset){
     //週実績の取得
     get_arrayData("3",offset);
@@ -861,7 +890,9 @@ function show_chart_year(offset){
           scaleStartValue : null,  //y轴的起始值
           scaleLabel : "<%=value%>",// 标签显示值
           scaleBeginAtZero: true, // y轴标记是否从0开始
+
         labels: ['1','2','3','4','5','6','7','8','9','10','11','12' ],
+
         datasets: [
         {
             label: '',
