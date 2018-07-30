@@ -101,17 +101,12 @@
         } else if(page.id === 'login_height') {
           page.querySelector('#next_btn').onclick = function() {
             var heightInput = document.getElementById('height-input').value;
-            localStorage.setItem("Height",parseInt(heightInput));
-            document.querySelector('#topNavigator').pushPage('login_weight.html', {data: {title: 'test'}});
-          };
-        } else if(page.id === 'login_weight') {
-          page.querySelector('#next_btn').onclick = function() {
             var weightInput = document.getElementById('weight-input').value;
-            localStorage.setItem("Weight",parseInt(weightInput));
+            localStorage.setItem("Height",parseInt(heightInput));
+             localStorage.setItem("Weight",parseInt(weightInput));
             document.querySelector('#topNavigator').pushPage('create_mail.html', {data: {title: 'test'}});
           };
         } else if(page.id === 'create_mail') {
-      
           page.querySelector('#register_btn').onclick = function() {
             var username = document.getElementById('username_input').value;
             var email = document.getElementById('mail_input').value;
@@ -309,9 +304,9 @@
         <h2>性別</h2>
       <div style="text-align: center;margin-top:30%">
           <p>
-            <img src="images/female.png" style="width:40%" id="female-button" />
+            <img src="../www/images/female.png" style="width:40%" id="female-button" />
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <img src="images/male.png" style="width:40%" id="male-button" />
+            <img src="../www/images/male.png" style="width:40%" id="male-button" />
           </p>  
         </div>
       </div>
@@ -356,22 +351,7 @@
             cm
           </p>  
         </div>
-        <div style="text-align: center;margin-top:20%">
-          <p style="padding-left:70%">
-            <ons-button style="width:70px;" id="next_btn" >次へ</ons-button>
-          </p>  
-        </div>
-      </div>
-    </ons-page>
-  </ons-template>
-
-  <ons-template id="login_weight.html">
-    <ons-page id="login_weight">
-      <ons-toolbar>
-        <div class="left"><ons-back-button>ー</ons-back-button></div>
-        <div class="right"><ons-toolbar-button onclick="window.location.href='Home.html';">スキップ</ons-toolbar-button></div>
-      </ons-toolbar>
-      <div style="padding-left:20px;margin-top: 30px;">
+        <div style="padding-left:20px;margin-top: 30px;">
         <h2>体重</h2>
         <div style="text-align: center;margin-top:30%">
           <p style="font-size:40px">
@@ -381,7 +361,7 @@
         </div>
         <div style="text-align: center;margin-top:20%">
           <p style="padding-left:70%">
-            <ons-button style="width:70px;" id="next_btn">次へ</ons-button>
+            <ons-button style="width:70px;" id="next_btn" >次へ</ons-button>
           </p>  
         </div>
       </div>
@@ -413,9 +393,9 @@
           <p style="margin-top: 30px;">
             <ons-button id="register_btn" style="width: 220px"> サインアップ </ons-button>
           </p>
-          <p style="margin-top: 10px;">
+          <!--<p style="margin-top: 10px;">
             <ons-button onclick="facebook()" style="width: 220px">Facebookで登録</ons-button>
-          </p>
+          </p>-->
         
         </div>
       </div>
