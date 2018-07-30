@@ -216,10 +216,10 @@
       <div class="title"><ons-icon icon="ion-pie-graph" size="30px" fixed-width="true"></ons-icon>レポート</div>
       <div class="content">運動以来のデータ分析.</div>
     </ons-card>
-    <ons-card onclick="window.location.href='keju3.html';">
+    <!--<ons-card onclick="window.location.href='keju3.html';">
       <div class="title"><i class="fas fa-book-open" size="3x" style="margin-left:10px;"> </i>習慣化運動テスト</div>
       <div class="content">テストの結果に基づいて簡単な運動を推薦する．</div>
-    </ons-card>
+    </ons-card>-->
     <ons-card onclick="window.location.href='lujie.html';">
       <div class="title"><i class="fas fa-star-half" size="3x" style="margin-left:10px;"></i></ons-icon>達成メッセージ</div>
       <div class="content">自分の意気込み.</div>
@@ -262,7 +262,7 @@
  <!--　目標と記録　ページ　-->
 <template id="target.html">
   <ons-page id="target-page">
-    <div>
+    <div style="height:auto">
       <div style="height:10%">
         <ons-carousel id="carousel" fullscreen swipeable auto-scroll overscrollable initial-index="0">
       <!--当日記録-->
@@ -289,6 +289,7 @@
       <!--週間記録-->
       <ons-carousel-item class="carousel-item" style="background-color: white">
         <div style="text-align : center">
+          <br />
           <ons-list-header style="width: 100%;display: inline-block;text-align : center;font-size:15px">週間の目標</ons-list-header>
           <ons-list-item style="width: 100%;display: inline-block;background-color:#FFF ">
             <p>   
@@ -327,8 +328,9 @@
     </ons-carousel>
       </div>
     </div>
-    <ons-card style="height:90px" onclick="fn.pushPage({'id': 'show_sport.html', 'title': 'オススメ運動'})">
-      <div class="title"><ons-icon icon="ion-ios-bookmarks" size="23px" fixed-width="true"></ons-icon>運動選択</div>
+    
+    <ons-card style="height:90px;margin-top:-20px" onclick="fn.pushPage({'id': 'show_sport.html', 'title': 'オススメ運動'})">
+      <div class="title"><ons-icon icon="ion-ios-bookmarks" size="23px" fixed-width="true"></ons-icon>運動の選択</div>
       <div class="content"><p id="performance_p">運動のテスト、運動に関する資料.</p></div>
     </ons-card>
     <ons-card style="height:120px" onclick="fn.pushPage({'id': 'target_set.html', 'title': '目標設定'})">
@@ -342,7 +344,7 @@
       <div class="title"><ons-icon icon="ion-compass" size="23px" fixed-width="true"></ons-icon>実績記録</div>
       <div class="content"><p id="performance_p">運動時間の実績を記録する.</p></div>
     </ons-card>
-    <ons-list-item>
+    <ons-list-item style="margin-top:-20px">
         <ons-card style="background-color:#2ecc71;width:45%;text-align:center" onclick="fn.pushPage({'id': 'tar_complete.html', 'title': '達成した目標'}, 'fade-ios')">
           目標記録
         </ons-card>
@@ -592,7 +594,7 @@
 <template id="map.html">
   <ons-page>
     <!-- 地図の描画領域 -->
-    <div id="map_canvas"style="width:500px; height:1200px"></div>
+    <div id="map_canvas"style="width:500px; height:800px"></div>
 
     <style type="text/css">
       html { height: 100% }
@@ -601,7 +603,7 @@
     </style>
 
     <script>
-            var latlng = {lat: 35.658892, lng: 139.755286};
+            var latlng = {lat: 35.607154, lng: 139.749047};
             var mapOptions = {
               
               center: new google.maps.LatLng(latlng),    //地図上で表示させる緯度経度
