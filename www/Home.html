@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" type="text/css" href="css/mobileSelect.css">
+  <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Condiment'>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
 
   <script>
@@ -98,11 +99,11 @@
  　<!--　右のメニュー　-->
 <template id="sidemenu.html">
   <ons-page>
-    <div class="profile-pic">
-      
-      <img src="https://monaca.io/img/logos/download_image_onsenui_01.png">
+    <div onclick="fn.pushPage({'id': 'baseData.html'}, 'fade-ios')" style="background-color:#999999">
+      <br />
+      <img src="https://placekitten.com/200/300" id="user_img1" style="width:80px;height:80px;border-radius:50%;" onclick="fn.pushPage({'id': 'user_photo.html', 'title': '写真'}, 'fade-ios')">
+      <p style="color:white;font-size:2em;margin-top:-10px" class="user_name"></p>
     </div>
-
     <ons-list-title>Access</ons-list-title>
     <ons-list>
       <ons-list-item onclick="fn.loadView(0)">
@@ -140,7 +141,7 @@
       </ons-list-item>
     </ons-list>
 
-    <ons-list-title style="margin-top: 10px">Links</ons-list-title>
+    <ons-list-title style="margin-top: 10px;">Links</ons-list-title>
     <ons-list>
       <ons-list-item onclick="fn.loadLink('https://aiit-isa.backlog.jp/gantt/2018YC')">
         <div class="left">
@@ -164,13 +165,36 @@
           <ons-icon icon="fa-external-link"></ons-icon>
         </div>
       </ons-list-item>
+      <ons-button id="logout"  onclick="logout()" modifier="material"  style="width:100%">ログアウト</ons-button>
+      <ons-button id="top"  onclick="window.location.href='index.html'" modifier="material"  style="width:100%">ホームページ</ons-button>
     </ons-list>
 
     <script>
+      var username = localStorage.getItem("LoginUsername");
+      var user_img1 = localStorage.getItem("user_img");
+      var c_img1= document.getElementById('user_img1');
+      if(user_img1 === null||user_img1 === undefined){
+       c_img1.src = "https://placekitten.com/200/300";
+      } else {
+        c_img1.src = user_img1;
+      }
+      if( username === null){
+        var mychar1 = document.getElementById('logout').style.display="none";
+        var mychar2 = document.getElementById('top').style.display="block";
+      } else{
+         var mychar1 = document.getElementById('logout').style.display="block";
+         var mychar2 = document.getElementById('top').style.display="none";
+      }
+      document.querySelector('.user_name').innerHTML = username;
       ons.getScriptPage().onInit = function() {
         // Set ons-splitter-side animation
         this.parentElement.setAttribute('animation', ons.platform.isAndroid() ? 'overlay' : 'reveal');
       };
+      function logout(){
+          localStorage.removeItem("LoginUsername");
+          localStorage.removeItem("objectId");
+          window.location.href='index.html';
+      }
     </script>
 
     <style>
@@ -195,7 +219,7 @@
 </template>
 
 <template id="home.html">
-  <ons-page>
+  <ons-page id="home">
     <p class="intro">
       <ons-list-item style="left: 20%;right: 20%;">
       <span id="name-display">Hello anonymous!</span>
@@ -267,31 +291,29 @@
         <ons-carousel id="carousel" fullscreen swipeable auto-scroll overscrollable initial-index="0">
       <!--当日記録-->
       <ons-carousel-item class="carousel-item" style="background-color: white"> 
-        <div style="text-align : center">
-          <br />
-          <ons-list-header style="width: 100%;display: inline-block;text-align : center;font-size:20px">今日の目標</ons-list-header>
-          <ons-list-item style="width: 100%;display: inline-block;background-color:#FFF ">
-            <div style="width:20%;text-align : center">
+        <div style="text-align : center;height:115px">
+          <ons-list-header style="width: 100%;display: inline-block;text-align : center;font-size:20px;">今日の目標</ons-list-header>
+          <ons-list-item style="width: 100%;display: inline-block;background-color:#FFF " modifier="nodivider">
+            <div style="width:20%;text-align : center;margin-top:-20px;">
               kCal
-              <p class="today_ka" style="color:red;font-size:20px">0</p>
+              <p class="today_ka" style="color:red;font-size:25px;margin-top:5px">0</p>
             </div>
-            <div  style="width:60%;text-align : center">
+            <div  style="width:60%;text-align : center;">
               運動時間
-              <p  class="today_time" style="color:orange;font-size:35px;">0</p>
+              <p  class="today_time" style="color:orange;font-size:40px;margin-top:15px">0</p>
             </div>
-            <div style="width:20%;text-align : center">
+            <div style="width:20%;text-align : center;margin-top:-25px;">
               km
-              <p  class="today_far" style="color:blue;font-size:20px">0</p>
+              <p  class="today_far" style="color:blue;font-size:20px;margin-top:5px">0</p>
             </div>
           </ons-list-item>
         </div>
       </ons-carousel-item>
       <!--週間記録-->
       <ons-carousel-item class="carousel-item" style="background-color: white">
-        <div style="text-align : center">
-          <br />
-          <ons-list-header style="width: 100%;display: inline-block;text-align : center;font-size:15px">週間の目標</ons-list-header>
-          <ons-list-item style="width: 100%;display: inline-block;background-color:#FFF ">
+        <div style="text-align : center;height:80px">
+          <ons-list-header style="width: 100%;display: inline-block;text-align : center;font-size:20px;background-color:blue;color:white">週間の目標</ons-list-header>
+          <ons-list-item style="width: 100%;display: inline-block;background-color:#FFF " modifier="nodivider">
             <p>   
               <div style="width:14%;margin-top:-20px;text-align : center">
                 <p>日</p>
@@ -329,7 +351,7 @@
       </div>
     </div>
     
-    <ons-card style="height:90px;margin-top:-20px" onclick="fn.pushPage({'id': 'show_sport.html', 'title': 'オススメ運動'})">
+    <ons-card style="height:90px;" onclick="fn.pushPage({'id': 'show_sport.html', 'title': 'オススメ運動'})">
       <div class="title"><ons-icon icon="ion-ios-bookmarks" size="23px" fixed-width="true"></ons-icon>運動の選択</div>
       <div class="content"><p id="performance_p">運動のテスト、運動に関する資料.</p></div>
     </ons-card>
@@ -344,7 +366,7 @@
       <div class="title"><ons-icon icon="ion-compass" size="23px" fixed-width="true"></ons-icon>実績記録</div>
       <div class="content"><p id="performance_p">運動時間の実績を記録する.</p></div>
     </ons-card>
-    <ons-list-item style="margin-top:-20px">
+    <ons-list-item style="margin-top:-20px" modifier="nodivider">
         <ons-card style="background-color:#2ecc71;width:45%;text-align:center" onclick="fn.pushPage({'id': 'tar_complete.html', 'title': '達成した目標'}, 'fade-ios')">
           目標記録
         </ons-card>
@@ -636,117 +658,108 @@
 
   </ons-page>
 </template>
- <!-- new mypage
-  <template id="total_mypage.html">
-  <ons-page>
-    <ons-tabbar position="top">
-      <ons-tab label="個人情報" page="mypage.html" active></ons-tab>
-      <ons-tab label="運動データ" page="datapage.html"></ons-tab>
-    </ons-tabbar>
-    <script>
-    </script>
-  </ons-page>
-  </template>
-  <template id="datapage.html">
-  <ons-page>
-    123
-  </ons-page>
-  </template>-->
-  <!-- mypage -->
+
 <template id="mypage.html">
-  <ons-page> 
-        <ons-card style="height:100px">
-          <ons-list-item style="height:80px">
-            <div class="left">
-              <img src="https://placekitten.com/200/300" id="user_img" style="width:80px;height:80px" onclick="fn.pushPage({'id': 'user_photo.html', 'title': '写真'}, 'fade-ios')">
-            </div>
-            <div class="center" style="padding-left:5%" onclick="fn.pushPage({'id': 'baseData.html', 'title': '基本情報'})">
-              <p class="card_01" style="padding-left:20%;font-size:40px">未登録</p>
-            </div>
-          </ons-list-item>
-        </ons-card>
-        <ons-card style="height:50px" onclick="fn.pushPage({'id': 'changeData.html', 'title': '基本情報'})">
-          <ons-list-item style="margin-top:-20px">
-            <div class="card_02_1" style='width:33%;text-align: center'></div>
-            <div class="card_02_2"  style='width:33%;text-align: center'></div>
-            <div class="card_02_3"  style='width:33%;text-align: center'></div>
-          </ons-list-item>
-        </ons-card>
+  <ons-page id="mypage"> 
+     <ons-list-item modifier="nodivider">
+       <div class="title">
+					<div class="title-left">
+						<img src="https://placekitten.com/200/300" id="user_img2" style="width:80px;height:80px;border-radius:50%;" onclick="fn.pushPage({'id': 'user_photo.html', 'title': '写真'}, 'fade-ios')">
+					</div>
+					<div class="title-right">
+						<h2 class="card_01">未登録 </h2>
+						<h6 class="total_kal_show">0kcal</h6>
+					</div>
+				</div>
+    </ons-list-item>
+      <div class="banner-bottom" style="margin-top:-30px" onclick="fn.pushPage({'id': 'changeData.html', 'title': '基本情報'})">
+				<div class="banner-bottom-left">
+					<h3 class="card_02_1" >0</h3>
+					<p>体重(kg)</p>
+				</div>
+        <div class="banner-bottom-center">
+					<h3 class="card_02_2" >0</h3>
+					<p>BMI(18.5～24)</p>
+				</div>
+				<div class="banner-bottom-right">
+					<h3 class="card_02_3" >0</h3>
+					<p>身長(cm)</p>
+				</div>
+				<div class="clear"> </div>
+			</div>
         <!-- <ons-card style="height:13%" onclick="fn.pushPage({'id': 'sport_type.html', 'title': '運動別のデータ'})">
               <p class="sport_time_show1" style="text-align: center;margin-top:-10px">運動時間：</p>
               <p class="sport_time_show2" style="text-align: center">運動距離：</p>
             </ons-card> -->
         <ons-card style="background:url(images/total_data.png);background-size:100%;height:130px" onclick="fn.pushPage({'id': 'tar_defeate.html', 'title': '実績'}, 'fade-ios')">
-          <p class="total_data_show" style="text-align: center;margin-top:-10px;color:white;"></p>
-        </ons-card>
-        <ons-list-item  style="left: 20%;right: 20%;">
-            <ons-icon icon="ion-bonfire" size="20px" fixed-width="true"></ons-icon>
-            <p class="total_kal_show">0kcal</p>
-        </ons-list-item>
-        
+          <p class="total_data_show" style="text-align: center;margin-top:-10px; color:  #ede5e2;"></p>
+        </ons-card>    
       <ons-list-header style="width: 100%;display: inline-block;text-align : center;font-size:15px">運動別データ</ons-list-header>
-      <ons-list-item>
+      <ons-list-item modifier="nodivider">
       <div style="width: 50%">
             <ons-card style="height:210px">
-              <div class="title" style="font-size:16px"><i class="fas fa-shoe-prints"></i>ウォーキング</div>
+              <div class="title" style="font-size:16px"><i class="fas fa-shoe-prints"  style="color:orange"></i>ウォーキング</div>
               <div class="content">
-                <p>時間：</p>
-                <p style="text-align:center" class="walking_p">0分</p>
-                <p>消費カロリー：</p>
-                <p style="text-align:center" class="walking_s">0kcal</p>
+                時間：<p style="text-align:center;font-size:1.5em" class="walking_p">0分</p>
+                消費カロリー：<p style="text-align:center" class="walking_s">0kcal</p>
               </div>
             </ons-card>
             <ons-card style="height:100px">
-              <div class="title" style="font-size:16px"><i class="fas fa-bicycle"></i> 自転車</div>
-              <div class="content">時間：<p style="text-align:center" class="bicycle_p">0 分</p></div>
+              <div class="title" style="font-size:16px"><i class="fas fa-bicycle"  style="color:gray"></i> 自転車</div>
+              <div class="content">時間：<p style="text-align:center;font-size:1.5em;margin-top:0px" class="bicycle_p">0 分</p></div>
             </ons-card>
        
       </div>
       <div style="width: 50%">
             <ons-card style="height:100px">
-              <div class="title" style="font-size:16px"><i class="fas fa-walking"></i> ランニング</div>
-              <div class="content">時間：<p style="text-align:center" class="running_p">0 分</p></div>
+              <div class="title" style="font-size:16px"><i class="fas fa-walking" style="color:green"></i> ランニング</div>
+              <div class="content">時間：<p style="text-align:center;font-size:1.5em;margin-top:0px" class="running_p">0 分</p></div>
             </ons-card>
             <ons-card style="height:100px">
-              <div class="title" style="font-size:16px"><i class="fas fa-swimmer"></i> 水泳</div>
-              <div class="content">時間：<p style="text-align:center" class="swimming_p">0 分</p></div>
+              <div class="title" style="font-size:16px"><i class="fas fa-swimmer" style="color:blue"></i> 水泳</div>
+              <div class="content">時間：<p style="text-align:center;font-size:1.5em;margin-top:0px" class="swimming_p">0 分</p></div>
             </ons-card>
             <ons-card style="height:100px">
-              <div class="title" style="font-size:16px"><i class="fas fa-baseball-ball"></i> 野球</div>
-              <div class="content">時間：<p style="text-align:center" class="baseball_p">0 分</p></div>
+              <div class="title" style="font-size:16px"><i class="fas fa-baseball-ball" style="color:brown"></i> 野球</div>
+              <div class="content">時間：<p style="text-align:center;font-size:1.5em;margin-top:0px" class="baseball_p">0 分</p></div>
             </ons-card>
        
       </div>
       </ons-list-item>
-      <p style="text-align:center">
-        <ons-button id="logout"  onclick="logout()" modifier="material" style="width:50%">ログアウト</ons-button>
+      <p>
+        <ons-button id="logout1"  onclick="logout1()" modifier="material" style="width:50%">ログアウト</ons-button>
       </p>
     </ons-list>
     <script>
       
-        var user_img = localStorage.getItem("user_img");
-        if( user_img === null){
-          user_img = "https://placekitten.com/200/300";
-        } 
-        var c_img= document.getElementById('user_img');
-        c_img.src = user_img;
+        var user_img2 = localStorage.getItem("user_img");
+        var c_img= document.getElementById('user_img2');
+        if(user_img2=== null||user_img2 === undefined){
+          c_img.src = "https://placekitten.com/200/300";
+        } else {
+          c_img.src = user_img2;
+        }
         var username = localStorage.getItem("LoginUsername");
         var sex = localStorage.getItem("Sex");
         var birthday = localStorage.getItem("Birthday_Year");
         var height = localStorage.getItem("Height");
         var weight = localStorage.getItem("Weight");
  
-        var bmi=weight/(height*height/10000);
+        var bmi = weight/(height*height/10000);
         document.querySelector('.card_01').innerHTML = username;
-        document.querySelector('.card_02_1').innerHTML ="体重(kg)<br />"+ weight ;
-        document.querySelector('.card_02_2').innerHTML ="BMI<br />" +Math.round(bmi*100)/100;
-        document.querySelector('.card_02_3').innerHTML = "身長(cm)<br />"+height;
+        document.querySelector('.card_02_1').innerHTML = weight ;
+        document.querySelector('.card_02_2').innerHTML =Math.round(bmi*100)/100;
+        document.querySelector('.card_02_3').innerHTML = height;
         total_data();
-      
+        if(username === null|| username === undefined){
+          var mychar2 = document.getElementById('logout1').style.display="none";
+        } else{
+         var mychar1 = document.getElementById('logout1').style.display="block";
+        }
 
-      function logout(){
+      function logout1(){
           localStorage.removeItem("LoginUsername");
-          localStorage.clear();
+          localStorage.removeItem("LoginUsername");
           window.location.href='index.html';
       }
 
@@ -997,7 +1010,7 @@
         <li class="recommend_target3"></li>  
       </ons-card>
       <p style="text-align:center">
-        <ons-button id="logout"  onclick="logout()" modifier="material"  style="width:50%">ログアウト</ons-button>
+        <ons-button id="logout2"  onclick="logout2()" modifier="material"  style="width:50%">ログアウト</ons-button>
       </p>
 
       <script>
@@ -1005,14 +1018,13 @@
         ons.ready(function() { 
         var LoginUsername = localStorage.getItem("LoginUsername");
         var LoginEmail = localStorage.getItem("LoginEmail");
-        document.getElementById("user_img").src = localStorage.getItem("user_img");
       
         if(LoginUsername == undefined && LoginEmail == undefined){
           var mychar1 = document.getElementById('signup').style.display="block";
-          var mychar2 = document.getElementById('logout').style.display="none";
+          var mychar2 = document.getElementById('logout2').style.display="none";
         } else {
           var mychar1 = document.getElementById('signup').style.display="none";
-          var mychar2 = document.getElementById('logout').style.display="block";
+          var mychar2 = document.getElementById('logout2').style.display="block";
         }
           //localStorage.clear();
           var username = localStorage.getItem("LoginUsername");
@@ -1085,9 +1097,9 @@
                             
         }); 
         
-        function logout(){
+        function logout2(){
           localStorage.removeItem("LoginUsername");
-          localStorage.clear();
+          localStorage.removeItem("objectId");
           window.location.href='index.html';
         }
       </script>
@@ -1200,7 +1212,7 @@
 <template id="target_set.html">
   <ons-page id="target_set">
     <ons-toolbar> 
-      <div class="left"><ons-back-button>戻り</ons-back-button></div>
+      <div class="left"><ons-back-button>Back</ons-back-button></div>
       <div class="center">週間目標設定</div>
     </ons-toolbar>
     <ons-list-header>今週何日運動しますか？　 -　 <span id="checkboxes-header1"></span>(日)</ons-list-header>
@@ -1253,6 +1265,7 @@
           document.getElementById('checkboxes-header').innerHTML = currentColors;
         })
       }
+
       var sportArr=['','ランニング', 'ウォーキング','水泳','自転車','野球','ラジオ体操','バドミントン','ヨガ','テニス','ゴルフ'];
       var mobileSelect3 = new MobileSelect({
         trigger: '#trigger3',
@@ -1283,6 +1296,37 @@
         document.getElementById('checkboxes-header2').innerHTML = event.target.value;
         new_stime = event.target.value;
       })
+
+      function checktar(){
+        var user_id = localStorage.getItem("objectId");
+        var today = new Date();
+        var yearNum = today.getFullYear();
+        var weekNum =yearNum +"-"+getWeekOfYear();
+        var ncmb = new NCMB("dd411920ff7852038a3d55414c3447b88c5e842ace7268254078b113d065398c","23304def33b24aeed4fe1ae5325a77c1ffbe3e44067c0a3716b47aefd4297e05");
+        var targetClass = ncmb.DataStore("targetClass");
+        targetClass.equalTo("user_Id",user_id)
+                          .fetchAll()
+                          .then(function(results){
+                            var object = results[i];  
+                            var check_tar = new Date(object.get("week_Num")); 
+                                for( j = 0 ;j < arr_timeList.length;j++){
+                                  if (  check_tar  === weekNum ){
+                                    alert("目標が存在した");
+                                    var tar_times = new Date(object.get("tar_Times"));
+                                    var tar_timeLen = new Date(object.get("tar_TimeLen"));
+                                    var tar_sport = new Date(object.get("tar_Sport"));
+                                    var tarmess = "今週は"+tar_times+"日, 毎回"+tar_time+"分, "+tar_sport;
+                                    localStorage.setItem("Tar_message",tarmess);
+                                    localStorage.setItem("Tar_status","1");
+                                    break;
+                                  }
+                                }
+                          })
+                          .catch(function(err){
+                            console.log("check tar エラー");
+                           });
+      }
+
       function showProfile(){
         var ncmb = new NCMB("dd411920ff7852038a3d55414c3447b88c5e842ace7268254078b113d065398c","23304def33b24aeed4fe1ae5325a77c1ffbe3e44067c0a3716b47aefd4297e05");
         var tar_times = document.getElementById("range-slider1").value;
@@ -1298,10 +1342,15 @@
         if( testNum === weekNum){
           alert("まず今週の目標を完成してください。");
           document.getElementById('appNavigator').popPage();
-        } else {          
-           var targetClass = ncmb.DataStore("targetClass");
-           var targetClass = new targetClass();
-           targetClass.set("week_Num",weekNum)
+        } else {
+          checktar();
+          if(localStorage.getItem("Tar_status")===1){
+             alert("目標が存在した");
+            document.getElementById('appNavigator').popPage({refresh:true});
+          } else {
+            var targetClass = ncmb.DataStore("targetClass");
+            var targetClass = new targetClass();
+            targetClass.set("week_Num",weekNum)
                       .set("user_Id",user_id)
                       .set("tar_Times",tar_times)
                       .set("tar_TimeLen",tar_time)
@@ -1329,7 +1378,10 @@
                       .catch(function(err){
                       // 保存に失敗した場合の処理
                       });
-        }
+          }
+        }         
+        
+      
   
         
          
@@ -1354,7 +1406,7 @@
 <template id="sport_in.html">
   <ons-page id="per_input" >
     <ons-toolbar>
-      <div class="left"><ons-back-button>戻り</ons-back-button></div>
+      <div class="left"><ons-back-button>Back</ons-back-button></div>
       <div class="center">実績記録</div>
     </ons-toolbar>
     <div style="background-color:#fff">
@@ -1476,7 +1528,28 @@
       </div>
     </div>
     <script>
+      var username = localStorage.getItem("LoginUsername"); 
+      
+      function toBlob(base64) {
+        var bin = atob(base64.replace(/^.*,/, ''));
+        var buffer = new Uint8Array(bin.length);
+        for (var i = 0; i < bin.length; i++) {
+            buffer[i] = bin.charCodeAt(i);
+        }
+        // Blobを作成
+        try{
+            var blob = new Blob([buffer.buffer], {
+                type: 'image/png'
+            });
+        }catch (e){
+            return false;
+        }
+        return blob;
+    }
+
       function readAsDataURL(){
+        var username = localStorage.getItem("LoginUsername"); 
+        var ncmb = new NCMB("dd411920ff7852038a3d55414c3447b88c5e842ace7268254078b113d065398c", "23304def33b24aeed4fe1ae5325a77c1ffbe3e44067c0a3716b47aefd4297e05");
 	      if(typeof FileReader=='undifined'){
 		      result.innerHTML="<p>FileReaderが必要です。</p>";
 		      return false;
@@ -1495,7 +1568,16 @@
 		      result.innerHTML='<img src="'+this.result+'" alt="" style="width:80px;height:80px"/>';
           localStorage.setItem("user_img",this.result);
           document.getElementById('appNavigator').popPage();
-
+           /*var img_name = username+".png";
+            var byteCharacters = toBlob(this.result);
+            ncmb.File.upload(img_name, byteCharacters)
+            .then(function() {
+              alert("Successful");
+              document.getElementById('appNavigator').popPage();
+            })
+            .catch(function(error) {
+              alert(JSON.stringify(error));
+            });*/
           if(this === this.result){
             console.log('ok');
           }
@@ -1512,7 +1594,7 @@
 <template id="ba_photo.html">
   <ons-page id="ba_photo">
     <ons-toolbar> 
-      <div class="left"><ons-back-button>戻り</ons-back-button></div>
+      <div class="left"><ons-back-button>Back</ons-back-button></div>
       <div class="center" >期間変化</div>
       
     </ons-toolbar>
@@ -1527,7 +1609,7 @@
 <template id="show_sport.html">
   <ons-page>
     <ons-toolbar> 
-      <div class="left"><ons-back-button>戻り</ons-back-button></div>
+      <div class="left"><ons-back-button>Back</ons-back-button></div>
       <div class="center" >オススメ運動</div>
     </ons-toolbar>
     <p style="text-align:center">週2,000kcal未満対2,000kcal以上運動習慣なし対あり,<br />総死亡率を1.6％：2.4％を減少します.<br />運動不足を感じている方は全年齢の74.6%。<br />---平成26年版厚生労働白書</p>
@@ -1555,7 +1637,7 @@
 <template id="sport_1.html">
   <ons-page>
     <ons-toolbar> 
-      <div class="left"><ons-back-button>戻り</ons-back-button></div>
+      <div class="left"><ons-back-button>Back</ons-back-button></div>
       <div class="center" >オススメ運動</div>
     </ons-toolbar>
      <ons-card>
@@ -1577,7 +1659,7 @@
 <template id="sport_2.html">
   <ons-page>
     <ons-toolbar> 
-      <div class="left"><ons-back-button>戻り</ons-back-button></div>
+      <div class="left"><ons-back-button>Back</ons-back-button></div>
       <div class="center" >オススメ運動</div>
     </ons-toolbar>
     <ons-card>
@@ -1622,7 +1704,7 @@
 <template id="sport_3.html">
   <ons-page>
     <ons-toolbar> 
-      <div class="left"><ons-back-button>戻り</ons-back-button></div>
+      <div class="left"><ons-back-button>Back</ons-back-button></div>
       <div class="center" >オススメ運動</div>
     </ons-toolbar>
     <ons-card>

@@ -14,15 +14,14 @@
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/mobileSelect.css">
   <link rel="stylesheet" type="text/css" href="css/mobileSelect.css">
+   <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Condiment'>
   <script src="js/mobileSelect.js" type="text/javascript"></script>
   
       <style>
-      ons-carousel-item {
-  display: table;
-  text-align: center;
-}
-
-.item-label {
+        h1{color:#fff;padding: 1em 0 0 0; font-size: 3em;font-weight: 700;}
+        h2{font-size: 1em;color: #ff5442;margin-top: 0.5em;}
+      ons-carousel-item {display: table;text-align: center;}
+    .item-label {
   display: table-cell;
   vertical-align: middle;
   color: white;
@@ -128,7 +127,7 @@
             } else if ( password.indexOf(" ") >= 0 || password === ""){
               alert("パスワードが入力されていません");
               return;
-            } else { 
+              } else { 
               let ncmb = new NCMB("dd411920ff7852038a3d55414c3447b88c5e842ace7268254078b113d065398c","23304def33b24aeed4fe1ae5325a77c1ffbe3e44067c0a3716b47aefd4297e05");
               let user = new ncmb.User();
               user.set("userName", username)
@@ -138,6 +137,7 @@
                   .set("Birthday", birthday)
                   .set("height", height)
                   .set("weight", weight)
+                  .set("Img","https://placekitten.com/200/300")
               user.signUpByAccount()
                   .then(function(){
                     var user = new ncmb.User({userName:username, password:password});
@@ -153,18 +153,16 @@
                     // エラー処理
                     });
                      // 保存に成功した場合の処理
-  
                   })
                   .catch(function(err){
                     // 保存に失敗した場合の処理
                     alert("登録失敗");
                     return;
                   });
-            }
+              }
           };
         } else if (page.id === 'user_login'){
-            page.querySelector('#user_login').onclick = function() {
-              
+            page.querySelector('#user_login_btn').onclick = function() {
               let input = document.getElementById("user_name").value;
               let regm = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
               if(input.match(regm)){
@@ -227,6 +225,7 @@
                           var birthday = data.get("Birthday");
                           var height = data.get("height");
                           var weight = data.get("weight");
+                          var img_check = data.get("Img");
                           
             
                           localStorage.setItem("objectId",objectId);
@@ -234,6 +233,7 @@
                           localStorage.setItem("Birthday_Year",birthday);
                           localStorage.setItem("Height",height);
                           localStorage.setItem("Weight",weight);
+                          localStorage.setItem("user_img", img_check);
                           localStorage.setItem("LoginUsername",input_username);
                           window.location.href='Home.html';
                        })
@@ -263,40 +263,143 @@
 			      $("#year option[value='"+yearTime+"']").attr("selected","selected");
 		      }
 
-
     </script>
 </head>
 <body bgcolor="white">
   <ons-navigator swipeable id="topNavigator" page="page1.html"></ons-navigator>
     
-
   <ons-template id="page1.html">
     <ons-page id="page1">
-      <div>
-        <div style="height:200px">
+      <div style="text-align:center">
+        <div style="height:150px"></div>
+        <div class="foo">
+          <p>
+            <span class="letter" data-letter="三" style="font-size:60px">三</span>
+            <span class="letter" data-letter="。。" style="font-size:30px;color:gray">。。</span>
+            <br />
+            <span class="letter" data-letter="日" style="font-size:45px;color:green">日</span>
+            <span class="letter" data-letter="坊" style="font-size:35px;color:orange">坊</span>
+            <span class="letter" data-letter="主" style="font-size:50px;color:yellow">主</span>
           
         </div>
       </div>
-      <div style="padding: 80% 0;">
+      <div style="padding: 20% 0;">
         <p style="text-align:center">
           <ons-button style="width:60%;height:10%" onclick="document.querySelector('#topNavigator').pushPage('login_sex.html', {data: {title: '登録'}});">新規ユーザー</ons-button>
         </p>
         <p style="text-align:center">
           <ons-button  id="login-button" style="width:60%;height:10%;color:#C0C0C0">リピーター</ons-button>
         </p>
-        <p style="text-align:center;margin-top:10px;color:#FFFFFF;">中鉢PBL</p>
+        <p style="text-align:center;margin-top:10px;color:#FFFFFF;">-中鉢PBL-</p>
         <!--p style="text-align:center">
           <ons-button modifier="outline" onclick="window.location.href='Home.html'">スキップ</ons-button>
         </p-->
       </div>
-       
+      <style>
+        url(https://fonts.googleapis.com/css?family=Lato:900);
+*, *:before, *:after{
+  box-sizing:border-box;
+}
+body{
+  font-family: 'Lato', sans-serif;
+}
+div.foo{
+  width: 90%;
+  margin: 0 auto;
+  text-align: center;
+}
+.letter{
+  display: inline-block;
+  font-weight: 900;
+  font-size: 8em;
+  margin: 0.2em;
+  position: relative;
+  color: #00B4F1;
+  transform-style: preserve-3d;
+  perspective: 400;
+  z-index: 1;
+}
+.letter:before, .letter:after{
+  position:absolute;
+  content: attr(data-letter);
+  transform-origin: top left;
+  top:0;
+  left:0;
+}
+.letter, .letter:before, .letter:after{
+  transition: all 0.3s ease-in-out;
+}
+.letter:before{
+  color: #fff;
+  text-shadow: 
+    -1px 0px 1px rgba(255,255,255,.8),
+    1px 0px 1px rgba(0,0,0,.8);
+  z-index: 3;
+  transform:
+    rotateX(0deg)
+    rotateY(-15deg)
+    rotateZ(0deg);
+}
+.letter:after{
+  color: rgba(0,0,0,.11);
+  z-index:2;
+  transform:
+    scale(1.08,1)
+    rotateX(0deg)
+    rotateY(0deg)
+    rotateZ(0deg)
+    skew(0deg,1deg);
+}
+.letter:hover:before{
+  color: #fafafa;
+  transform:
+    rotateX(0deg)
+    rotateY(-40deg)
+    rotateZ(0deg);
+}
+.letter:hover:after{
+  transform:
+    scale(1.08,1)
+    rotateX(0deg)
+    rotateY(40deg)
+    rotateZ(0deg)
+    skew(0deg,22deg);
+}
+      </style>
+    </ons-page>
+  </ons-template>
+
+  <ons-template id="user_login.html">
+    <ons-page id="user_login">
+      <ons-toolbar>
+        <div class="center">ログイン</div>
+        <div class="left"><ons-back-button>戻り</ons-back-button></div>
+      </ons-toolbar>
+      <div style="width:250px;height:150px">
+      </div>
+      <div  style="display: table;padding: 5% 0;">
+        <div class="center" style="width: 80%;display: inline-block;padding: 10% 0;">
+          <ons-list-item style="left: 20%;right: 20%;" modifier="nodivider">
+            <div style=" width:70%;font-size: 10px">メールアドレスまたはユーザー名</div>
+            <input id="user_name" class="text-input text-input--material" placeholder="Username" type="text" style=" width:80%;font-size: 25px;height:35px" required>
+          </ons-list-item>
+          <ons-list-item style="left: 20%;right: 20%" modifier="nodivider">
+            <div style="width:80%;font-size: 10px;">パスワード</div>
+            <input type="password" id="user_password" class="text-input text-input--material" placeholder="******"  style=" width:80%;;font-size: 25px;height:35px" required>
+          </ons-list-item>
+        </div>
+        <p style="text-align: center;margin-top: -30px">
+          <ons-button modifier="material" id="user_login_btn" style=" width: 100px;">ログイン</ons-button>
+        </p>
+        <p style="text-align: center;font-size: 8px">パスワードを忘れた方は<a href="">再発行の手続き</a>へ</p>  
+      </div>                 
     </ons-page>
   </ons-template>
 
   <ons-template id="login_sex.html">
     <ons-page id="login_sex">
       <ons-toolbar>
-        <div class="left"><ons-back-button>ー</ons-back-button></div>
+        <div class="left"><ons-back-button>Back</ons-back-button></div>
         <div class="right"><ons-toolbar-button onclick="window.location.href='Home.html';">スキップ</ons-toolbar-button></div>
       </ons-toolbar>
       <div style="padding-left:20px;margin-top: 30px;">
@@ -310,16 +413,13 @@
           </p>  
         </div>
       </div>
-      <script>
-       
-      </script>
     </ons-page>
   </ons-template>
 
   <ons-template id="login_birthyear.html">
     <ons-page id="login_birthyear">
       <ons-toolbar>
-        <div class="left"><ons-back-button>ー</ons-back-button></div>
+        <div class="left"><ons-back-button>Back</ons-back-button></div>
         <div class="right"><ons-toolbar-button onclick="window.location.href='Home.html';">スキップ</ons-toolbar-button></div>
       </ons-toolbar>
       <div style="padding-left:20px;margin-top: 30px;">
@@ -340,7 +440,7 @@
   <ons-template id="login_height.html">
     <ons-page id="login_height">
       <ons-toolbar>
-        <div class="left"><ons-back-button>ー</ons-back-button></div>
+        <div class="left"><ons-back-button>Back</ons-back-button></div>
         <div class="right"><ons-toolbar-button onclick="window.location.href='Home.html';">スキップ</ons-toolbar-button></div>
       </ons-toolbar>
       <div style="padding-left:20px;margin-top: 30px;">
@@ -352,8 +452,8 @@
           </p>  
         </div>
         <div style="padding-left:20px;margin-top: 30px;">
-        <h2>体重</h2>
-        <div style="text-align: center;margin-top:30%">
+          <h2>体重</h2>
+          <div style="text-align: center;margin-top:30%">
           <p style="font-size:40px">
             <input id="weight-input" type="number" pattern="\d*" value="50" style="width:40%;height:60px;font-size:60px;">
             kg
@@ -371,15 +471,15 @@
   <ons-template id="create_mail.html">
     <ons-page id="create_mail">
       <ons-toolbar>
-        <div class="left"><ons-back-button>ー</ons-back-button></div>
+        <div class="left"><ons-back-button>Back</ons-back-button></div>
         <div class="right"><ons-toolbar-button onclick="window.location.href='Home.html';">スキップ</ons-toolbar-button></div>
       </ons-toolbar>
        <!--空間制御-->
-      <div style="padding-left:20px;margin-top: 30px;">
+      <div style="padding-left:20px;margin-top: 30px;" >
         <p></p>
-        <p>新規作成</p>
-        <p>あなたの</p>
-        <p>アカウント</p>
+        <p style="font-size: 1em;color:green;margin-top: 0.5em;text-align:left">新規作成</p>
+        <p style="font-size: 1em;color:green;margin-top: 0.5em;;text-align:left">あなたの</p>
+        <p style="font-size: 1em;color:green;margin-top: 0.5em;;text-align:left">アカウント</p>
       <div style="text-align: center;">
           <p>
             <ons-input id="username_input" modifier="underbar" placeholder="Username" style="width: 250px" float></ons-input>
@@ -396,43 +496,11 @@
           <!--<p style="margin-top: 10px;">
             <ons-button onclick="facebook()" style="width: 220px">Facebookで登録</ons-button>
           </p>-->
-        
         </div>
       </div>
     </ons-page>
   </ons-template>
 
-  <ons-template id="user_login.html">
-    <ons-page id="user_login">
-      <ons-toolbar>
-        <div class="center">ログイン</div>
-        <div class="left"><ons-back-button>戻り</ons-back-button></div>
-      </ons-toolbar>
-      <div style="width:250px;height:150px">
-        
-      </div>
-      <div  style="display: table;padding: 5% 0;">
-        <div class="center" style="width: 70%;display: inline-block;padding: 10% 0;">
-          <ons-list-item style="left: 15%;right: 15%;">
-            <div style="width: 180px;font-size: 8px">メールアドレスまたはユーザー名</div>
-            <ons-input type="text" id="user_name" placeholder=" Username" style=" width: 200px;"> </ons-input>
-          </ons-list-item>
-          <ons-list-item style="left: 15%;right: 15%;">
-            <div style="width: 70px;font-size: 8px;">パスワード</div>
-            <ons-input type="password" id="user_password" placeholder=" Password" style=" width: 200px;"> </ons-input>
-          </ons-list-item>
-        </div>
-        <p style="text-align: center;margin-top: -30px">
-          <ons-button modifier="material" id="user_login" style=" width: 100px;">ログイン</ons-button>
-        </p>
-        <p style="text-align: center;font-size: 8px">パスワードを忘れた方は<a href="">再発行の手続き</a>へ</p>  
-      </div>
-      <style>
-        
-      </style>                      
-    </ons-page>
-  </ons-template>
-  
   <template id="logup.html">
     <ons-page>
       <ons-toolbar>
