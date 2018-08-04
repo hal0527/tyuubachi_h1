@@ -1,4 +1,45 @@
 /**/
+
+#mypage .page__background {
+  background-color:   #454858;
+}
+#home .page__background {
+  background-color:   #42c9ffd2;
+}
+#target-page .page__background {
+  background-color:   #52f87cd2;
+}
+body { font-family: ‘Lato’, Arial, sans-serif }  
+
+#login_sex .page__background {
+  background-color:   #42c9ffd2;;
+}
+#login_birthyear .page__background {
+  background-color:   #42c9ffd2;
+}
+#login_height .page__background {
+  background-color:   #42c9ffd2;
+}
+#create_mail .page__background {
+  background-color:   #42c9ffd2;
+}
+
+.page__background{
+  background-color: white;
+}
+h1 { font-size: 1.5em;color: #fff;text-transform:uppercase; }   
+h2{font-size:26px;}  
+h3{font-size:22px;}
+p{text-align:center;font-family: 'Roboto Mono', Bold;}
+div{
+  font-family: 'Roboto Mono', Bold;
+}
+img {
+    margin-left: auto; 
+    margin-right:auto; 
+    display:block;
+}
+
 .block1 div{
     width: 185px;
     height: 100px;
@@ -35,3 +76,95 @@
       display: inline-block;
 }
 
+.title {
+    margin: 0.5em 0 0.5em;
+}
+.title-left {
+    float: left;
+    width: 28%;
+}
+.title-left  img {
+    border-radius: 50%;
+}
+.title-right {
+    float: left;
+    width: 62%;
+    margin-left: 1.5em;
+}
+.title-right h2 {
+    font-size: 1.6em;
+    color: #fff;
+    margin-top: 0.6em;
+}
+.title-right h6 {
+    font-size: 1em;
+    color: #68d3ff;
+    margin-top: 0.5em;
+}
+.clear{clear:both;}
+
+
+#login .page__background {
+  background-image: url('../images/login.jpeg');
+  background-size:cover;
+}
+
+#page1 .page__background {
+  background-image: url('../images/login.jpeg');
+  background-size: cover;
+}
+
+#user_login .page__background {
+  background-image: url('../images/login.jpeg');
+  background-size:cover;
+}
+
+.banner-bottom-left ,.banner-bottom-center,.banner-bottom-right{
+    float: left;
+    width: 33%;
+    text-align: center;
+    padding:0.2em 0;
+	  background-color: #4dc2ff;
+}
+.banner-bottom-center {
+    background-color: #9dff7f;
+}
+.banner-bottom-right {
+    background-color: #ff7fe5;
+}
+.banner-bottom h3 {
+    font-size: 1.6em;
+    color: #fff;
+}
+.banner-bottom p {
+    font-size: 0.8em;
+    color: #fff;
+    font-weight: 500;
+    margin-top: 0.1em;
+}
+
+.login-form {
+    margin: 1em 0 2.5em;
+}
+.signin-form input[type="text"], .signin-form input[type="password"] {
+    width: 80%;
+    padding: 1em 1em 1em 3em;
+    font-size: 0.8em;
+    margin: 1em 0;
+    outline: none;
+    color: #FFF;
+    border: none;
+    border-bottom: 2px solid rgb(65, 82, 233);
+	letter-spacing: 1px;
+}
+.signin-form input[type="text"] {
+    background: url(../images/i3.png)no-repeat 3% center;
+    display: block;
+}
+.signin-form input[type="password"] {
+    background: url(../images/i4.png)no-repeat 3% center;
+    display: block;
+}
+::-webkit-input-placeholder{
+	color:#fff !important;
+}

@@ -6,37 +6,657 @@
   <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
   <script src="components/loader.js"></script>
   <script src="lib/onsenui/js/onsenui.min.js"></script>
+  <script src="js/mobileSelect.js"></script>
 
   <link rel="stylesheet" href="components/loader.css">
   <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
   <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/mobileSelect.css">
+  <link rel="stylesheet" type="text/css" href="css/mobileSelect.css">
+   <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Condiment'>
+  <script src="js/mobileSelect.js" type="text/javascript"></script>
+  
+      <style>
+        h1{color:#fff;padding: 1em 0 0 0; font-size: 3em;font-weight: 700;}
+        h2{font-size: 1em;color: #ff5442;margin-top: 0.5em;}
+      ons-carousel-item {display: table;text-align: center;}
+    .item-label {
+  display: table-cell;
+  vertical-align: middle;
+  color: white;
+  line-height: 1;
+  font-size: 48px;
+  font-weight: bold;
+}
 
-  <script>
-    ons.ready(function() {
-      console.log("Onsen UI is ready!");
-    });
-    </script>  
+.cover-label {
+  text-align: center;
+  position: absolute;
+  left: 0px;
+  width: 100%;
+  bottom: 10px;
+  color: white;
+}
+    </style>
+    <script>
+      ons.ready(function() {
+        console.log("Onsen UI is ready!");
+         //localStorage.clear();
+        let test = localStorage.getItem("LoginUsername")+localStorage.getItem("LoginEmail");
+        console.log(test);
+        
+            if(test === null ||test === undefined || test === 0){
+             
+            } else {
+              window.location.href='Home.html';
+            }
+      });
+      document.addEventListener('init', function(event) {
+        let page = event.target;
+
+        if (page.id === 'page1') {
+          page.querySelector('#login-button').onclick = function() {
+            document.querySelector('#topNavigator').pushPage('user_login.html', {data: {title: '登録'}});
+          };
+        } else if (page.id === 'login_sex') {
+          page.querySelector('#male-button').onclick = function() {
+            localStorage.setItem("Sex","男性");
+            document.querySelector('#topNavigator').pushPage('login_birthyear.html', {data: {title: 'test'}}); 
+          };
+          page.querySelector('#female-button').onclick = function() {
+            localStorage.setItem("Sex","女性");
+            document.querySelector('#topNavigator').pushPage('login_birthyear.html', {data: {title: 'test'}});
+          };
+           
+        } else if (page.id === 'login_birthyear') {
+            var d = new Date();
+            var year =d.getFullYear()-100;
+            var base_year =year+70;
+            var yearArr = [];
+            for (var i=0; i<100; i++){
+              yearArr[i] = year + i ;
+            }
+
+            var mobileSelect1 = new MobileSelect({
+              trigger: '#trigger1',
+              title: '生年月日',
+              wheels: [
+                {data: yearArr}
+              ],
+              position:[70], 
+              transitionEnd:function(indexArr, data){
+                if(parseInt(data) === null){
+                  localStorage.setItem("Birthday_Year",base_year);
+                } else {
+                  localStorage.setItem("Birthday_Year",parseInt(data));
+                }
+              },
+              callback:function(indexArr, data){
+                console.log(data);
+              }
+            });
+            
+        } else if(page.id === 'login_height') {
+          page.querySelector('#next_btn').onclick = function() {
+            var heightInput = document.getElementById('height-input').value;
+            var weightInput = document.getElementById('weight-input').value;
+            localStorage.setItem("Height",parseInt(heightInput));
+             localStorage.setItem("Weight",parseInt(weightInput));
+            document.querySelector('#topNavigator').pushPage('create_mail.html', {data: {title: 'test'}});
+          };
+        } else if(page.id === 'create_mail') {
+          page.querySelector('#register_btn').onclick = function() {
+            var username = document.getElementById('username_input').value;
+            var email = document.getElementById('mail_input').value;
+            var password = document.getElementById('password_input').value;
+            var sex = localStorage.getItem("Sex");
+            var birthday = localStorage.getItem("Birthday_Year");
+            var height = localStorage.getItem("Height");
+            var weight = localStorage.getItem("Weight");
+
+            let regm = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+            if( username.indexOf(" ") >= 0 || username == ""){
+              alert("ユーザー名が入力されていません");
+              return;
+            } else if( email.indexOf(" ") >= 0 || email == ""){
+              alert("メールアドレスが入力されていません");
+              return;
+            } else if(!email.match(regm)){
+              alert("メールアドレスの様式が間違います");
+            } else if ( password.indexOf(" ") >= 0 || password === ""){
+              alert("パスワードが入力されていません");
+              return;
+              } else { 
+              let ncmb = new NCMB("dd411920ff7852038a3d55414c3447b88c5e842ace7268254078b113d065398c","23304def33b24aeed4fe1ae5325a77c1ffbe3e44067c0a3716b47aefd4297e05");
+              let user = new ncmb.User();
+              user.set("userName", username)
+                  .set("mailAddress", email)
+                  .set("password", password)
+                  .set("sex", sex)
+                  .set("Birthday", birthday)
+                  .set("height", height)
+                  .set("weight", weight)
+                  .set("Img","https://placekitten.com/200/300")
+              user.signUpByAccount()
+                  .then(function(){
+                    var user = new ncmb.User({userName:username, password:password});
+                    ncmb.User.login(user)
+                    .then(function(data){
+                      localStorage.setItem("objectId",data.get("objectId"));
+                      localStorage.setItem("LoginUsername",data.get("userName"));
+                      console.log(data);
+                      window.location.href='Home.html';
+                      alert("登録済み");
+                    })
+                    .catch(function(err){
+                    // エラー処理
+                    });
+                     // 保存に成功した場合の処理
+                  })
+                  .catch(function(err){
+                    // 保存に失敗した場合の処理
+                    alert("登録失敗");
+                    return;
+                  });
+              }
+          };
+        } else if (page.id === 'user_login'){
+            page.querySelector('#user_login_btn').onclick = function() {
+              let input = document.getElementById("user_name").value;
+              let regm = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+              if(input.match(regm)){
+                LoginEmail();
+              } else {
+                LoginUser();
+              }
+          }
+        }
+      });
+
+       
+
+          function LoginEmail(){
+            let ncmb = new NCMB("dd411920ff7852038a3d55414c3447b88c5e842ace7268254078b113d065398c","23304def33b24aeed4fe1ae5325a77c1ffbe3e44067c0a3716b47aefd4297e05");
+            let input_email = document.getElementById("user_name").value;
+            let input_password = document.getElementById("user_password").value;
+            if(input_email == ""){
+              alert("メールアドレスが入力されていません");
+              return;
+            } else if(input_password == ""){
+              alert("パスワードが入力されていません");
+              return;
+            } else{
+            
+              ncmb.User.loginWithMailAddress(input_email,input_password)
+                       .then(function(data){
+                         // ログイン後処理
+                          localStorage.setItem("LoginEmail",input_email);
+                          window.location.href='Home.html';
+                    
+                       })
+                       .catch(function(err){
+                         // エラー処理
+                          alert("入力エラー、ログインに失敗しました：\n" + error);
+                          console.log("ログインの検索に失敗しました1：\n" + error);
+                          return;
+                       });
+            }
+          }
+
+          function LoginUser(){
+            let ncmb = new NCMB("dd411920ff7852038a3d55414c3447b88c5e842ace7268254078b113d065398c","23304def33b24aeed4fe1ae5325a77c1ffbe3e44067c0a3716b47aefd4297e05");
+            let input_username = document.getElementById("user_name").value;
+            let input_password = document.getElementById("user_password").value;
+            if(input_username == ""){
+              alert("ユーザー名が入力されていません");
+              return;
+            } else if(input_password == ""){
+              alert("パスワードが入力されていません");
+              return;
+            } else{
+            
+              ncmb.User.login(input_username,input_password)
+                       .then(function(data){
+                          console.log(data);
+                          var objectId = data.get("objectId");
+                          var username = data.get("userName");
+                          var sex = data.get("sex");
+                          var birthday = data.get("Birthday");
+                          var height = data.get("height");
+                          var weight = data.get("weight");
+                          var img_check = data.get("Img");
+                          
+            
+                          localStorage.setItem("objectId",objectId);
+                          localStorage.setItem("Sex",sex);
+                          localStorage.setItem("Birthday_Year",birthday);
+                          localStorage.setItem("Height",height);
+                          localStorage.setItem("Weight",weight);
+                          localStorage.setItem("user_img", img_check);
+                          localStorage.setItem("LoginUsername",input_username);
+                          window.location.href='Home.html';
+                       })
+                       .catch(function(err){
+                         // エラー処理
+                          alert("入力エラー、ログインに失敗しました：\n" + error);
+                          console.log("ログインの検索に失敗しました1：\n" + error);
+                          return;
+                       });
+      
+      
+            }   
+          }
+
+          function setYear(){
+			      var yearObj = document.getElementById("year");
+			      yearObj.options.length = 0;
+			      yearObj.options[0] = new Option("","");
+			      for(var i=1;i<=50;i++){
+				      if(i>10){
+					      yearObj.options[i-10] = new Option("20"+(i)+resources.chooserSetting_year,"20"+i);//年
+				      }
+			      }
+			      //设置年份 
+			      var yearTime='<c:out value="${cultivationPlan.year}" />';
+			      oldYear=yearTime;
+			      $("#year option[value='"+yearTime+"']").attr("selected","selected");
+		      }
+
+    </script>
 </head>
-<body>
-    test program 大隈追加
-    <div><a href="onsen/index.html">onsen</a></div>
-    <div><a href="firstcoding/forget.html">メールアドレス再設定</a></div>
-    <div><a href="firstcoding/tracking.html">記録</a></div>
-    <div><a href="firstcoding/ookuma.html">大隈デバッグ</a></div>
-    <div><a href="firstcoding/ookuma2.html">大隈2デバッグ</a></div>
-    <div><a href="firstcoding/keju.html">柯デバッグ</a></div>
-    <div><a href="firstcoding/keju2.html">柯2デバッグ</a></div>
-    <div><a href="firstcoding/lujie.html">吕杰デバッグ</a></div>
-    <div><a href="firstcoding/lujie1.html">吕杰1デバッグ</a></div>
-    <div><a href="firstcoding/kiryuu.html">冀龍デバッグ</a></div>
-      <div><a href="firstcoding/kiryuu3.html">冀龍デバッグ</a></div>
-        <div><a href="kiryuu10.html">冀龍５デバッグ</a></div>
-    <div><a href="firstcoding/zhaoHH.html">趙デバッグ</a></div>
-        <div><a href="onsenUI3.html">趙デバッグtest</a></div>
-    <div><a href="liu.html">劉デバッグ</a></div>
-    <div><a href="firstcoding/test.html">testデバッグ</a></div>
+<body bgcolor="white">
+  <ons-navigator swipeable id="topNavigator" page="page1.html"></ons-navigator>
+    
+  <ons-template id="page1.html">
+    <ons-page id="page1">
+      <div style="text-align:center">
+        <div style="height:150px"></div>
+        <div class="foo">
+          <p>
+            <span class="letter" data-letter="三" style="font-size:60px">三</span>
+            <span class="letter" data-letter="。。" style="font-size:30px;color:gray">。。</span>
+            <br />
+            <span class="letter" data-letter="日" style="font-size:45px;color:green">日</span>
+            <span class="letter" data-letter="坊" style="font-size:35px;color:orange">坊</span>
+            <span class="letter" data-letter="主" style="font-size:50px;color:yellow">主</span>
+          
+        </div>
+      </div>
+      <div style="padding: 20% 0;">
+        <p style="text-align:center">
+          <ons-button style="width:60%;height:10%" onclick="document.querySelector('#topNavigator').pushPage('login_sex.html', {data: {title: '登録'}});">新規ユーザー</ons-button>
+        </p>
+        <p style="text-align:center">
+          <ons-button  id="login-button" style="width:60%;height:10%;color:#C0C0C0">リピーター</ons-button>
+        </p>
+        <p style="text-align:center;margin-top:10px;color:#FFFFFF;">-中鉢PBL-</p>
+        <!--p style="text-align:center">
+          <ons-button modifier="outline" onclick="window.location.href='Home.html'">スキップ</ons-button>
+        </p-->
+      </div>
+      <style>
+        url(https://fonts.googleapis.com/css?family=Lato:900);
+*, *:before, *:after{
+  box-sizing:border-box;
+}
+body{
+  font-family: 'Lato', sans-serif;
+}
+div.foo{
+  width: 90%;
+  margin: 0 auto;
+  text-align: center;
+}
+.letter{
+  display: inline-block;
+  font-weight: 900;
+  font-size: 8em;
+  margin: 0.2em;
+  position: relative;
+  color: #00B4F1;
+  transform-style: preserve-3d;
+  perspective: 400;
+  z-index: 1;
+}
+.letter:before, .letter:after{
+  position:absolute;
+  content: attr(data-letter);
+  transform-origin: top left;
+  top:0;
+  left:0;
+}
+.letter, .letter:before, .letter:after{
+  transition: all 0.3s ease-in-out;
+}
+.letter:before{
+  color: #fff;
+  text-shadow: 
+    -1px 0px 1px rgba(255,255,255,.8),
+    1px 0px 1px rgba(0,0,0,.8);
+  z-index: 3;
+  transform:
+    rotateX(0deg)
+    rotateY(-15deg)
+    rotateZ(0deg);
+}
+.letter:after{
+  color: rgba(0,0,0,.11);
+  z-index:2;
+  transform:
+    scale(1.08,1)
+    rotateX(0deg)
+    rotateY(0deg)
+    rotateZ(0deg)
+    skew(0deg,1deg);
+}
+.letter:hover:before{
+  color: #fafafa;
+  transform:
+    rotateX(0deg)
+    rotateY(-40deg)
+    rotateZ(0deg);
+}
+.letter:hover:after{
+  transform:
+    scale(1.08,1)
+    rotateX(0deg)
+    rotateY(40deg)
+    rotateZ(0deg)
+    skew(0deg,22deg);
+}
+      </style>
+    </ons-page>
+  </ons-template>
+
+  <ons-template id="user_login.html">
+    <ons-page id="user_login">
+      <ons-toolbar>
+        <div class="center">ログイン</div>
+        <div class="left"><ons-back-button>戻り</ons-back-button></div>
+      </ons-toolbar>
+      <div style="width:250px;height:150px">
+      </div>
+      <div  style="display: table;padding: 5% 0;">
+        <div class="center" style="width: 80%;display: inline-block;padding: 10% 0;">
+          <ons-list-item style="left: 20%;right: 20%;" modifier="nodivider">
+            <div style=" width:70%;font-size: 10px">メールアドレスまたはユーザー名</div>
+            <input id="user_name" class="text-input text-input--material" placeholder="Username" type="text" style=" width:80%;font-size: 25px;height:35px" required>
+          </ons-list-item>
+          <ons-list-item style="left: 20%;right: 20%" modifier="nodivider">
+            <div style="width:80%;font-size: 10px;">パスワード</div>
+            <input type="password" id="user_password" class="text-input text-input--material" placeholder="******"  style=" width:80%;;font-size: 25px;height:35px" required>
+          </ons-list-item>
+        </div>
+        <p style="text-align: center;margin-top: -30px">
+          <ons-button modifier="material" id="user_login_btn" style=" width: 100px;">ログイン</ons-button>
+        </p>
+        <p style="text-align: center;font-size: 8px">パスワードを忘れた方は<a href="">再発行の手続き</a>へ</p>  
+      </div>                 
+    </ons-page>
+  </ons-template>
+
+  <ons-template id="login_sex.html">
+    <ons-page id="login_sex">
+      <ons-toolbar>
+        <div class="left"><ons-back-button>Back</ons-back-button></div>
+        <div class="right"><ons-toolbar-button onclick="window.location.href='Home.html';">スキップ</ons-toolbar-button></div>
+      </ons-toolbar>
+      <div style="padding-left:20px;margin-top: 30px;">
+        <h1>パーソナライズ</h1>
+        <h2>性別</h2>
+      <div style="text-align: center;margin-top:30%">
+          <p>
+            <img src="../www/images/female.png" style="width:40%" id="female-button" />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <img src="../www/images/male.png" style="width:40%" id="male-button" />
+          </p>  
+        </div>
+      </div>
+    </ons-page>
+  </ons-template>
+
+  <ons-template id="login_birthyear.html">
+    <ons-page id="login_birthyear">
+      <ons-toolbar>
+        <div class="left"><ons-back-button>Back</ons-back-button></div>
+        <div class="right"><ons-toolbar-button onclick="window.location.href='Home.html';">スキップ</ons-toolbar-button></div>
+      </ons-toolbar>
+      <div style="padding-left:20px;margin-top: 30px;">
+        <h2>何年生まれ</h2>
+        <h2>ですか？</h2>
+        <div style="text-align: center;margin-top:20%">
+          <div id="trigger1" style="width:80%;height:60px;font-size:60px">生年月日</div>
+        </div>
+        <div style="text-align: center;margin-top:20%">
+          <p style="padding-left:70%">
+            <ons-button style="width:70px;" id="birth_button" onclick="document.querySelector('#topNavigator').pushPage('login_height.html', {data: {title: 'test'}});">次へ</ons-button>
+          </p>  
+        </div>
+      </div>
+    </ons-page>
+  </ons-template>
+
+  <ons-template id="login_height.html">
+    <ons-page id="login_height">
+      <ons-toolbar>
+        <div class="left"><ons-back-button>Back</ons-back-button></div>
+        <div class="right"><ons-toolbar-button onclick="window.location.href='Home.html';">スキップ</ons-toolbar-button></div>
+      </ons-toolbar>
+      <div style="padding-left:20px;margin-top: 30px;">
+        <h2>身長</h2>
+        <div style="text-align: center;margin-top:30%">
+          <p style="font-size:40px">
+            <input id="height-input" type="number" pattern="\d*" value="160" style="width:40%;height:60px;font-size:60px;" >
+            cm
+          </p>  
+        </div>
+        <div style="padding-left:20px;margin-top: 30px;">
+          <h2>体重</h2>
+          <div style="text-align: center;margin-top:30%">
+          <p style="font-size:40px">
+            <input id="weight-input" type="number" pattern="\d*" value="50" style="width:40%;height:60px;font-size:60px;">
+            kg
+          </p> 
+        </div>
+        <div style="text-align: center;margin-top:20%">
+          <p style="padding-left:70%">
+            <ons-button style="width:70px;" id="next_btn" >次へ</ons-button>
+          </p>  
+        </div>
+      </div>
+    </ons-page>
+  </ons-template>
+
+  <ons-template id="create_mail.html">
+    <ons-page id="create_mail">
+      <ons-toolbar>
+        <div class="left"><ons-back-button>Back</ons-back-button></div>
+        <div class="right"><ons-toolbar-button onclick="window.location.href='Home.html';">スキップ</ons-toolbar-button></div>
+      </ons-toolbar>
+       <!--空間制御-->
+      <div style="padding-left:20px;margin-top: 30px;" >
+        <p></p>
+        <p style="font-size: 1em;color:green;margin-top: 0.5em;text-align:left">新規作成</p>
+        <p style="font-size: 1em;color:green;margin-top: 0.5em;;text-align:left">あなたの</p>
+        <p style="font-size: 1em;color:green;margin-top: 0.5em;;text-align:left">アカウント</p>
+      <div style="text-align: center;">
+          <p>
+            <ons-input id="username_input" modifier="underbar" placeholder="Username" style="width: 250px" float></ons-input>
+          </p>
+           <p>
+            <ons-input id="mail_input" modifier="underbar" placeholder="mail@aiit.ac.jp" style="width: 250px" float></ons-input>
+          </p>
+          <p>
+            <ons-input id="password_input" modifier="underbar" type="password" placeholder="Password" style="width: 250px" float></ons-input>
+          </p>
+          <p style="margin-top: 30px;">
+            <ons-button id="register_btn" style="width: 220px"> サインアップ </ons-button>
+          </p>
+          <!--<p style="margin-top: 10px;">
+            <ons-button onclick="facebook()" style="width: 220px">Facebookで登録</ons-button>
+          </p>-->
+        </div>
+      </div>
+    </ons-page>
+  </ons-template>
+
+  <template id="logup.html">
+    <ons-page>
+      <ons-toolbar>
+        <div class="left"><ons-back-button>Back</ons-back-button></div>
+        <div class="center">情報入力</div>
+      </ons-toolbar>
+      <br/>
+      <div style="background-color: #fff;">
+        <div class="center" style="padding-left:25px;display: inline-block;">
+          <ons-list-item>
+            <div style="width: 100px">ユーザー名</div>
+            <ons-col>    
+              <ons-input type="text" id="user_name" placeholder=" Username" style=" width: 150px;"> </ons-input>
+            </ons-col>
+          </ons-list-item>
+          <ons-list-item>
+            <div style="width: 100px">パスワード</div>
+            <ons-col>    
+              <ons-input type="password" id="user_password" placeholder=" Password" style=" width: 150px;"> </ons-input>
+            </ons-col>
+          </ons-list-item>
+          <ons-list-item>
+            <div style="width: 120px">メールアドレス</div>
+            <ons-col>    
+              <ons-input type="email" id="user_email" placeholder="user01@sample.com" style=" width: 160px;"> </ons-input>
+            </ons-col>
+          </ons-list-item>
+        <ons-list-item>
+          <div style="width: 100px">性   別</div>
+          <ons-col>
+            <div style="float: left; padding-left: 40px;">
+              <ons-select id="user_sex" modifier="material" style="width: 150px;" >
+		        		<option value="1">男性</option>
+		          	<option value="2">女性</option>
+	          	</ons-select>
+            </div>
+          </ons-col> 
+        </ons-list-item>
+        <ons-list-item>
+          <div style="width: 100px">生年月日</div>
+          <ons-col>
+            <div style="float: left; padding-left: 40px;"　>
+              <ons-input type="date" id="user_birthday" modifier="material" value="1988-01-01" style=" width: 150px;"></ons-input>
+            </div>  
+          </ons-col>
+        </ons-list-item>
+        <ons-list-item>
+          <div style="width: 100px">身 長 (cm)</div>
+          <ons-col>    
+            <ons-input type="number" style=" width: 150px;" id="user_height" placeholder="160" min="100" max="300" ></ons-input>
+          </ons-col>
+        </ons-list-item>
+        <ons-list-item>
+          <div style="width: 100px" >体  重 (kg)</div>
+            <ons-col>
+              <ons-input type="number" id="user_weight" placeholder="50" min="30" max="200"　 
+                         style=" width: 150px;"></ons-input>
+            </ons-col>
+        </ons-list-item>
+      </div>
+      </div>
+      <p style="text-align: center">
+          <ons-button id="push-button" style=" width: 100px" modifier="material" onclick="onClick()">登録</ons-button>
+          <ons-button id="skip-button" style=" width: 100px" modifier="material" onclick="window.location.href='Home.html'">スキップ</ons-button>
+      </p>
+    
+      <script>
+      function onClick(){
+          let username　=　document.getElementById("user_name").value;
+          let password　=　document.getElementById("user_password").value;
+          let email　=　document.getElementById("user_email").value;
+          let height　=　document.getElementById("user_height").value;
+          let weight　=　document.getElementById("user_weight").value;
+          let birthday　=　document.getElementById("user_birthday").value;
+          let sex　=　document.getElementById("user_sex").value;
+          let sex_text;
+          let regm = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+
+          if( sex == 1  ){
+            sex_text = '男性';
+          }else{
+            sex_text = '女性'; 
+          }
+          if(username.indexOf(" ") >= 0 || username == ""){
+            alert("ユーザー名が入力されていません");
+            return;
+          } else if ( password.indexOf(" ") >= 0 || password == ""){
+            alert("パスワードが入力されていません");
+            return;
+          } else if( email.indexOf(" ") >= 0 || email == ""){
+            alert("メールアドレスが入力されていません");
+            return;
+          } else if(!email.match(regm)){
+            alert("メールアドレスの様式が間違います");
+          } else if( sex == ""){
+            alert("性別が選択されていません");
+            return;
+          } else if( birthday == ""){
+            alert("生年月日が入力されていません");
+            return;
+          } else if( height == ""){
+            alert("身長が入力されていません");
+            return;
+          } else if( weight == ""){
+            alert("体重が入力されていません");
+            return;
+          } else { 
+              let ncmb = new NCMB("dd411920ff7852038a3d55414c3447b88c5e842ace7268254078b113d065398c","23304def33b24aeed4fe1ae5325a77c1ffbe3e44067c0a3716b47aefd4297e05");
+              let user = new ncmb.User();
+              user.set("userName", username)
+                  .set("password", password)
+                  .set("mailAddress", email)
+                  .set("sex", sex_text)
+                  .set("Birthday", birthday)
+                  .set("height", height)
+                  .set("weight", weight)
+
+              user.signUpByAccount()
+                  .then(function(data){
+                     // 保存に成功した場合の処理
+                     localStorage.setItem("LoginUsername", username);
+                     
+                     fn.pushPage({'id': 'animations.html', 'title': '基本情報'}, 'fade-ios');
+                     alert("登録済み");
+                  })
+                  .catch(function(err){
+                    // 保存に失敗した場合の処理
+                    alert("登録失敗");
+                    return;
+                  });
+          }
+      }
+
+      function save_objectId(){
+        let username = localStorage.getItem("LoginUsername");
+        let ncmb = new NCMB("dd411920ff7852038a3d55414c3447b88c5e842ace7268254078b113d065398c","23304def33b24aeed4fe1ae5325a77c1ffbe3e44067c0a3716b47aefd4297e05");
+        ncmb.User.equalTo("userName",username)
+                 .fetchAll()
+                 .then(function(results){
+                          for (let i = 0; i < results.length; i++) {
+                              let object = results[i];
+                              let objectId = object.get("objectId");
+                              let username = object.get("userName");
+                              localStorage.setItem("LoginUsername",username)
+                              localStorage.setItem("objectId",objectId);
+                            }
+                          
+                            
+                 })
+                 .catch(function(error){
+                        console.log("objectId保存エラー");
+                        return;
+                 });
+      }
+      </script>
+    </ons-page>
+  </template>
 </body>
-
-
 </html>

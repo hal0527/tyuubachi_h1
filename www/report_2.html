@@ -1,0 +1,1008 @@
+<ons-page  >
+   
+  <ons-toolbar>
+       <div class="left"><ons-back-button>Back</ons-back-button></div>
+      <div class="center">
+       レポート
+      </div>
+    </ons-toolbar> 
+
+    <style>
+	    canvas{
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+
+        margin:0;
+        padding:0;
+      }
+
+    canvas_2 {
+		-moz-user-select: none;
+		-webkit-user-select: none;
+		-ms-user-select: none;
+  /* margin:0;
+        padding:0; */
+	}
+
+.dv-big-page{
+clear:both;
+width: 960px;
+height: 30px;
+margin-left:auto;
+margin-right:auto;
+}
+.dv-page-position-box{
+width:320px;
+height:30px;
+margin:auto;
+}
+.dv-margin-left{
+float:left;
+width: 210px;
+height: 30px;
+}
+.dv-page-box{
+float:left;
+margin-top:40px;
+margin-bottom:40px;
+width: 750px;
+height: 30px;
+}
+.li_prew{
+    width: 38px;
+    height: 28px;
+    border: solid 1px #e3e3e3;
+    text-align: center;
+    list-style: none;
+    cursor: pointer;
+    float: left;
+    font-size: 18px;
+    color:#858585;
+    line-height:28px;
+}
+.li_btn{
+    width: 38px;
+    height: 28px;
+    border: solid 1px #e3e3e3;
+    text-align: center;
+    list-style: none;
+    cursor: pointer;
+    float: left;
+    line-height:28px;
+    font-size: 18px;
+    color:#858585;
+}
+.li_btn:hover{
+cursor: pointer;
+line-height:28px;
+    font-size: 18px;
+    background-color: #00bcd4;
+    color:#fff;
+}
+ 
+.li_next{
+    width: 38px;
+    height: 28px;
+    border: solid 1px #e3e3e3;
+    text-align: center;
+    list-style: none;
+    cursor: pointer;
+    float: left;
+    line-height:28px;
+    font-size: 18px;
+    color:#858585;
+}
+.dv_btns_box{
+width: 280px;
+}
+.li_next:hover,
+.li_prew:hover{
+cursor: pointer;
+line-height:28px;
+    font-size: 18px;
+    background-color: #00bcd4;
+    color:#fff;
+}
+#div_li_btn_mid{
+    width: 240px;
+    height: 30px;
+    float: left;
+    overflow: hidden;
+}
+	</style>
+
+  <ons-page id="Tab1">
+    <ons-toolbar>
+      <div class="center">
+        <ons-segment id="segment" tabbar-id="tabbar" style="width: 100%">
+          <button>週</button>
+          <button>月</button>
+          <button>年</button>
+          <button>総</button>
+        </ons-segment>
+      </div>
+    </ons-toolbar>
+    <ons-tabbar id="tabbar">
+      <ons-tab page="report_week.html" active></ons-tab>
+      <ons-tab page="report_month.html"></ons-tab>
+      <ons-tab page="report_year.html"></ons-tab>
+      <ons-tab page="report_total.html"></ons-tab>
+    </ons-tabbar>
+  </ons-page>
+
+  <template id="report_week.html">
+  <ons-page id="report_week-page">
+        <ons-card style="height:250px">
+          <ons-list-item style="margin-top:-20px">
+            <div  id = "div_week_01" style='width:10%;text-align: left'>
+                <ons-icon icon="angle-left"  id = "page_back"></ons-icon>
+            </div>
+            <div id="div_week_02"  style='width:80%;text-align: center'></div>
+            <div id="div_week_03"  style='width:10%;text-align: right'>
+                <ons-icon icon="angle-right"  id = "page_next"></ons-icon>
+            </div>
+          </ons-list-item>
+            <div style ="width:100%;margin-top:-20px">
+            <canvas id="canvas_week"></canvas>
+            </div>
+          <!-- </ons-list-item> -->
+    </ons-card>
+    <ons-card>
+
+  <ons-list>
+    <ons-list-header>累計</ons-list-header>
+      <ons-list-item>
+        <div class="center">
+            <ons-icon icon="clock"  fixed-width="true" ></ons-icon>総時間
+        </div>
+        <div class="right" id ="week_time">
+        1000
+        </div>
+      </ons-list-item>
+      <ons-list-item>
+        <div class="center">
+          <ons-icon icon="fire"  fixed-width="true" ></ons-icon>消費カロリー(kcal)
+        </div>
+        <div class="right" id ="week_calories">1000</div>
+      </ons-list-item>
+      <ons-list-item>
+        <div class="center">
+          <ons-icon icon="chart-pie"  fixed-width="true" ></ons-icon>目標達成
+        </div>
+        <div class="right" id ="week_percent">0%</div>
+      </ons-list-item>
+  </ons-list>
+</ons-card>
+</ons-page>
+</template>
+
+
+  <template id="report_month.html">
+  <ons-page id="report_month-page">
+        <ons-card style="height:250px">
+          <ons-list-item style="margin-top:-20px">
+            <div id = "div_month_01" style='width:10%;text-align: left'>
+                <ons-icon icon="angle-left"  id = "page_back"></ons-icon>
+            </div>
+            <div  id = "div_month_02"  style='width:80%;text-align: center'></div>
+            <div  id = "div_month_03" style='width:10%;text-align: right'>
+                <ons-icon icon="angle-right"  id = "page_next"></ons-icon>
+            </div>
+          </ons-list-item>
+            <div style ="width:100%;margin-top:-20px">
+            <canvas id="canvas_month"></canvas>
+            </div>
+          <!-- </ons-list-item> -->
+    </ons-card>
+    <ons-card>
+
+  <ons-list>
+    <ons-list-header>累計</ons-list-header>
+      <ons-list-item>
+        <div class="center">
+            <ons-icon icon="clock"  fixed-width="true" ></ons-icon>総時間
+        </div>
+        <div class="right" id ="month_time">
+        1000
+        </div>
+      </ons-list-item>
+      <ons-list-item>
+        <div class="center">
+          <ons-icon icon="fire"  fixed-width="true" ></ons-icon>消費カロリー(kcal)
+        </div>
+        <div class="right" id ="month_calories">1000</div>
+      </ons-list-item>
+      <ons-list-item>
+        <div class="center">
+          <ons-icon icon="chart-pie"  fixed-width="true" ></ons-icon>目標達成
+        </div>
+        <div class="right" id ="month_percent">0%</div>
+      </ons-list-item>
+  </ons-list>
+</ons-card>
+</ons-page>
+</template>
+
+  <template id="report_year.html">
+ <ons-page id="report_year-page">
+        <ons-card style="height:250px">
+          <ons-list-item style="margin-top:-20px">
+            <div id = "div_year_01" style='width:10%;text-align: left'>
+                <ons-icon icon="angle-left"  id = "page_back"></ons-icon>
+            </div>
+            <div  id = "div_year_02"  style='width:80%;text-align: center'></div>
+            <div  id = "div_year_03" style='width:10%;text-align: right'>
+                <ons-icon icon="angle-right"  id = "page_next"></ons-icon>
+            </div>
+          </ons-list-item>
+            <div style ="width:100%;margin-top:-20px">
+            <canvas id="canvas_year"></canvas>
+            </div>
+          <!-- </ons-list-item> -->
+    </ons-card>
+    <ons-card>
+
+  <ons-list>
+    <ons-list-header>累計</ons-list-header>
+      <ons-list-item>
+        <div class="center">
+            <ons-icon icon="clock"  fixed-width="true" ></ons-icon>総時間
+        </div>
+        <div class="right" id ="year_time">
+        1000
+        </div>
+      </ons-list-item>
+      <ons-list-item>
+        <div class="center">
+          <ons-icon icon="fire"  fixed-width="true" ></ons-icon>消費カロリー(kcal)
+        </div>
+        <div class="right" id ="year_calories">1000</div>
+      </ons-list-item>
+      <ons-list-item>
+        <div class="center">
+          <ons-icon icon="chart-pie"  fixed-width="true" ></ons-icon>目標達成
+        </div>
+        <div class="right" id ="year_percent">0%</div>
+      </ons-list-item>
+  </ons-list>
+</ons-card>
+</ons-page>
+</template>
+    
+<template id="report_total.html">
+<ons-page id="report_total-page">
+      <ons-card style="height:250px">
+          <ons-list-item style="margin-top:-20px">
+            
+            <div  style='width:100%;text-align: center'>
+               <ons-icon icon="chess-king" ></ons-icon>
+              運動キャリア</div>
+          </ons-list-item>
+
+          <div style ="width:100%;margin-top:-20px">
+          <canvas id="canvas_total"></canvas>
+          </div>
+      </ons-card>
+      <ons-card>
+      <ons-list>
+        <ons-list-header>累計</ons-list-header>
+          <ons-list-item>
+            <div class="center">
+                <ons-icon icon="clock"  fixed-width="true" ></ons-icon>総時間
+            </div>
+            <div class="right" id ="total_time">
+            1000
+            </div>
+          </ons-list-item>
+          <ons-list-item>
+            <div class="center">
+              <ons-icon icon="fire"  fixed-width="true" ></ons-icon>消費カロリー(kcal)
+            </div>
+            <div class="right" id ="total_calories">1000</div>
+          </ons-list-item>
+          <!-- <ons-list-item>
+            <div class="center">
+              <ons-icon icon="chart-pie"  fixed-width="true" ></ons-icon>目標達成
+            </div>
+            <div class="right" id ="year_percent">0%</div>
+          </ons-list-item> -->
+      </ons-list>
+</ons-card>
+</ons-page>
+
+    <!-- <ons-page >
+        <ons-card  >
+            <div>
+            <canvas id="canvas_total"></canvas>
+            </div>
+        </ons-card  >
+    </ons-page> -->
+</template>
+
+  <script >
+//  var apikey = "fc3a8b35e955fe5f0a83a49be8c1e60a5321974325e10739e7f8734b27665bb4";
+//  var clientkey = "f8e0a822a6a2956144237a5a2ece5053bc2f6ca392835b70fcaf1f6b3b5d609f";
+  var G_weeks;
+  var G_months;
+  var G_years;
+
+  document.addEventListener('init', function(event) {
+  // console.log('This is a lifecycle event!', event.target);
+
+  var page = event.target;
+  if (page.matches('#report_week-page')) {
+      page.querySelector('ons-icon#page_back').onclick = function() {
+          //週実績の取得
+          show_chart_week(-1);
+    };
+
+      page.querySelector('ons-icon#page_next').onclick = function() {
+          //週実績の取得
+          show_chart_week(1);
+    };
+  }
+  if (page.matches('#report_month-page')) {
+      page.querySelector('ons-icon#page_back').onclick = function() {
+          //実績の取得
+          show_chart_month(-1);
+    };
+      page.querySelector('ons-icon#page_next').onclick = function() {
+          //実績の取得
+          show_chart_month(1);
+    };
+  }
+  if (page.matches('#report_year-page')) {
+      page.querySelector('ons-icon#page_back').onclick = function() {
+          //実績の取得
+          show_chart_year(-1);
+    };
+      page.querySelector('ons-icon#page_next').onclick = function() {
+          //実績の取得
+          show_chart_year(1);
+    };
+  }
+});
+
+   var apikey ="dd411920ff7852038a3d55414c3447b88c5e842ace7268254078b113d065398c";
+   var clientkey ="23304def33b24aeed4fe1ae5325a77c1ffbe3e44067c0a3716b47aefd4297e05";
+   var arr_week =new Array(7);
+    var arr_month=new Array(31);
+    var arr_year = new Array(12);
+    var arr_total = new Array(5);
+    var arr_timeList;
+    var sum_time;
+    var var_week_Num;
+
+    var user_id = localStorage.getItem("objectId");
+
+		var SPORTS = ['ランニング', 'ウォーキング', 'ラジオ体操', '自転車', 'バドミントン', '野球', 'ヨガ', 'テニス', '水泳', 'ゴルフ'];
+		var color = Chart.helpers.color;
+    var arr_chart_2=new Array(0,0,0,0,0,0,0,0,0);
+
+    ons.getScriptPage().onInit = function() {
+
+  // function get_Active_info(){
+    var ncmb = new NCMB(apikey,clientkey);
+      // 保存先クラスの作成
+    var TestClass = ncmb.DataStore("recordsClass");
+     arr_timeList = new Array();
+    
+    // TestClass.equalTo("user_Id",user_id)
+    TestClass
+                 .fetchAll().then(function(results){
+    // TestClass.fetchAll().then(() =>{
+        var flg = "";
+
+    // alert("aaa:"+results.length);
+
+
+        for (var i = 0; i < results.length; i++) {
+            var object = results[i];  
+            var var_date = new Date(object.get("createDate")); 
+
+            var n_year    = var_date.getFullYear(); 
+            var n_month = var_date.getMonth()+1;
+            var n_date    = var_date.getDate();
+            var n_weekOfYear ;
+
+           var str_date = n_year +"-" + getFormatZero(n_month)+"-"  + getFormatZero(n_date);
+   
+           var j = 0;
+           flg = "";
+           for( j = 0 ;j < arr_timeList.length;j++){
+              // alert("aaa:"+arr_timeList.length);
+              if ( arr_timeList[j][1]  == str_date ){
+                // alert("arr_timeList[j][1] :"+arr_timeList[j][1] );
+
+                 flg = "X";
+                 break;
+              }
+           }
+
+          var_week_Num = var_date.getFullYear()+"-"+getFormatZero(getWeekOfYear_1(String(var_date)));
+    // alert("var_week_Num"+var_week_Num);
+           if (flg == "X"){
+            arr_timeList[j][2] = arr_timeList[j][2] + parseInt( object.get("Time"));
+           }
+           else{
+               if (arr_timeList.length == 0 ) {
+                 arr_timeList[0] = new Array(); 
+                 arr_timeList[0][1] =str_date;
+                 arr_timeList[0][2] =parseInt( object.get("Time"));  
+                 arr_timeList[0][3] =  var_week_Num;//String(object.get("week_Num"));
+
+                 arr_timeList[0][4] = var_date.getDay();               
+              }
+              else{
+                var row = arr_timeList.length;
+                arr_timeList[row] = new Array(); 
+                arr_timeList[row][1] =str_date;
+                arr_timeList[row][2] =parseInt( object.get("Time")); 
+                arr_timeList[row][3] = var_week_Num;//String( object.get("week_Num"))
+                arr_timeList[row][4] = var_date.getDay();  
+              }
+           }
+        }
+       res();   
+      })
+      .catch(function(err){
+        console.log(err);
+      })
+      .then(function(){
+         show_chart_week(0);
+         show_chart_month(0);
+        show_chart_year(0);
+        show_chart_total();
+        // show_chart4();
+//        show_chart_year(0);
+        // show_chart_2();
+        // show_chart_3();
+      });
+}
+
+//
+  function getWeekOfYear(){
+        var today = new Date();
+        var firstDay = new Date(today.getFullYear(),0, 1);
+        var dayOfWeek = firstDay.getDay(); 
+        var spendDay= 1;
+        if (dayOfWeek !=0) {
+          spendDay=7-dayOfWeek+1;
+        }
+        firstDay = new Date(today.getFullYear(),0, 1+spendDay);
+        var d =Math.ceil((today.valueOf()- firstDay.valueOf())/ 86400000);
+        var result =Math.ceil(d/7);
+        return result+1;
+  };
+
+  function getWeekOfYear_1(strDate){
+        var today = new Date(strDate);
+        var firstDay = new Date(today.getFullYear(),0, 1);
+        var dayOfWeek = firstDay.getDay(); 
+        var spendDay= 1;
+        if (dayOfWeek !=0) {
+          spendDay=7-dayOfWeek+1;
+        }
+        firstDay = new Date(today.getFullYear(),0, 1+spendDay);
+        var d =Math.ceil((today.valueOf()- firstDay.valueOf())/ 86400000);
+        var result =Math.ceil(d/7);
+        return result+1;
+  };
+
+
+  function getFormatDate(arg) {
+      if (arg == undefined || arg == '') {
+          return '';
+      }
+
+      var re = arg + '';
+      if (re.length < 2) {
+          re = '0' + re;
+      }
+
+      return re;
+  };
+  function getFormatZero(arg) {
+      if (arg == undefined || arg == '') {
+          return '00';
+      }
+
+      var re = arg + '';
+      if (re.length < 2) {
+          re = '0' + re;
+      }
+
+      return re;
+  };
+function get_arrayData(strType,offset){
+   var myDate = new Date();
+    var n_year = myDate.getFullYear(); 
+    var n_month = myDate.getMonth()+1;
+    var n_date = myDate.getDate();
+    var n_day = myDate.getDay();
+    var n_weekOfYear;
+    var n_monthOfYear;
+    var n_month_now;
+    var week_total_time = 0;
+    var week_total_calories = 0;
+    var month_total_time = 0;
+    var month_total_calories = 0;
+    var year_total_time = 0;
+    var year_total_calories = 0;
+    var total_time = 0;
+     var total_calories = 0;
+    var arr_index 
+
+
+   n_month_now = n_year+"-"+getFormatZero(n_month);
+
+   if (strType == "1"){
+      if (offset == 0){
+        G_weeks = getWeekOfYear();
+        n_weekOfYear = n_year+"-"+G_weeks;
+      }
+      else{
+          G_weeks = G_weeks + offset;
+          n_weekOfYear = n_year+"-"+G_weeks;
+      }
+   }else if(strType == "2"){
+        //  alert(strType);
+          if (offset == 0){
+            G_months = myDate.getMonth()+1;
+            // n_monthOfYear = n_year+"-"+getFormatZero(G_months);
+          }
+          else{
+              G_months = G_months + offset;
+          }
+            n_monthOfYear = n_year+"-"+getFormatZero(G_months);
+
+   }else if(strType == "3"){
+          if (offset == 0){
+ 
+            G_years = myDate.getFullYear();
+          }
+          else{
+              G_years = G_years + offset;
+              // n_monthOfYear = n_year+"-"+getFormatZero(G_months);
+          }
+   }
+
+   var var_date = new Date("2018/01/01");
+  var_date.setDate(var_date.getDate() + G_weeks * 7 -1);
+  var str_day_to = var_date.getFullYear() + '-' + getFormatDate(var_date.getMonth() + 1) + '-' + getFormatDate(var_date.getDate());
+  var_date.setDate(var_date.getDate() - 6 );
+  var str_day_from = var_date.getFullYear() + '-' + getFormatDate(var_date.getMonth() + 1) + '-' + getFormatDate(var_date.getDate());
+  var str_day = str_day_from + " ~ "+str_day_to;
+  var now_weeks = getWeekOfYear();
+  
+  if (strType == "1") {
+      if (now_weeks == G_weeks){
+        document.getElementById("div_week_03").style.visibility="hidden";
+        str_day = "今週";
+      }
+      else{
+      document.getElementById("div_week_03").style.visibility="visible";
+      };
+      document.querySelector('#div_week_02').innerHTML = str_day;
+}else if (strType == "2") {
+      if (n_month_now == n_monthOfYear){
+        document.getElementById("div_month_03").style.visibility="hidden";
+        str_day = "今月";
+      }
+      else{
+      document.getElementById("div_month_03").style.visibility="visible";
+          str_day = n_monthOfYear;
+      };
+      document.querySelector('#div_month_02').innerHTML = str_day;
+}else if (strType == "3") {
+    // 年
+      if (myDate.getFullYear() == G_years){
+        document.getElementById("div_year_03").style.visibility="hidden";
+        str_day = "今年";
+      }
+      else{
+      document.getElementById("div_year_03").style.visibility="visible";
+          str_day = G_years+"年";
+      };
+      document.querySelector('#div_year_02').innerHTML = str_day;
+}
+  //  alert(G_weeks);
+console.log("G_weeks:"+G_weeks);
+// n_weekOfYear
+    // alert(G_years);
+  if (strType == "1") {
+     // 週
+        delete arr_week;
+        arr_week[0] = 0;
+        arr_week[1] = 0;
+        arr_week[2] = 0;
+        arr_week[3] = 0;
+        arr_week[4] = 0;
+        arr_week[5] = 0;
+        arr_week[6] = 0;
+
+        var str_curDate = n_year +"-" + n_month+"-"  + n_date;
+        for(var i=0;i<arr_timeList.length;i++){
+            if (n_weekOfYear == arr_timeList[i][3] ){            
+            arr_week[arr_timeList[i][4] - 1] = arr_timeList[i][2];
+            week_total_time = week_total_time + parseInt(arr_timeList[i][2]); 
+          }  
+        }
+  }else if (strType == "2") {
+     // 週
+        delete arr_month;
+        arr_month[0] = 0;
+        arr_month[1] = 0;
+        arr_month[2] = 0;
+        arr_month[3] = 0;
+        arr_month[4] = 0;
+        arr_month[5] = 0;
+        arr_month[6] = 0;
+        arr_month[7] = 0;
+        arr_month[8] = 0;
+        arr_month[9] = 0;
+        arr_month[10] = 0;
+        arr_month[11] = 0;
+        arr_month[12] = 0;
+        arr_month[13] = 0;
+        arr_month[14] = 0;
+        arr_month[15] = 0;
+        arr_month[16] = 0;
+        arr_month[17] = 0;
+        arr_month[18] = 0;
+        arr_month[19] = 0;
+        arr_month[20] = 0;
+        arr_month[21] = 0;
+        arr_month[22] = 0;
+        arr_month[23] = 0;
+        arr_month[24] = 0;
+        arr_month[25] = 0;
+        arr_month[26] = 0;
+        arr_month[27] = 0;
+        arr_month[28] = 0;
+        arr_month[29] = 0;
+        arr_month[30] = 0;
+
+        for(var i=0;i<arr_timeList.length;i++){
+            // alert(String(arr_timeList[i][1]).substring(0,7));
+            if (n_monthOfYear == String(arr_timeList[i][1]).substring(0,7) ){ 
+              arr_index = parseInt(String(n_monthOfYear).substring(5,7));
+              arr_month[arr_index - 1] = arr_month[arr_index - 1] + parseInt(arr_timeList[i][2]);
+              month_total_time = month_total_time + parseInt(arr_timeList[i][2]); 
+          }  
+        }
+  }else if (strType == "3") {
+
+    // alert("strType"+strType);
+     // 年
+        delete arr_year;
+        arr_year[0] = 0;
+        arr_year[1] = 0;
+        arr_year[2] = 0;
+        arr_year[3] = 0;
+        arr_year[4] = 0;
+        arr_year[5] = 0;
+        arr_year[6] = 0;
+        arr_year[7] = 0;
+        arr_year[8] = 0;
+        arr_year[9] = 0;
+        arr_year[10] = 0;
+        arr_year[11] = 0;
+    // alert("G_years:"+G_years);
+        for(var i=0;i<arr_timeList.length;i++){
+            // alert("xxxxx:"+String(arr_timeList[i][1]).substring(0,7));
+            if (G_years == String(arr_timeList[i][1]).substring(0,4) ){ 
+               arr_index = parseInt(String(arr_timeList[i][1]).substring(5,7));
+              // alert("arr_index:"+arr_index);
+              arr_year[arr_index - 1] = arr_year[arr_index - 1] + parseInt(arr_timeList[i][2]);
+              year_total_time = year_total_time + parseInt(arr_timeList[i][2]); 
+          }  
+        }
+  }else if (strType == "4") {
+     // 合計
+        delete arr_total;
+        arr_total[0] = 0;
+        arr_total[1] = 0;
+        arr_total[2] = 0;
+        arr_total[3] = 0;
+        arr_total[4] = 0;
+      
+
+        for(var i=0;i<arr_timeList.length;i++){
+                // alert("2018"+String(arr_timeList[i][1]).substring(0,4));
+            if (String(arr_timeList[i][1]).substring(0,4) == "2014"){ 
+              arr_total[0] = arr_total[0] + parseInt(arr_timeList[i][2]);
+            }else if (String(arr_timeList[i][1]).substring(0,4) == "2015"){ 
+              arr_total[1] = arr_total[1] + parseInt(arr_timeList[i][2]);
+            }else if (String(arr_timeList[i][1]).substring(0,4) == "2016"){ 
+              arr_total[2] = arr_total[2] + parseInt(arr_timeList[i][2]);
+            }else if (String(arr_timeList[i][1]).substring(0,4) == "2017"){ 
+              arr_total[3] = arr_total[3] + parseInt(arr_timeList[i][2]);
+            }else if (String(arr_timeList[i][1]).substring(0,4) == "2018"){ 
+              // alert("2018"+arr_total[4]);
+              arr_total[4] = arr_total[4] + parseInt(arr_timeList[i][2]);
+            }
+
+             total_time = total_time + parseInt(arr_timeList[i][2]); 
+           
+        }
+  }
+
+   if (strType == "1"){
+    var week_percent;
+    document.querySelector('#week_time').innerHTML =getFormatZero(Math.floor(week_total_time/60)) + ":" +getFormatZero(week_total_time%60)+":00" ;
+    week_total_calories =  parseInt(week_total_time*3/4); 
+    document.querySelector('#week_calories').innerHTML = week_total_calories;
+
+    week_percent = 100*(Math.floor(week_total_time/60) / 10);
+    document.querySelector('#week_percent').innerHTML = week_percent+"%";
+   }
+    else if (strType == "2"){
+      var month_percent;
+      document.querySelector('#month_time').innerHTML =getFormatZero(Math.floor(month_total_time/60)) + ":" +getFormatZero(month_total_time%60)+":00" ;
+      month_total_calories =  parseInt(month_total_time*3/4); 
+      document.querySelector('#month_calories').innerHTML = month_total_calories;
+      month_percent = 100*(Math.floor(month_total_time/60) / 10);
+      document.querySelector('#month_percent').innerHTML = month_percent+"%"; 
+}  else if (strType == "3"){
+      var year_percent;
+      document.querySelector('#year_time').innerHTML =getFormatZero(Math.floor(year_total_time/60)) + ":" +getFormatZero(year_total_time%60)+":00" ;
+      year_total_calories =  parseInt(year_total_time*3/4); 
+      document.querySelector('#year_calories').innerHTML = year_total_calories;
+      year_percent = 100*(Math.floor(year_total_time/60) / 10);
+      document.querySelector('#year_percent').innerHTML = year_percent+"%"; 
+
+}  else if (strType == "4"){
+      // var year_percent;
+      document.querySelector('#total_time').innerHTML =getFormatZero(Math.floor(total_time/60)) + ":" +getFormatZero(total_time%60)+":00" ;
+      total_calories =  parseInt(total_time*3/4); 
+      document.querySelector('#total_calories').innerHTML = total_calories;
+      // year_percent = 100*(Math.floor(total_time/60) / 10);
+      // document.querySelector('#total_percent').innerHTML = percent+"%"; 
+
+}
+
+
+
+}
+
+function show_chart_week(offset){
+    //週実績の取得
+    get_arrayData("1",offset);
+
+    var barChartData = {
+          scaleStartValue : null,  //y轴的起始值
+          scaleLabel : "<%=value%>",// 标签显示值
+          scaleBeginAtZero: true, // y轴标记是否从0开始
+        labels: ['月','火','水','木','金','土','日' ],
+        datasets: [
+        {
+            label: '',
+            data: [
+
+        arr_week[0] ,
+        arr_week[1] ,
+        arr_week[2] ,
+        arr_week[3] ,
+        arr_week[4] ,
+        arr_week[5] ,
+        arr_week[6]             
+            ],
+            // borderColor : "rgba(54,164,235,0.8)",
+             borderColor : "rgba(0,255,0,0.8)",
+            // backgroundColor : "rgba(54,164,235,0.5)",
+            backgroundColor : "rgba(0,255,0,0.5)",
+        },
+        ],
+      };
+
+    var  ctx = document.getElementById("canvas_week").getContext("2d");
+      window.myBar = new Chart(ctx, {
+          type: 'bar', // ここは bar にする必要があります
+          data: barChartData,
+          // options: complexChartOption
+			options: {
+				responsive: true,
+				title: {
+					display: true,
+//					text: 'Chart with Multiline Labels'
+				},
+			}
+      });
+}
+
+function show_chart_month(offset){
+    //週実績の取得
+    get_arrayData("2",offset);
+
+    var barChartData = {
+          scaleStartValue : null,  //y轴的起始值
+          scaleLabel : "<%=value%>",// 标签显示值
+          scaleBeginAtZero: true, // y轴标记是否从0开始
+        labels: ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31' ],
+        datasets: [
+        {
+            label: '',
+            data: [
+        arr_month[0] ,
+        arr_month[1] ,
+        arr_month[2] ,
+        arr_month[3] ,
+        arr_month[4] ,
+        arr_month[5] ,
+        arr_month[6] ,
+        arr_month[7] ,
+        arr_month[8] ,
+        arr_month[9],
+        arr_month[10] ,
+        arr_month[11] ,
+        arr_month[12] ,
+        arr_month[13] ,
+        arr_month[14] ,
+        arr_month[15] ,
+        arr_month[16] ,
+        arr_month[17] ,
+        arr_month[18] ,
+        arr_month[19],
+        arr_month[20] ,
+        arr_month[21] ,
+        arr_month[22] ,
+        arr_month[23] ,
+        arr_month[24] ,
+        arr_month[25] ,
+        arr_month[26] ,
+        arr_month[27] ,
+        arr_month[28] ,
+        arr_month[29],
+        arr_month[30]             
+            ],
+             borderColor : "rgba(0,255,0,0.8)",
+            // backgroundColor : "rgba(54,164,235,0.5)",
+            backgroundColor : "rgba(0,255,0,0.5)",
+        },
+        ],
+      };
+
+    var  ctx = document.getElementById("canvas_month").getContext("2d");
+      window.myBar = new Chart(ctx, {
+          type: 'bar', // ここは bar にする必要があります
+          data: barChartData,
+          // options: complexChartOption
+
+			options: {
+				responsive: true,
+				title: {
+					display: true,
+//					text: 'Chart with Multiline Labels'
+				},
+			}
+      });
+}
+
+
+function show_chart_year(offset){
+    //週実績の取得
+    get_arrayData("3",offset);
+
+    var barChartData = {
+          scaleStartValue : null,  //y轴的起始值
+          scaleLabel : "<%=value%>",// 标签显示值
+          scaleBeginAtZero: true, // y轴标记是否从0开始
+
+        labels: ['1','2','3','4','5','6','7','8','9','10','11','12' ],
+
+        datasets: [
+        {
+            label: '',
+            data: [
+        arr_year[0] ,
+        arr_year[1] ,
+        arr_year[2] ,
+        arr_year[3] ,
+        arr_year[4] ,
+        arr_year[5] ,
+        arr_year[6] ,
+        arr_year[7] ,
+        arr_year[8] ,
+        arr_year[9],
+        arr_year[10] ,
+        arr_year[11]         
+            ],
+             borderColor : "rgba(0,255,0,0.8)",
+            // backgroundColor : "rgba(54,164,235,0.5)",
+            backgroundColor : "rgba(0,255,0,0.5)",
+        },
+        ],
+      };
+
+    var  ctx = document.getElementById("canvas_year").getContext("2d");
+      window.myBar = new Chart(ctx, {
+          type: 'bar', // ここは bar にする必要があります
+          data: barChartData,
+          // options: complexChartOption
+			options: {
+				responsive: true,
+				title: {
+					display: true,
+//					text: 'Chart with Multiline Labels'
+				},
+			}
+      });
+}
+
+function show_chart_total(){
+    //週実績の取得
+    get_arrayData("4",0);
+
+    var barChartData = {
+          scaleStartValue : null,  //y轴的起始值
+          scaleLabel : "<%=value%>",// 标签显示值
+          scaleBeginAtZero: true, // y轴标记是否从0开始
+        labels: ['2014','2015','2016','2017','2018' ],
+        datasets: [
+        {
+            label: '',
+            data: [
+        arr_total[0] ,
+        arr_total[1] ,
+        arr_total[2] ,
+        arr_total[3] ,
+        arr_total[4]         
+            ],
+             borderColor : "rgba(0,255,0,0.8)",
+            // backgroundColor : "rgba(54,164,235,0.5)",
+            backgroundColor : "rgba(0,255,0,0.5)",
+        },
+        ],
+      };
+
+    var  ctx = document.getElementById("canvas_total").getContext("2d");
+      window.myBar = new Chart(ctx, {
+          type: 'bar', // ここは bar にする必要があります
+          data: barChartData,
+          // options: complexChartOption
+			options: {
+				responsive: true,
+				title: {
+					display: true,
+
+				},
+			}
+      });
+}
+
+function show_chart_total_1(){
+var ctx = document.getElementById("canvas_total").getContext('2d');
+var myChart = new Chart(ctx, {
+  type: 'pie',
+  data: {
+    // labels: ["M", "T", "W", "T", "F", "S", "S"],
+     labels: ["ランニング", "ウォーキング", "ラジオ体操", "自転車", "バドミントン", "野球", "ヨガ"],
+    // labels: ["ランニング", "ウォーキング", "ラジオ体操", "自転車", "バドミントン", "野球", "ヨガ'],
+    datasets: [{
+      backgroundColor: [
+        "#2ecc71",
+        "#3498db",
+        "#95a5a6",
+        "#9b59b6",
+        "#f1c40f",
+        "#e74c3c",
+        "#34495e"
+      ],
+      // data: [12, 19, 3, 17, 28, 24, 7]
+				data: [
+              arr_chart_2[0],
+              arr_chart_2[1],
+              arr_chart_2[2],
+              arr_chart_2[3],
+              arr_chart_2[4],
+              arr_chart_2[5],
+              arr_chart_2[6]
+				]
+    }]
+  }
+});
+}
+     </script>
+</ons-page>

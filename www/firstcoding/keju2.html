@@ -65,22 +65,23 @@
         </ons-toolbar>
         <br>
        <p><form action="/example/html5/demo_form.asp" method="get">
-           <h3>予定終了日</h3><input type="date" id="user_date" name="user_date"><font color=red>(必須)</font></form></p>
-        <p><h3>頻度</h3> 
-        <input type="number" id="user_number" name="number" style="width: 50px"　 min="0"　onblur="check()">	 
-        <ons-select id="user_list">
+           <font color= #085078><h3>予定終了日</h3></font><input type="date" id="user_date" name="user_date"><font color=red>(必須)</font></form></p> 
+        <p><font color= #085078><h3>頻度</h3> </font>
+        <ons-input type="number" id="user_number" name="number" style="width: 50px"　 min="0" placeholder="1"　onblur="check()">	
+        </ons-input>  
+        <ons-select id="user_list" onchange="editSelects(event)">
           <option>回数</option>
           <option>時間</option>
           <option>KM</option>
          </ons-select> ／
-         <ons-select  id="user_time">
+         <ons-select  id="user_time" onchange="editSelects(event)">
              <option>週</option>
              <option>日</option>
              <option>月</option>
          </ons-select> <font color=red>(必須)</font>　　　　　　
         
-        <h3>運動種類</h3>
-         <ons-select  id="user_sport">
+        <font color= #085078><h3>運動種類</h3></font>
+         <ons-select  id="user_sport" onchange="editSelects(event)">
              <option >ランニング</option>
              <option >ウォーキング</option>
              <option >ラジオ体操</option>
@@ -93,10 +94,11 @@
              <option >ゴルフ</option>
          </ons-select><font color=red>(必須)</font>
          </p> 
-         <p><h3>意気込み<h3><b> 
-         <input type="text" id="user_target"  placeholder="頑張りましょう！"
+         <p><font color= #085078><h3>意気込み<h3></font><b> 
+        <textarea class="textarea textarea--transparent" id="user_target"  placeholder="頑張りましょう！"></textarea>
+         <!--<input type="text" id="user_target"  placeholder="頑張りましょう！"
               style="margin-top:8px; width: 100%;"　autocomplete="on"> </p>
-           <!-- <Button onClick={showProfile()}>完了</Button> -->
+           <Button onClick={showProfile()}>完了</Button> -->
             <button onClick={showProfile()} class="button--large--cta" style="width: 95%; margin: 0 auto;">完了</button>                         
         <!--<div align="center"><button onclick="showProfile()">完了</button></div>
         <p id="targetpage"></p>-->

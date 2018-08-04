@@ -1,0 +1,398 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+  <script src="components/loader.js"></script>
+  <script src="lib/onsenui/js/onsenui.min.js"></script>
+
+  <link rel="stylesheet" href="components/loader.css">
+  <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
+  <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
+  <link rel="stylesheet" href="css/style2.css">
+
+  <style>
+    .intro {
+        text-align: center;
+        padding: 0 10px;
+        margin-top: 40px;
+      }
+  </style>
+  <script>
+document.addEventListener('init', function(event) {
+var page = event.target;
+if (page.id === 'top') {
+  page.querySelector('#top').onclick = function() {
+    document.querySelector('#myNavigator').pushPage('page1.html', {data: {title:  '問題一'}});
+  };  
+}
+if (page.id === 'page1') {
+  page.querySelector('#r1').onclick = function() {
+    document.querySelector('#myNavigator').pushPage('page2.html', {data: {title: '問題二'}});
+   };  
+  page.querySelector('#r2').onclick = function() {
+    document.querySelector('#myNavigator').pushPage('page3.html', {data: {title: '問題三'}});
+    page.querySelector('ons-toolbar .center').innerHTML = page.data.title;
+  };
+} 
+if (page.id === 'page2') {
+  page.querySelector('#r3').onclick = function() {
+    document.querySelector('#myNavigator').pushPage('page4.html', {data: {title: '問題四'}});
+   };  
+  page.querySelector('#r4').onclick = function() {
+    document.querySelector('#myNavigator').pushPage('page5.html', {data: {title: '問題五'}});
+    page.querySelector('ons-toolbar .center').innerHTML = page.data.title;
+ };
+}
+if (page.id === 'page3') {
+  page.querySelector('#r5').onclick = function() {
+    document.querySelector('#myNavigator').pushPage('page6.html', {data: {title: '問題六'}});
+   };  
+  page.querySelector('#r6').onclick = function() {
+    document.querySelector('#myNavigator').pushPage('page5.html', {data: {title: '問題五'}});
+    page.querySelector('ons-toolbar .center').innerHTML = page.data.title;
+ };
+}
+if (page.id === 'page4') {
+  page.querySelector('#r7').onclick = function() {
+    document.querySelector('#myNavigator').pushPage('page-a.html', {data: {title: 'Page-a'}});
+   };  
+  page.querySelector('#r8').onclick = function() {
+    document.querySelector('#myNavigator').pushPage('page-b.html', {data: {title: 'Page-b'}});
+    page.querySelector('ons-toolbar .center').innerHTML = page.data.title;
+ };
+}
+ if (page.id === 'page5') {
+  page.querySelector('#r9').onclick = function() {
+    document.querySelector('#myNavigator').pushPage('page-c.html', {data: {title: 'Page-c'}});
+   };  
+  page.querySelector('#r10').onclick = function() {
+    document.querySelector('#myNavigator').pushPage('page-b.html', {data: {title: 'Page-b'}});
+    page.querySelector('ons-toolbar .center').innerHTML = page.data.title;
+ };
+}
+  if (page.id === 'page6') {
+  page.querySelector('#r11').onclick = function() {
+    document.querySelector('#myNavigator').pushPage('page-c.html', {data: {title: 'Page-c'}});
+   };  
+  page.querySelector('#r12').onclick = function() {
+    document.querySelector('#myNavigator').pushPage('page-d.html', {data: {title: 'Page-d'}});
+    page.querySelector('ons-toolbar .center').innerHTML = page.data.title;
+ };
+}
+  else if (page.id === 'page2') {
+  page.querySelector('ons-toolbar .center').innerHTML = page.data.title;
+  }
+ });
+  </script>
+</head>
+
+<body>
+  <ons-navigator swipeable id="myNavigator" page="top.html"></ons-navigator>
+<template id="top.html">
+  <ons-page id="top">
+    <ons-toolbar>
+      <div class="left"><ons-toolbar-button onclick="window.location.href='Home.html';">Back</ons-toolbar-button></div>
+      <div class="center">心理テスト</div>
+    </ons-toolbar>
+    <br>
+    <h3>【説明】</h3>
+    <ons-list-item>
+    <p class="intro">
+            ダイエットに運動不足は禁物とわかって<br />いるけれど、ジム通いやランニング<br />などは続かない…。<br/>
+            定期的に時間をとってトレーニングをする<br />のが苦手なら、生活の中に運動を<br />プラスして習慣化するのも手。<br />
+            <br />あなたが無理なく続けられるスキマ時間エクサを、深層心理から探ってみて。</p><br><br>
+    </ons-list-item>
+<p style="text-align:center"><button class="button button--outline" id="top" style="width: 95%; margin: 0 auto;">【心理テストにトライ！】</button></p>
+<a href="http://ameblo.jp/morifuyumi/" ><font color=red>森冬生さん監修：公式ブログ</font></a>
+  </ons-page>
+</template>
+
+  <!--問題1-->
+<template id="page1.html">
+  <ons-page id="page1">
+    <ons-toolbar>
+      <div class="center">問題一</div>
+    </ons-toolbar>
+    <p><h2>　男子フィギュアスケート選手。あなたの好みは？<h2></p>
+     <ul class="list">
+  <li class="list-item list-item--tappable">
+    <div class="list-item__left">
+      <label class="radio-button">
+        <input type="radio" id="r1" class="radio-button__input" name="r" checked="checked">
+        <div class="radio-button__checkmark"></div>
+      </label>
+    </div>
+    <label for="r1" class="list-item__center">
+     ａ　カンペキな王子キャラ 羽生結弦
+    </label>
+  </li>
+  <li class="list-item list-item--tappable">
+    <div class="list-item__left">
+      <label class="radio-button">
+        <input type="radio" id="r2" class="radio-button__input" name="r">
+        <div class="radio-button__checkmark"></div>
+      </label>
+    </div>
+    <label for="r2" class="list-item__center">
+      ｂ　マイペースな弟キャラ 宇野昌磨
+    </label>
+  </li>
+</ul>
+</template>
+
+  <!--問題2-->
+<template id="page2.html">
+  <ons-page id="page2">
+    <ons-toolbar>
+      <div class="center">問題二</div>
+    </ons-toolbar>
+    <p><h2>職場でのモチベーションアップの特効薬は?<h2></p>
+     <ul class="list">
+  <li class="list-item list-item--tappable">
+    <div class="list-item__left">
+      <label class="radio-button">
+        <input type="radio" id="r3" class="radio-button__input" name="r">
+        <div class="radio-button__checkmark"></div>
+      </label>
+    </div>
+    <label for="r3" class="list-item__center">
+     ａ　昇進
+    </label>
+  </li>
+  <li class="list-item list-item--tappable">
+    <div class="list-item__left">
+      <label class="radio-button">
+        <input type="radio" id="r4" class="radio-button__input" name="r">
+        <div class="radio-button__checkmark"></div>
+      </label>
+    </div>
+    <label for="r4" class="list-item__center">
+      ｂ　昇給
+    </label>
+  </li>
+</ul>
+</template>
+
+  <!--問題3-->
+<template id="page3.html">
+  <ons-page id="page3">
+    <ons-toolbar>
+      <div class="center">問題三</div>
+    </ons-toolbar>
+    <p><h2>招待されるなら一流旅館よりラグジュアリーホテルのほうが魅力的だ<h2></p>
+     <ul class="list">
+  <li class="list-item list-item--tappable">
+    <div class="list-item__left">
+      <label class="radio-button">
+        <input type="radio" id="r5" class="radio-button__input" name="r" >
+        <div class="radio-button__checkmark"></div>
+      </label>
+    </div>
+    <label for="r5" class="list-item__center">
+     ａ　YES
+    </label>
+  </li>
+  <li class="list-item list-item--tappable">
+    <div class="list-item__left">
+      <label class="radio-button">
+        <input type="radio" id="r6" class="radio-button__input" name="r">
+        <div class="radio-button__checkmark"></div>
+      </label>
+    </div>
+    <label for="r6" class="list-item__center">
+      ｂ　NO
+    </label>
+  </li>
+</ul>
+</template>
+
+  <!--問題4-->
+<template id="page4.html">
+  <ons-page id="page4">
+    <ons-toolbar>
+      <div class="center">問題四</div>
+    </ons-toolbar>
+    <p><h2>新しいことに挑戦するのが好き！<h2></p>
+     <ul class="list">
+  <li class="list-item list-item--tappable">
+    <div class="list-item__left">
+      <label class="radio-button">
+        <input type="radio" id="r7" class="radio-button__input" name="r" >
+        <div class="radio-button__checkmark"></div>
+      </label>
+    </div>
+    <label for="r7" class="list-item__center">
+     ａ　YES
+    </label>
+  </li>
+  <li class="list-item list-item--tappable">
+    <div class="list-item__left">
+      <label class="radio-button">
+        <input type="radio" id="r8" class="radio-button__input" name="r">
+        <div class="radio-button__checkmark"></div>
+      </label>
+    </div>
+    <label for="r8" class="list-item__center">
+      ｂ　NO
+    </label>
+  </li>
+</ul>
+</template>
+
+  <!--問題5-->
+<template id="page5.html">
+  <ons-page id="page5">
+    <ons-toolbar>
+      <div class="center">問題五</div>
+    </ons-toolbar>
+    <p><h2>あなたが女子会の幹事を引き受ける理由は?<h2></p>
+     <ul class="list">
+  <li class="list-item list-item--tappable">
+    <div class="list-item__left">
+      <label class="radio-button">
+        <input type="radio" id="r9" class="radio-button__input" name="r">
+        <div class="radio-button__checkmark"></div>
+      </label>
+    </div>
+    <label for="r9" class="list-item__center">
+     ａ　自分好みの店を選べるから
+    </label>
+  </li>
+  <li class="list-item list-item--tappable">
+    <div class="list-item__left">
+      <label class="radio-button">
+        <input type="radio" id="r10" class="radio-button__input" name="r">
+        <div class="radio-button__checkmark"></div>
+      </label>
+    </div>
+    <label for="r10" class="list-item__center">
+      ｂ　頼まれて仕方なく
+    </label>
+  </li>
+</ul>
+</template>
+
+  <!--問題6-->
+<template id="page6.html">
+  <ons-page id="page6">
+    <ons-toolbar>
+      <div class="center">問題六</div>
+    </ons-toolbar>
+    <p><h2>理想のお花見は?<h2></p>
+     <ul class="list">
+  <li class="list-item list-item--tappable">
+    <div class="list-item__left">
+      <label class="radio-button">
+        <input type="radio" id="r11" class="radio-button__input" name="r">
+        <div class="radio-button__checkmark"></div>
+      </label>
+    </div>
+    <label for="r11" class="list-item__center">
+     ａ　仲間や恋人と花の下でパーティ
+    </label>
+  </li>
+  <li class="list-item list-item--tappable">
+    <div class="list-item__left">
+      <label class="radio-button">
+        <input type="radio" id="r12" class="radio-button__input" name="r">
+        <div class="radio-button__checkmark"></div>
+      </label>
+    </div>
+    <label for="r12" class="list-item__center">
+      ｂ　秘境の見事な桜をひとりで堪能
+    </label>
+  </li>
+</ul>
+</template>
+
+  <!--診断A-->
+<template id="page-a.html">
+  <ons-page id="page-a">
+    <ons-toolbar>
+      <div class="center">結果</div>
+    </ons-toolbar>
+    <p><h2>「階段を使う！」を習慣にして代謝UP！<h2></p>
+       <ul class="list">
+    <li class="list-item list-item--tappable">
+    <div class="list-item__left">
+     向上心高めのあなたは、1度決めて習慣化すると何事も長続きするタイプ。<br>これからは脱エスカレーター＆エレベーターを実践してみない？<br>
+     駅や建物内などで“基本、階段を使う”！<br>　
+     毎日それを心がけるだけで、代謝量が上がり、痩せやすい体になりそう。正しい姿勢で腕を振りながら昇り降りするのが効果的。
+    </div> 
+    </li>
+    </ul>
+    <p style="text-align:center">
+      <ons-button onclick="window.location.href='Home.html';">ホームページへ</ons-button>
+    </p>
+  </ons-page>
+</template>
+
+  <!--診断B-->
+<template id="page-b.html">
+  <ons-page id="page-b">
+    <ons-toolbar>
+      <div class="center">結果</div>
+    </ons-toolbar>
+    <p><h2>「風呂トレ」でデトックス＆美痩せを！！<h2></p>
+       <ul class="list">
+    <li class="list-item list-item--tappable">
+    <div class="list-item__left">
+   いつも少し頑張りすぎるあなたは、ストレスをためやすいタイプ。<br>
+   リラックスしながらバスタイムにできる“風呂トレ”がオススメ！<br>
+   　低めの温度の湯船の中で自分のペースでストレッチを。<br>
+   お風呂の浮力で楽に運動できるし、寝る前に行えば睡眠中に脂肪燃焼効果も期待できそう。    </div> 
+    </li>
+    </ul>
+    <p style="text-align:center">
+      <ons-button onclick="window.location.href='Home.html';">ホームページへ</ons-button>
+    </p>
+  </ons-page>
+</template>
+
+  <!--診断C-->
+
+<template id="page-c.html">
+  <ons-page id="page-c">
+    <ons-toolbar>
+      <div class="center">結果</div>
+    </ons-toolbar>
+    <p><h2>「ながら運動」でちりつも筋トレ！<h2></p>
+       <ul class="list">
+    <li class="list-item list-item--tappable">
+    <div class="list-item__left">
+  合理的で器用なあなたは、2つのことを平行してやるのが得意なタイプ。<br>
+  そんなあなたにピッタリなのは「ながら運動」。<br>
+  歯磨きしながらかかとの上げ下ろしをしたり、テレビを見ながら腰ひねりやスクワットをしたり…。<br>
+  “ちりも積もれば山となる”で、気がつけば、筋肉強化できそう！    </li>
+    </ul>
+    <p style="text-align:center">
+      <ons-button onclick="window.location.href='Home.html';">ホームページへ</ons-button>
+    </p>
+  </ons-page>
+</template>
+
+  <!--診断D-->
+
+<template id="page-d.html">
+  <ons-page id="page-d">
+    <ons-toolbar>
+      <div class="center">結果</div>
+    </ons-toolbar>
+    <p><h2>「お腹をへこますドローイン」でインナーマッスルを鍛えて！<h2></p>
+       <ul class="list">
+    <li class="list-item list-item--tappable">
+    <div class="list-item__left">
+  縛られるのが嫌いなあなたは、時間帯や場所に関係なくいつでもできる運動が理想的。<br>
+  オススメは、腹筋を使った“ドローイン”。<br>
+  息を吸い込みながらお腹をへこませ、息を吐きながらさらにお腹をへこませて、そのまましばらくキープ。<br>
+  気が向いたときにやっているうちに、インナーマッスルが鍛えられるはず！    </ul>
+  <p style="text-align:center">
+      <ons-button onclick="window.location.href='Home.html';">ホームページへ</ons-button>
+    </p>
+  </ons-page>
+</template>
+
+</body>
+</html>
