@@ -32,25 +32,25 @@ if (page.id === 'page1') {
     document.querySelector('#myNavigator').pushPage('page2.html', {data: {title: '問題二'}});
    };  
   page.querySelector('#r2').onclick = function() {
-    document.querySelector('#myNavigator').pushPage('page3.html', {data: {title: '問題三'}});
+    document.querySelector('#myNavigator').pushPage('page3.html', {data: {title: '問題二'}});
     page.querySelector('ons-toolbar .center').innerHTML = page.data.title;
   };
 } 
 if (page.id === 'page2') {
   page.querySelector('#r3').onclick = function() {
-    document.querySelector('#myNavigator').pushPage('page4.html', {data: {title: '問題四'}});
+    document.querySelector('#myNavigator').pushPage('page4.html', {data: {title: '問題三'}});
    };  
   page.querySelector('#r4').onclick = function() {
-    document.querySelector('#myNavigator').pushPage('page5.html', {data: {title: '問題五'}});
+    document.querySelector('#myNavigator').pushPage('page5.html', {data: {title: '問題三'}});
     page.querySelector('ons-toolbar .center').innerHTML = page.data.title;
  };
 }
 if (page.id === 'page3') {
   page.querySelector('#r5').onclick = function() {
-    document.querySelector('#myNavigator').pushPage('page6.html', {data: {title: '問題六'}});
+    document.querySelector('#myNavigator').pushPage('page6.html', {data: {title: '問題三'}});
    };  
   page.querySelector('#r6').onclick = function() {
-    document.querySelector('#myNavigator').pushPage('page5.html', {data: {title: '問題五'}});
+    document.querySelector('#myNavigator').pushPage('page5.html', {data: {title: '問題三'}});
     page.querySelector('ons-toolbar .center').innerHTML = page.data.title;
  };
 }
@@ -93,7 +93,7 @@ if (page.id === 'page4') {
 <template id="top.html">
   <ons-page id="top">
     <ons-toolbar>
-      <div class="left"><ons-toolbar-button onclick="window.location.href='Home.html';">Back</ons-toolbar-button></div>
+      <div class="left"><ons-toolbar-button onclick="window.location.href='Home.html';">戻る</ons-toolbar-button></div>
       <div class="center">心理テスト</div>
     </ons-toolbar>
     <br>
@@ -139,7 +139,11 @@ if (page.id === 'page4') {
       ｂ　マイペースな弟キャラ 宇野昌磨
     </label>
   </li>
-</ul>
+ </ul>
+  <p style="text-align:center">
+      <ons-button onclick="window.location.href='Home.html';">テストを終了して戻る</ons-button>
+  </p>
+  </ons-page>
 </template>
 
   <!--問題2-->
@@ -173,13 +177,17 @@ if (page.id === 'page4') {
     </label>
   </li>
 </ul>
+<p style="text-align:center">
+      <ons-button onclick="window.location.href='Home.html';">テストを終了して戻る</ons-button>
+  </p>
+  </ons-page>
 </template>
 
   <!--問題3-->
 <template id="page3.html">
   <ons-page id="page3">
     <ons-toolbar>
-      <div class="center">問題三</div>
+      <div class="center">問題二</div>
     </ons-toolbar>
     <p><h2>招待されるなら一流旅館よりラグジュアリーホテルのほうが魅力的だ<h2></p>
      <ul class="list">
@@ -206,13 +214,17 @@ if (page.id === 'page4') {
     </label>
   </li>
 </ul>
+<p style="text-align:center">
+      <ons-button onclick="window.location.href='Home.html';">テストを終了して戻る</ons-button>
+  </p>
+  </ons-page>
 </template>
 
   <!--問題4-->
 <template id="page4.html">
   <ons-page id="page4">
     <ons-toolbar>
-      <div class="center">問題四</div>
+      <div class="center">問題三</div>
     </ons-toolbar>
     <p><h2>新しいことに挑戦するのが好き！<h2></p>
      <ul class="list">
@@ -239,15 +251,19 @@ if (page.id === 'page4') {
     </label>
   </li>
 </ul>
+<p style="text-align:center">
+      <ons-button onclick="window.location.href='Home.html';">テストを終了して戻る</ons-button>
+  </p>
+  </ons-page>
 </template>
 
   <!--問題5-->
 <template id="page5.html">
   <ons-page id="page5">
     <ons-toolbar>
-      <div class="center">問題五</div>
+      <div class="center">問題三</div>
     </ons-toolbar>
-    <p><h2>あなたが女子会の幹事を引き受ける理由は?<h2></p>
+    <p><h2>あなたが飲み会の幹事を引き受ける理由は?<h2></p>
      <ul class="list">
   <li class="list-item list-item--tappable">
     <div class="list-item__left">
@@ -272,13 +288,17 @@ if (page.id === 'page4') {
     </label>
   </li>
 </ul>
+<p style="text-align:center">
+      <ons-button onclick="window.location.href='Home.html';">テストを終了して戻る</ons-button>
+  </p>
+  </ons-page>
 </template>
 
   <!--問題6-->
 <template id="page6.html">
   <ons-page id="page6">
     <ons-toolbar>
-      <div class="center">問題六</div>
+      <div class="center">問題三</div>
     </ons-toolbar>
     <p><h2>理想のお花見は?<h2></p>
      <ul class="list">
@@ -305,6 +325,10 @@ if (page.id === 'page4') {
     </label>
   </li>
 </ul>
+<p style="text-align:center">
+      <ons-button onclick="window.location.href='Home.html';">テストを終了して戻る</ons-button>
+  </p>
+  </ons-page>
 </template>
 
   <!--診断A-->
@@ -324,7 +348,10 @@ if (page.id === 'page4') {
     </li>
     </ul>
     <p style="text-align:center">
-      <ons-button onclick="window.location.href='Home.html';">ホームページへ</ons-button>
+      <ons-button onclick="window.location.href='Home.html';">トップページに戻る</ons-button>
+    </p>
+    <p style="text-align:center">
+      <ons-button onclick="window.location.href='Home.html';">トップページに戻る</ons-button>
     </p>
   </ons-page>
 </template>
@@ -346,7 +373,7 @@ if (page.id === 'page4') {
     </li>
     </ul>
     <p style="text-align:center">
-      <ons-button onclick="window.location.href='Home.html';">ホームページへ</ons-button>
+      <ons-button onclick="window.location.href='Home.html';">トップページに戻る</ons-button>
     </p>
   </ons-page>
 </template>
@@ -368,7 +395,7 @@ if (page.id === 'page4') {
   “ちりも積もれば山となる”で、気がつけば、筋肉強化できそう！    </li>
     </ul>
     <p style="text-align:center">
-      <ons-button onclick="window.location.href='Home.html';">ホームページへ</ons-button>
+      <ons-button onclick="window.location.href='Home.html';">トップページに戻る</ons-button>
     </p>
   </ons-page>
 </template>
@@ -389,7 +416,7 @@ if (page.id === 'page4') {
   息を吸い込みながらお腹をへこませ、息を吐きながらさらにお腹をへこませて、そのまましばらくキープ。<br>
   気が向いたときにやっているうちに、インナーマッスルが鍛えられるはず！    </ul>
   <p style="text-align:center">
-      <ons-button onclick="window.location.href='Home.html';">ホームページへ</ons-button>
+      <ons-button onclick="window.location.href='Home.html';">トップページに戻る</ons-button>
     </p>
   </ons-page>
 </template>
