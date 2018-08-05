@@ -291,19 +291,7 @@
 
 <template id="home.html">
   <ons-page id="home">
-    <div style="margin-top:10%"></div>
-    <ons-card onclick="window.location.href='before.html';">
-      <div class="title"><ons-icon icon="ion-aperture" size="30px" fixed-width="true"></ons-icon>写真</div>
-      <div class="content">Before&Afterの写真に比べます。</div>
-    </ons-card>
-    <ons-card onclick="window.location.href='share.html';">
-      <div class="title"><ons-icon icon="ion-bonfire" size="30px" fixed-width="true"></ons-icon>交流</div>
-      <div class="content">毎日の気持ちを書きます。</div>
-    </ons-card>
-    <ons-card onclick="fn.pushPage({'id': 'report_2.html', 'title': 'Progress'})">
-      <div class="title"><ons-icon icon="ion-pie-graph" size="30px" fixed-width="true"></ons-icon>レポート</div>
-      <div class="content">運動以来のデータ分析。</div>
-    </ons-card>
+    <div style="margin-top:5%"></div>
     <ons-card onclick="window.location.href='keju3.html';">
       <div class="title"><ons-icon fixed-width class="list-item__icon" size="30px"icon="md-book"></ons-icon>習慣化運動テスト</div>
       <div class="content">テストの結果からオススメの運動を表示します。</div>
@@ -312,7 +300,18 @@
       <div class="title"><ons-icon icon="ion-star" size="30px" fixed-width="true"></ons-icon>達成メッセージ</div>
       <div class="content">自分の意気込み。</div>
     </ons-card>
-
+    <ons-card onclick="fn.pushPage({'id': 'report_2.html', 'title': 'Progress'})">
+      <div class="title"><ons-icon icon="ion-pie-graph" size="30px" fixed-width="true"></ons-icon>レポート</div>
+      <div class="content">運動以来のデータ分析。</div>
+    </ons-card>
+    <ons-card onclick="window.location.href='before.html';">
+      <div class="title"><ons-icon icon="ion-aperture" size="30px" fixed-width="true"></ons-icon>写真</div>
+      <div class="content">Before&Afterの写真に比べます。</div>
+    </ons-card>
+    <ons-card onclick="window.location.href='share.html';">
+      <div class="title"><ons-icon icon="ion-bonfire" size="30px" fixed-width="true"></ons-icon>交流</div>
+      <div class="content">毎日の気持ちを書きます。</div>
+    </ons-card>
     <ons-speed-dial position="bottom right" direction="up" :open.sync="spdOpen">
       <ons-fab>
         <ons-icon icon="md-share"></ons-icon>
