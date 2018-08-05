@@ -117,15 +117,15 @@
 
             let regm = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
             if( username.indexOf(" ") >= 0 || username == ""){
-              alert("ユーザー名が入力されていません");
+               ons.notification.alert({title:"未入力",message:"ユーザー名が入力されていません"});
               return;
             } else if( email.indexOf(" ") >= 0 || email == ""){
-              alert("メールアドレスが入力されていません");
+               ons.notification.alert({title:"未入力",message:"メールアドレスが入力されていません"});
               return;
             } else if(!email.match(regm)){
-              alert("メールアドレスの様式が間違います");
+               ons.notification.alert({title:"様式エラー",message:"メールアドレスの様式が間違います"});
             } else if ( password.indexOf(" ") >= 0 || password === ""){
-              alert("パスワードが入力されていません");
+               ons.notification.alert({title:"未入力",message:"パスワードが入力されていません"});
               return;
               } else { 
               let ncmb = new NCMB("dd411920ff7852038a3d55414c3447b88c5e842ace7268254078b113d065398c","23304def33b24aeed4fe1ae5325a77c1ffbe3e44067c0a3716b47aefd4297e05");
@@ -147,7 +147,7 @@
                       localStorage.setItem("LoginUsername",data.get("userName"));
                       console.log(data);
                       window.location.href='Home.html';
-                      alert("登録済み");
+                       ons.notification.alert({message:"登録成功しました。"});
                     })
                     .catch(function(err){
                     // エラー処理
@@ -156,7 +156,7 @@
                   })
                   .catch(function(err){
                     // 保存に失敗した場合の処理
-                    alert("登録失敗");
+                     ons.notification.alert({message:"登録失敗しました。"});
                     return;
                   });
               }
@@ -181,10 +181,10 @@
             let input_email = document.getElementById("user_name").value;
             let input_password = document.getElementById("user_password").value;
             if(input_email == ""){
-              alert("メールアドレスが入力されていません");
+               ons.notification.alert({title:"未入力",message:"メールアドレスが入力されていません"});
               return;
             } else if(input_password == ""){
-              alert("パスワードが入力されていません");
+               ons.notification.alert({title:"未入力",message:"パスワードが入力されていません"});
               return;
             } else{
             
@@ -197,7 +197,7 @@
                        })
                        .catch(function(err){
                          // エラー処理
-                          alert("入力エラー、ログインに失敗しました：\n" + error);
+                           ons.notification.alert({message:"入力エラー、ログインに失敗しました：\n" + error});
                           console.log("ログインの検索に失敗しました1：\n" + error);
                           return;
                        });
@@ -209,10 +209,10 @@
             let input_username = document.getElementById("user_name").value;
             let input_password = document.getElementById("user_password").value;
             if(input_username == ""){
-              alert("ユーザー名が入力されていません");
+               ons.notification.alert({title:"未入力",message:"ユーザー名が入力されていません"});
               return;
             } else if(input_password == ""){
-              alert("パスワードが入力されていません");
+               ons.notification.alert({title:"未入力",message:"パスワードが入力されていません"});
               return;
             } else{
             
@@ -239,7 +239,7 @@
                        })
                        .catch(function(err){
                          // エラー処理
-                          alert("入力エラー、ログインに失敗しました：\n" + error);
+                           ons.notification.alert({message:"入力エラー、ログインに失敗しました：\n" + error});
                           console.log("ログインの検索に失敗しました1：\n" + error);
                           return;
                        });
@@ -373,7 +373,7 @@ div.foo{
     <ons-page id="user_login">
       <ons-toolbar>
         <div class="center">ログイン</div>
-        <div class="left"><ons-back-button>戻り</ons-back-button></div>
+        <div class="left"><ons-back-button>戻る</ons-back-button></div>
       </ons-toolbar>
       <div style="width:250px;height:150px">
       </div>
@@ -399,7 +399,7 @@ div.foo{
   <ons-template id="login_sex.html">
     <ons-page id="login_sex">
       <ons-toolbar>
-        <div class="left"><ons-back-button>Back</ons-back-button></div>
+        <div class="left"><ons-back-button>戻る</ons-back-button></div>
         <div class="right"><ons-toolbar-button onclick="window.location.href='Home.html';">スキップ</ons-toolbar-button></div>
       </ons-toolbar>
       <div style="padding-left:20px;margin-top: 30px;">
@@ -419,7 +419,7 @@ div.foo{
   <ons-template id="login_birthyear.html">
     <ons-page id="login_birthyear">
       <ons-toolbar>
-        <div class="left"><ons-back-button>Back</ons-back-button></div>
+        <div class="left"><ons-back-button>戻る</ons-back-button></div>
         <div class="right"><ons-toolbar-button onclick="window.location.href='Home.html';">スキップ</ons-toolbar-button></div>
       </ons-toolbar>
       <div style="padding-left:20px;margin-top: 30px;">
@@ -440,20 +440,20 @@ div.foo{
   <ons-template id="login_height.html">
     <ons-page id="login_height">
       <ons-toolbar>
-        <div class="left"><ons-back-button>Back</ons-back-button></div>
+        <div class="left"><ons-back-button>戻る</ons-back-button></div>
         <div class="right"><ons-toolbar-button onclick="window.location.href='Home.html';">スキップ</ons-toolbar-button></div>
       </ons-toolbar>
-      <div style="padding-left:20px;margin-top: 30px;">
+      <div style="padding-left:20px;margin-top: 5%;">
         <h2>身長</h2>
-        <div style="text-align: center;margin-top:30%">
+        <div style="text-align: center">
           <p style="font-size:40px">
             <input id="height-input" type="number" pattern="\d*" value="160" style="width:40%;height:60px;font-size:60px;" >
             cm
           </p>  
         </div>
-        <div style="padding-left:20px;margin-top: 30px;">
+        <div style="padding-left:20px;margin-top:5%;">
           <h2>体重</h2>
-          <div style="text-align: center;margin-top:30%">
+          <div style="text-align: center">
           <p style="font-size:40px">
             <input id="weight-input" type="number" pattern="\d*" value="50" style="width:40%;height:60px;font-size:60px;">
             kg
@@ -471,24 +471,23 @@ div.foo{
   <ons-template id="create_mail.html">
     <ons-page id="create_mail">
       <ons-toolbar>
-        <div class="left"><ons-back-button>Back</ons-back-button></div>
+        <div class="left"><ons-back-button>戻る</ons-back-button></div>
         <div class="right"><ons-toolbar-button onclick="window.location.href='Home.html';">スキップ</ons-toolbar-button></div>
       </ons-toolbar>
        <!--空間制御-->
       <div style="padding-left:20px;margin-top: 30px;" >
         <p></p>
-        <p style="font-size: 1em;color:green;margin-top: 0.5em;text-align:left">新規作成</p>
-        <p style="font-size: 1em;color:green;margin-top: 0.5em;;text-align:left">あなたの</p>
-        <p style="font-size: 1em;color:green;margin-top: 0.5em;;text-align:left">アカウント</p>
-      <div style="text-align: center;">
+        <h2 style="font-size: 1em;color:green;margin-top: 0.5em;text-align:left">新規作成<br />アカウント</h2>
+
+      <div style="text-align: center;margin-top:20%">
           <p>
-            <ons-input id="username_input" modifier="underbar" placeholder="Username" style="width: 250px" float></ons-input>
+            <ons-input id="username_input" modifier="underbar" placeholder="ユーザー名" style="width: 250px" float></ons-input>
           </p>
            <p>
-            <ons-input id="mail_input" modifier="underbar" placeholder="mail@aiit.ac.jp" style="width: 250px" float></ons-input>
+            <ons-input id="mail_input" modifier="underbar" placeholder="メールアドレス（mail@aiit.ac.jp）" style="width: 250px" float></ons-input>
           </p>
           <p>
-            <ons-input id="password_input" modifier="underbar" type="password" placeholder="Password" style="width: 250px" float></ons-input>
+            <ons-input id="password_input" modifier="underbar" type="password" placeholder="パスワード" style="width: 250px" float></ons-input>
           </p>
           <p style="margin-top: 30px;">
             <ons-button id="register_btn" style="width: 220px"> サインアップ </ons-button>
@@ -504,7 +503,7 @@ div.foo{
   <template id="logup.html">
     <ons-page>
       <ons-toolbar>
-        <div class="left"><ons-back-button>Back</ons-back-button></div>
+        <div class="left"><ons-back-button>戻る</ons-back-button></div>
         <div class="center">情報入力</div>
       </ons-toolbar>
       <br/>
@@ -585,27 +584,27 @@ div.foo{
             sex_text = '女性'; 
           }
           if(username.indexOf(" ") >= 0 || username == ""){
-            alert("ユーザー名が入力されていません");
+             ons.notification.alert({title:"未入力",message:"ユーザー名が入力されていません"});
             return;
           } else if ( password.indexOf(" ") >= 0 || password == ""){
-            alert("パスワードが入力されていません");
+             ons.notification.alert({title:"未入力",message:"パスワードが入力されていません"});
             return;
           } else if( email.indexOf(" ") >= 0 || email == ""){
-            alert("メールアドレスが入力されていません");
+             ons.notification.alert({title:"未入力",message:"メールアドレスが入力されていません"});
             return;
           } else if(!email.match(regm)){
-            alert("メールアドレスの様式が間違います");
+             ons.notification.alert({title:"様式エラー",message:"メールアドレスの様式が違います。"});
           } else if( sex == ""){
-            alert("性別が選択されていません");
+             ons.notification.alert({message:"性別が選択されていません"});
             return;
           } else if( birthday == ""){
-            alert("生年月日が入力されていません");
+             ons.notification.alert({message:"生年月日が入力されていません"});
             return;
           } else if( height == ""){
-            alert("身長が入力されていません");
+             ons.notification.alert({message:"身長が入力されていません"});
             return;
           } else if( weight == ""){
-            alert("体重が入力されていません");
+             ons.notification.alert({message:"体重が入力されていません"});
             return;
           } else { 
               let ncmb = new NCMB("dd411920ff7852038a3d55414c3447b88c5e842ace7268254078b113d065398c","23304def33b24aeed4fe1ae5325a77c1ffbe3e44067c0a3716b47aefd4297e05");
@@ -624,11 +623,11 @@ div.foo{
                      localStorage.setItem("LoginUsername", username);
                      
                      fn.pushPage({'id': 'animations.html', 'title': '基本情報'}, 'fade-ios');
-                     alert("登録済み");
+                      ons.notification.alert({message:"登録成功しました。"});
                   })
                   .catch(function(err){
                     // 保存に失敗した場合の処理
-                    alert("登録失敗");
+                     ons.notification.alert({message:"登録失敗しました。"});
                     return;
                   });
           }
