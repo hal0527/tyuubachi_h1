@@ -1,0 +1,34 @@
+body {
+    background: #222;
+    color: #ccc;
+    font-family: 'Ropa Sans', cursive;
+}
+
+h1 {
+    font-weight: normal;
+}
+
+.thumb {
+    background: url(loading.gif) no-repeat #000;
+    background-position: 56px 56px;
+    width: 128px;
+    height: 128px;
+    padding: 1px;
+    border: 1px solid #444;
+    float: left;
+    margin: 0 3px 3px 0;
+}
+
+.pict {
+    background: #000;
+    width: 256px;
+    height: 256px;
+    padding: 1px;
+    border: 1px solid #444;
+    float: left;
+    margin: 0 3px 3px 0;
+}
+
+a, a:hover, a:visited, a.active{
+    color:#fff;
+}
