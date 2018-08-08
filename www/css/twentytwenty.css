@@ -85,6 +85,7 @@
   -moz-user-select: none; }
   .twentytwenty-container img {
     max-width: 100%;
+/* max-width: 95%; */
     position: absolute;
     top: 0;
     display: block; }
