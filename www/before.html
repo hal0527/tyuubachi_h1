@@ -6,36 +6,69 @@
   <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
   <script src="components/loader.js"></script>
   <script src="lib/onsenui/js/onsenui.min.js"></script>
+    <script src="components/ncmb/ncmb.min.js"></script>
   <script src="js/circle.js"></script>
   <script src="js/page_event.js"></script>
+  <!-- <script src="js/LoadManager.js"></script> -->
+  <script src="js/jquery-1.7.1.min.js"></script>
   <link rel="stylesheet" href="components/loader.css">
   <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
   <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
   <link rel="stylesheet" href="css/style.css">
-    
-     
-     
+  <link rel="stylesheet" href="css/img_style.css">
+  <!-- <link href="css/foundation.css" rel="stylesheet"/> -->
+  <link href="css/twentytwenty.css" rel="stylesheet" />
    <script>
-      var ncmb = new NCMB("dd411920ff7852038a3d55414c3447b88c5e842ace7268254078b113d065398c", "23304def33b24aeed4fe1ae5325a77c1ffbe3e44067c0a3716b47aefd4297e05");
-     
+    var apikey ="dd411920ff7852038a3d55414c3447b88c5e842ace7268254078b113d065398c";
+    var clientkey ="23304def33b24aeed4fe1ae5325a77c1ffbe3e44067c0a3716b47aefd4297e05";
+          var arr_fileList = new Array();
+        // $(function() {
+        //   NCMB.initialize(apikey, clientkey);
+        // });
+
+    function upload_imgNCMB(imgID,fileName){
+      var ncmb = new NCMB(apikey, clientkey);
+      var fileData = dataURItoBlob(document.getElementById(imgID).src);
+      ncmb.File.upload(fileName, fileData)
+    }
+
     function snapPicture () {
+      // var reader = new FileReader();
+      //   reader.onload = function(e) {
+      //     var dataUrl = reader.result;
+      //     document.getElementById("showImage_1").src = dataUrl;
+      //   }
+      //   // ファイルを選択したら実行
+      //   var photo = document.getElementById("showImage_1");
+      //   photo.addEventListener('change', function(e) {
+      //     e.preventDefault();
+      //     var file = e.target.files[0];
+      //     if (file.name !="" ){
+
+          // document.getElementById("filename").value = mytime + ".jpeg"
+        //   }
+        //   // document.getElementById("filename").value = file.name
+        //   reader.readAsDataURL(file);
+        // }, false);
+        
         navigator.camera.getPicture (onSuccess, onFail,
             { quality: 50, destinationType: Camera.DestinationType.DATA_URL});
 
         //成功した際に呼ばれるコールバック関数
         function onSuccess (imageData) {
             // 画像を表示
-            var image = document.getElementById ('showImage');
+            var image = document.getElementById ('showImage_1');
             image.src = "data:image/jpeg;base64," + imageData;
-
+            var fileName = getLocalTime() + ".jpeg";
             var byteCharacters = toBlob(imageData);
-            ncmb.File.upload("test.png", byteCharacters)
-            .then(function() {
-              alert("Successful");
-            })
-            .catch(function(error) {
-              alert(JSON.stringify(error));
-            });
+            // ncmb.File.upload("test.png", byteCharacters)
+            //  ncmb.File.upload(fileName, byteCharacters)
+            // .then(function() {
+            //   // alert("Successful");
+            // })
+            // .catch(function(error) {
+            //   alert(JSON.stringify(error));
+            // });
         }
 
         //失敗した場合に呼ばれるコールバック関数
@@ -43,7 +76,6 @@
             alert ('カメラエラーです: ' + message);
         }
     }
-
     function toBlob(base64) {
         var bin = atob(base64.replace(/^.*,/, ''));
         var buffer = new Uint8Array(bin.length);
@@ -60,21 +92,260 @@
         }
         return blob;
     }
-  </script>
-    
+
+    function getLocalTime() {     
+      var timestamp = Date.parse(new Date());
+       return timestamp;
+    } 
+
+    function save_img(){
+      var ncmb = new NCMB(apikey, clientkey);
+      var user_id = localStorage.getItem("objectId");
+      if (user_id == null) {
+        user_id = "test"
+      }
+
+    upload_imgNCMB("showImage_1",user_id+"_before.jpg");
+    upload_imgNCMB("showImage_2",user_id+"_after.jpg");
+
+    //  var img_b = document.getElementById("showImage_1").src;
+    //  var img_f = document.getElementById("showImage_2").src;
+
+
+      // ファイル名、ファイルデータを取得
+      // var fileName = document.getElementById("filename").value;
+      var fileName = getLocalTime() + ".jpg";
+      var fileData = dataURItoBlob(document.getElementById("showImage_1").src);
+      var recordsIMG = ncmb.DataStore('recordsIMG');
+      var recordsIMG = new recordsIMG();
+      // var user_id = localStorage.getItem("objectId");
+      recordsIMG.set("user_id",user_id)
+                .set("fileName",fileName)
+                .save()
+                .then(function(results){
+                      // ons.notification.alert("実績を記録しました。");
+                  })
+                  .catch(function(err){
+                    // ons.notification.alert("実績を記録エラー");
+                  });
+      // アップロード
+      ncmb.File.upload(fileName, fileData)
+        .then(function(res) {
+          // alert("ok");
+           ons.notification.alert("写真保存成功！");
+          console.log(res);
+        })
+        .catch(function(err) {
+          // alert("ng");
+          ons.notification.alert("写真保存失敗！");
+          console.error(err);
+        })  
+    }
+  // dataURIをBlobに変換
+  function dataURItoBlob(dataURI) {
+    var byteString;
+    if (dataURI.split(',')[0].indexOf('base64') >= 0)
+        byteString = atob(dataURI.split(',')[1]);
+    else
+        byteString = unescape(dataURI.split(',')[1]);
+    var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+    var ia = new Uint8Array(byteString.length);
+    for (var i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ia], {type:mimeString});
+  }
+
+  function getImgFromNCMB(pType,imgID,fileName){
+    var ncmb = new NCMB(apikey, clientkey);
+      var reader = new FileReader();
+      // var fileName_after = "1533476505000.jpeg";
+      ncmb.File.download(fileName,"blob")
+      .then(function(blob) {
+            // alert("ok1111");
+            // ファイルリーダーにデータを渡す
+            reader.readAsDataURL(blob);
+            reader.onload = function(e) {
+              document.getElementById(imgID).src = reader.result;
+
+              if (pType == "2"){
+                var targetImg = document.getElementById(imgID);
+                var orgWidth  = targetImg.width;
+                var orgHeight = targetImg.height;
+                var newSize = 100
+                targetImg.width = newSize ;
+                targetImg.height = orgHeight * (newSize / orgWidth);
+              }
+            }
+      })
+      .catch(function(err) {
+        console.error(err);
+      })
+  }
+
+  function change_img(index){
+   var imgFileName = arr_fileList[index];
+       getImgFromNCMB("1","showImage_2",imgFileName);
+
+  }
+  function init() {
+      var user_id = localStorage.getItem("objectId");
+      var ncmb = new NCMB(apikey, clientkey);
+      if (user_id == null) {
+        user_id = "test"
+      }
+
+       getImgFromNCMB("1","showImage_1",user_id+"_before.jpg");
+       getImgFromNCMB("1","showImage_2",user_id+"_after.jpg");
+
+      var recordsIMG = ncmb.DataStore('recordsIMG');
+       // recordsIMG.equalTo("user_Id",user_id)
+      recordsIMG.fetchAll()
+                .then(function(results){
+                  //  alert(" results.length:"+ results.length);
+                    for (var i = 0; i < results.length; i++) {
+                      var object = results[i]; 
+                          fileName = object.get("fileName");
+                          // alert("fileName:"+fileName);
+                          arr_fileList.push(fileName);
+                          // alert("arr_fileList[i]:"+arr_fileList[i]);
+                        $("#container").append('<div> <img id = "img_' + i + '"  onclick = "change_img(' + i + ')" /></div>');
+                        // alert("container");
+                    }
+
+                    // alert("arr_fileList.length:"+arr_fileList.length);
+                      for( var j = 0 ;j < arr_fileList.length;j++){
+                        var img_name = "img_" + j ;
+                        // alert("img_name:"+img_name);
+                          getImgFromNCMB("2",img_name,arr_fileList[j]);
+
+                      }
+
+                })
+                .catch(function(err){
+                   alert("nothing");
+                    console.log(err);
+                });
+
+
+}
+// <!-- 
+// 			var MAX = 40;
+// 			for (var i = 0; i < MAX; i++) {
+// 				$("#container").append('<div id="thumb_' + i + '" class="thumb"></div>');
+// 			}
+// 			var manager = new LoadManager();
+// 			for (var i = 0; i < MAX; i++) {
+// 				manager.add("imgs/" + i + ".jpg?cc=" + (Math.random() * 1000 >> 0), {id:i});
+// 			}
+// 			manager.onProgress = function (event) {
+// 				var img = event.data.image;
+// 				var id = event.data.extra.id;
+// 				// img.width = img.height = 128; // resize only demo needs
+//         img.width = img.height = 160; // resize only demo needs
+
+// 				$("#thumb_" + id).append(img).css({"background-image":"none"});
+// 				// $(img).css({opacity:0}).animate({opacity:1}, 300);
+//         $(img).css({opacity:0}).animate({opacity:1}, 350);
+// 			};
+// 			// number of net connections
+// 			// larger is faster
+// 			manager.start(1);
+// 		} -->
+
+		// function init() {
+    //   // alert("init");
+		// 	var MAX = 40;
+		// 	for (var i = 0; i < MAX; i++) {
+		// 		$("#container").append('<div id="thumb_' + i + '" class="thumb"></div>');
+		// 	}
+		// 	var manager = new LoadManager();
+		// 	for (var i = 0; i < MAX; i++) {
+		// 		manager.add("imgs/" + i + ".jpg?cc=" + (Math.random() * 1000 >> 0), {id:i});
+		// 	}
+		// 	manager.onProgress = function (event) {
+		// 		var img = event.data.image;
+		// 		var id = event.data.extra.id;
+		// 		// img.width = img.height = 128; // resize only demo needs
+    //     img.width = img.height = 160; // resize only demo needs
+
+		// 		$("#thumb_" + id).append(img).css({"background-image":"none"});
+		// 		// $(img).css({opacity:0}).animate({opacity:1}, 300);
+    //     $(img).css({opacity:0}).animate({opacity:1}, 350);
+		// 	};
+		// 	// number of net connections
+		// 	// larger is faster
+		// 	manager.start(1);
+		// }
+	</script>
+  
 </head>
-<body>
+<body onload="init()">
+  <!-- <body> -->
+<ons-page  >
+  <!-- ng-init ="init()" -->
  <ons-toolbar>
         <div class="left"><ons-back-button onclick="window.location.href='Home.html'">Back</ons-back-button></div>
-        <div class="center"> TAKE A PICTURE</div>
-      <div class="right"><ons-toolbar-button onclick="window.location.href='after.html'">compare</ons-toolbar-button></div>
-          
-      </ons-toolbar>
-    <br><br><br><br>
- <div class="center">    
- <ons-button class="button" onclick="snapPicture()">Take picture and save</ons-button>
- </div>
- <br>
-    <img id="showImage" width="280" height="350"/>
-</html>
+        <div class="center"> 写真</div>
+        <div class="right">
+          <ons-toolbar-button onclick="save_img()">Save</ons-toolbar-button></div>
+        <!-- <div class="right"><ons-toolbar-button onclick="window.location.href='after.html'">Save</ons-toolbar-button></div> -->
+</ons-toolbar>
+    <!-- <br><br><br><br> -->
+ <!-- <div class="center">     -->
+ <!-- <ons-button class="button" onclick="snapPicture()">Take picture and save</ons-button> -->
+ <!-- </div> -->
+ <ons-list>
+ <!-- <br> -->
+    <!-- <ons-list-item> -->
+    <!-- <img id="showImage" width="50%" height="350"/> -->
+    <!-- <img id="showImage2" width="50%" height="350"/> -->
+
+    <div class="row" style="margin-top: 2em;">
+      <!-- <div class="large-4 columns">
+        <h3>Basic Usage</h3>
+        <p>Demonstrates basic usage of the plugin.</p>
+      </div> -->
+      <div class="large-8 columns">
+        <div class="twentytwenty-container">
+          <!-- <img id="showImage_1" src="imgs/1_1.jpg" width="100%" height="400"/>
+          <img id="showImage_2" src="imgs/1_2.jpg" width="100%" height="400" /> -->
+          <img id="showImage_1" width="100%" height="400"/>
+          <img id="showImage_2"  width="100%" height="400" />
+
+          <!-- <img id="showImage"  />
+          <img id="showImage2"   /> -->
+        </div>
+      </div>
+    </div>
+    
+    <!-- <img id="showImage" width="50%" height="200"/> 
+    <img id="showImage2" width="50%" height="200"/>  -->
+
+    <!-- </ons-list-item> -->
+    <ons-list-item>
+      <div id="container"></div>
+    </ons-list-item>  
+ </ons-list>
+      <!-- <ons-speed-dial-item onclick=""> -->
+    <ons-fab position="bottom center" onclick="snapPicture()">
+      <ons-icon icon="camera" ></ons-icon>
+    </ons-fab>
+      <!-- </ons-speed-dial-item>  md-plus-->
+
+<script
+  src="https://code.jquery.com/jquery-3.2.1.js"
+  integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+  crossorigin="anonymous"></script>
+    <script src="js/jquery.event.move.js"></script>
+    <script src="js/jquery.twentytwenty.js"></script>
+    <script>
+    $(function(){
+      $(".twentytwenty-container[data-orientation!='vertical']").twentytwenty({default_offset_pct: 0.7});
+      $(".twentytwenty-container[data-orientation='vertical']").twentytwenty({default_offset_pct: 0.3, orientation: 'vertical'});
+    });
+    </script>
+
+</ons-page  >
 </body>
+</html>
