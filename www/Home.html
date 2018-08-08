@@ -202,7 +202,7 @@
           <ons-icon fixed-width class="list-item__icon" icon="md-star"></ons-icon>
         </div>
         <div class="center">
-          達成メッセージ
+          運動の目的を確認
         </div>
         <div class="right">
           <ons-icon icon="fa-link"></ons-icon>
@@ -297,8 +297,8 @@
       <div class="content">テストの結果からオススメの運動を表示します。</div>
     </ons-card>
     <ons-card onclick="window.location.href='lujie.html';">
-      <div class="title"><ons-icon icon="ion-star" size="30px" fixed-width="true"></ons-icon>達成メッセージ</div>
-      <div class="content">自分の意気込み。</div>
+      <div class="title"><ons-icon icon="ion-star" size="30px" fixed-width="true"></ons-icon>運動の目的を確認</div>
+      <div class="content">自分の目的・意気込み。</div>
     </ons-card>
     <ons-card onclick="fn.pushPage({'id': 'report_2.html', 'title': 'Progress'})">
       <div class="title"><ons-icon icon="ion-pie-graph" size="30px" fixed-width="true"></ons-icon>レポート</div>
@@ -312,19 +312,6 @@
       <div class="title"><ons-icon icon="ion-bonfire" size="30px" fixed-width="true"></ons-icon>交流</div>
       <div class="content">毎日の気持ちを書きます。</div>
     </ons-card>
-    <ons-speed-dial position="bottom right" direction="up" :open.sync="spdOpen">
-      <ons-fab>
-        <ons-icon icon="md-share"></ons-icon>
-      </ons-fab>
-      <ons-speed-dial-item onclick="ons.notification.confirm(`Share on Twitter?`)">
-        <ons-icon icon="md-twitter"></ons-icon>
-      </ons-speed-dial-item>
-      <ons-speed-dial-item onclick="">
-        <ons-icon icon="md-plus"></ons-icon>
-      </ons-speed-dial-item>
-  
-      </ons-speed-dial-item>
-    </ons-speed-dial>
 
     <style>
       .intro {
@@ -1292,6 +1279,7 @@
             //localStorage.setItem("Height",height);
             //localStorage.setItem("Weight",weight);
             document.getElementById('appNavigator').popPage();
+            window.location.reload(true);
           })
           .catch(function(err){
             // 更新に失敗した場合の処理
@@ -1451,11 +1439,13 @@
         if( testNum === weekNum){
           ons.notification.alert({message:"今週の目標も設定しました"});
           document.getElementById('appNavigator').popPage();
+          window.location.reload(true);
         } else {
           checktar();
           if(localStorage.getItem("Tar_status")===1){
             ons.notification.alert({message:"目標が存在しました。"});
             document.getElementById('appNavigator').popPage({refresh:true});
+            window.location.reload(true);
           } else {
             var targetClass = ncmb.DataStore("targetClass");
             var targetClass = new targetClass();
@@ -1483,6 +1473,7 @@
                         localStorage.setItem("tar_Check", JSON.stringify(tar_check));
                         localStorage.setItem("tar_Check_times", JSON.stringify(tar_check_times));
                         document.getElementById('appNavigator').popPage({refresh:true});
+                        window.location.reload(true);
                       })
                       .catch(function(err){
                       // 保存に失敗した場合の処理
@@ -1502,11 +1493,13 @@
         if( testNum === weekNum){
           ons.notification.alert({message:"今週の目標も設定しました"});
           document.getElementById('appNavigator').popPage();
+          window.location.reload(true);
         } else {
           checktar();
           if(localStorage.getItem("Tar_status")===1){
             ons.notification.alert({message:"目標が存在しました。"});
             document.getElementById('appNavigator').popPage({refresh:true});
+            window.location.reload(true);
           } else {
             var targetClass = ncmb.DataStore("targetClass");
             var targetClass = new targetClass();
@@ -1534,6 +1527,7 @@
                         localStorage.setItem("tar_Check", JSON.stringify(tar_check));
                         localStorage.setItem("tar_Check_times", JSON.stringify(tar_check_times));
                         document.getElementById('appNavigator').popPage({refresh:true});
+                        window.location.reload(true);
                       })
                       .catch(function(err){
                       // 保存に失敗した場合の処理
@@ -1666,7 +1660,7 @@
                         console.log(localStorage.getItem("tar_Check"));
                         console.log(localStorage.getItem("tar_Check_times"));
                         document.getElementById('appNavigator').popPage({refresh:true});
-
+                        window.location.reload(true);
                       })
                       .catch(function(err){
                         ons.notification.alert({message:"実績を記録エラー"});
@@ -1734,6 +1728,7 @@
 		      result.innerHTML='<img src="'+this.result+'" alt="" style="width:80px;height:80px"/>';
           localStorage.setItem("user_img",this.result);
           document.getElementById('appNavigator').popPage();
+          window.location.reload(true);
            /*var img_name = username+".png";
             var byteCharacters = toBlob(this.result);
             ncmb.File.upload(img_name, byteCharacters)
