@@ -14,75 +14,152 @@
     <link rel="stylesheet" href="css/style.css">
  
     <script>
-        //
-        // TODO: Write JavaScript code here
-        //
+      var user_id = localStorage.getItem("objectId");
+      function for_tar(){
+      var for_text = document.getElementById('for_input').value;
+      var good_text = document.getElementById('goodpoint_input').value;
+      var benefit_text = document.getElementById('benefit_input').value;
+      var accident_text = document.getElementById('accident_input').value;
+      var ncmb = new NCMB("dd411920ff7852038a3d55414c3447b88c5e842ace7268254078b113d065398c","23304def33b24aeed4fe1ae5325a77c1ffbe3e44067c0a3716b47aefd4297e05");
+      var tarForClass = ncmb.DataStore("tarForClass");
+      var tarForClass = new tarForClass();
+      tarForClass.set("For",for_text)
+                 .set("Goodpoint",good_text)
+                 .set("Benefit",benefit_text)
+                 .set("Accident",accident_text)
+                 .set("User_id",user_id)
+                 .save()
+                 .then(function(res){
+                           // 保存に成功した場合の処理
+                        document.getElementById('tarNavigator').popPage({refresh: true});
+                        window.location.reload(true);
+                      })
+                      .catch(function(err){
+                      // 保存に失敗した場合の処理
+                      });
+      }
+
     </script>
 </head>
 <body>
-    <ons-toolbar>
-      <div class="left"><ons-toolbar-button onclick="window.location.href='Home.html';">Back</ons-toolbar-button></div>
-      <div class="center">目標達成に</div>
+  <ons-navigator swipeable id="tarNavigator" page="page1.html"></ons-navigator>
+  <template id="page1.html">
+    <ons-page ng-controller="page1">
+      <ons-toolbar>
+      <div class="left">
+        <ons-toolbar-button onclick="window.location.href='Home.html';">戻る</ons-toolbar-button>
+      </div>
+      <div class="center">運動の目的を確認！</div>
     </ons-toolbar>
-    <p style="margin-top:50px">&nbsp;&nbsp;&nbsp;自分へのご褒美を考えよう！</p>
-    <ons-list-header>
-      目標にたどり着いたら、どんないいことがあるでしょう？<br/>
-      行動目標続けたら、何かいいことありそう？
+    <ons-list-header style="font-size:0.6em">
+      <b style="font-size:1.6em">① 運動したいと思ったきっかけ:</b>
     </ons-list-header>
     <ons-list-item>
-      <ons-input id="goodpoint_input" float maxlength="100" placeholder="いいこと"></ons-input>
+      <span id="for_output" ></span>
     </ons-list-item>
   
-    <ons-list-header>
-      日常でちょっと頑張る毎日の目標を決めましょう!<br/>
-      現在の行動の問題点。
+    <ons-list-header style="font-size:0.6em">
+     <b style="font-size:1.6em">② 運動を継続できたら、どんなメリット（良いこと）:</b>
     </ons-list-header>
     <ons-list-item>
-      <ons-input id="badpoint_input" float maxlength="100" placeholder="存在の問題"></ons-input>
+      <span id ="goodpoint_output" ></span>
     </ons-list-item>
 
-    <ons-list-header>
-      具体的な戦略を考えよう!行動目標にはどんな障害がある？<br/>
-      どうやって、クリアしようか？
+    <ons-list-header style="font-size:0.6em">
+      <b style ="font-size:1.6em">③ 良いこと:</b>
     </ons-list-header>
     <ons-list-item>
-      <ons-input id="badpoint_input" float maxlength="100" placeholder="解消方法"></ons-input>
+      <span id ="benefit_output" ></span>
     </ons-list-item>
 
-    <ons-list-header>
-      行動目標、あなたのやる気と自信のほどは？
+    <ons-list-header style ="font-size:0.6em">
+      <b style ="font-size:1.5em;width:auto;">④ 運動を継続できなかった、まずいこと:</b>
     </ons-list-header>
     <ons-list-item>
-      <ons-select id="select_input">
-            <option value="全然ない">
-              全然ない
-            </option>
-            <option value="まあやれそう">
-              まあやれそう
-            </option>
-            <option value="やる気十分">
-              やる気十分
-            </option>
-            <option value="自信満々">
-              自信満々
-            </option>
-          </ons-select>
+      <span id ="accident_output" ></span>
+    </ons-list-item>
+    <p>
+      <ons-button onclick = "document.getElementById('tarNavigator').pushPage('page2.html')">目的入力</ons-button>
+    </p>
+    <script>
+      var tar_for, tar_gp, tar_ben, tar_acc;  
+      var ncmb = new NCMB("dd411920ff7852038a3d55414c3447b88c5e842ace7268254078b113d065398c","23304def33b24aeed4fe1ae5325a77c1ffbe3e44067c0a3716b47aefd4297e05");
+      var tarForClass = ncmb.DataStore("tarForClass");
+      tarForClass.equalTo("User_id",user_id)
+                  .fetchAll()
+                  .then(function(results){
+                    if(results == undefined)
+                    for (var i = 0; i < results.length; i++) {
+                      var object = results[i]; 
+                      tar_for = object.get("For");
+                      tar_gp = object.get("Goodpoint");
+                      tar_ben = object.get("Benefit");
+                      tar_acc = object.get("Accident");
+                    }
+                   
+                    
+                       document.getElementById('for_output').innerHTML = tar_for !== '' ? `${tar_for}．` : '未入力！';
+                      document.getElementById('goodpoint_output').innerHTML = tar_gp !== '' ? `${tar_gp}．` : '未入力！';
+                      document.getElementById('benefit_output').innerHTML = tar_ben !== '' ? `${tar_ben}．` : '未入力！';
+                      document.getElementById('accident_output').innerHTML = tar_acc !== '' ? `${tar_acc}．` : '未入力！';
+                      
+                    
+                  })
+                  .catch(function(err){
+                    console.log(err);
+                  });
+
+
+    </script>
+    </ons-page>
+  </template>
+
+  <template id="page2.html">
+    <ons-page>
+    <ons-toolbar>
+      <div class="left"><ons-back-button>戻る</ons-back-button></div>
+      <div class="center">運動の目的を確認！</div>
+    </ons-toolbar>
+    <ons-list-item>
+      <div class="left"><ons-icon icon="ion-star"></ons-icon></div>
+      <div class="center">&nbsp;&nbsp;&nbsp;具体的に書きましょう！</div>
+    </ons-list-item>
+    <ons-list-header style="font-size:0.6em">
+      <b style="font-size:1.6em">① 運動したいと思ったきっかけはなんですか？</b><br/>
+      例）気になる人がスポーツ好き、健康診断がやばかった、結婚式の写真が…
+    </ons-list-header>
+    <ons-list-item>
+      <ons-input id="for_input" float maxlength="120" placeholder="いいこと"></ons-input>
+    </ons-list-item>
+  
+    <ons-list-header style="font-size:0.6em">
+     <b style="font-size:1.6em">② 運動を継続できたら、どんなメリット（良いこと）がありそうですか？</b><br />
+      例）気になる人と仲良くなれる、健康状態がよくなる、写真写りがよくなる
+    </ons-list-header>
+    <ons-list-item>
+      <ons-input id="goodpoint_input" float maxlength="120" placeholder="存在の問題"></ons-input>
     </ons-list-item>
 
-     <ons-list-header>
-      あなたの応援団を決めよう。
-    どなたにどうやって、応援してもらおう？
+    <ons-list-header style="font-size:0.6em">
+      <b style="font-size:1.6em">③ その結果、さらに良いことがありそうですか？</b><br />
+      例）気になる人と付き合える、やせておしゃれができる、結婚式でもきれい
     </ons-list-header>
     <ons-list-item>
-      <div class="center" style="width:30%">
-        <ons-input id="badpoint_input"  float maxlength="20" placeholder="応援団の名前"></ons-input>
-      </div>
-      <div class="right right-label" style="width:70%">
-        <ons-input id="badpoint_input" float maxlength="100" placeholder="応援方法"></ons-input>
-      </div>
+      <ons-input id="benefit_input" float maxlength="120" placeholder="解消方法"></ons-input>
+    </ons-list-item>
+
+    <ons-list-header style="font-size:0.6em">
+      <b style="font-size:1.5em;width:auto;">④ 運動を継続できなかったら、まずいことがありますか？</b>
+      例）気になる人をみつめるだけ、病気になる？、結婚式の写真が最悪
+    </ons-list-header>
+    <ons-list-item>
+      <ons-input id="accident_input" float maxlength="120" type="text" placeholder="存在の問題"></ons-input>
     </ons-list-item>
     <p style="text-align:center">
-      <ons-button style="width:50%">確認</ons-button>
+      <ons-button onclick="for_tar()" style="width:50%">確認</ons-button>
     </p>
+     
+    </ons-page>
+  </template>
 </body>
 </html>
