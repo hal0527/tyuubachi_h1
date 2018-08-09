@@ -609,7 +609,7 @@
                           mess_date = object.get("createDate");
                           mess_date = mess_date.substring(0,10);
                         }
-                      var mess_list =""+object.get("week_Num")+ " -  週" + object.get("tar_Times")+"日 - " +object.get("tar_TimeLen")+"分 - " +object.get("tar_Status");
+                      var mess_list =""+object.get("week_Num")+ "週 ：  週" + object.get("tar_Times")+"日 - " +object.get("tar_TimeLen")+"分 - " +object.get("tar_Status");
                       document.querySelector('.mess_list').innerHTML +="<ons-list-item>"+ mess_list+"</ons-list-item>"+"<br />";
                     }
                      document.querySelector('.mess_num').innerHTML =mess_num;
@@ -681,7 +681,35 @@
                       var object = results[i];
                       mess_num = mess_num+1;
                       mess_time = mess_time + parseInt(object.get("Time"));
-                      var mess_list =""+object.get("week_Num")+ " -  " + object.get("Week")+" - " +object.get("Sport" )+" - " +object.get("Time")+"分";
+                      var recordDate = object.get("createDate");
+                      var week = parseInt(object.get("Week"));
+                      var week_text;
+                      console.log(week);
+                      switch(week){
+                          case 0:
+                            week_text = "日";
+                            break;
+                          case 1:
+                            week_text = "月";
+                            break;
+                          case 2:
+                            week_text = "火";
+                            break;
+                          case 3:
+                            week_text = "水";
+                            break;
+                          case 4:
+                            week_text = "木";
+                            break;
+                          case 5:
+                            week_text = "金";
+                            break;
+                          case 6:
+                            week_text = "土";
+                            break;
+                      }
+                      console.log(week_text);
+                      var mess_list =""+recordDate.substring(0,10)+ "(" +week_text+"):  " +object.get("Sport" )+" - " +object.get("Time")+"分";
                       document.querySelector('.mess_list').innerHTML +="<ons-list-item>"+ mess_list+"</ons-list-item>"+"<br />";
                     }
                     console.log(mess_time);
@@ -1322,7 +1350,7 @@
         </ons-col>
       </ons-row>
     </ons-list-item>
-    <ons-list-header>やりたい運動(最大三種類選択できます。)</ons-list-header>
+    <ons-list-header>やりたい運動(最大3種類選択できます。)</ons-list-header>
       <ons-list-item>
         <div id="trigger3">やりたい運動</div>
       </ons-list-item>
@@ -1404,15 +1432,16 @@
                           .fetchAll()
                           .then(function(results){
                             var object = results[i];  
-                            var check_tar = new Date(object.get("week_Num")); 
                                 for( j = 0 ;j < arr_timeList.length;j++){
+                                  var check_tar = object.get("week_Num"); 
                                   if (  check_tar  === weekNum ){
                                     ons.notification.alert({message:"目標が存在した"});
-                                    var tar_times = new Date(object.get("tar_Times"));
-                                    var tar_timeLen = new Date(object.get("tar_TimeLen"));
-                                    var tar_sport = new Date(object.get("tar_Sport"));
+                                    var tar_times = object.get("tar_Times");
+                                    var tar_timeLen = object.get("tar_TimeLen");
+                                    var tar_sport = object.get("tar_Sport");
                                     var tarmess = "今週は"+tar_times+"日, 毎回"+tar_time+"分, "+tar_sport;
                                     localStorage.setItem("Tar_message",tarmess);
+                                    localStorage.setItem("weekNum",check_tar);
                                     localStorage.setItem("Tar_status","1");
                                     break;
                                   }
@@ -1436,12 +1465,12 @@
          }
         var testNum = localStorage.getItem("weekNum");
         if( testNum === weekNum){
-          ons.notification.alert({message:"今週の目標も設定しました"});
+          ons.notification.alert({title:"エラー",message:"今週の目標も設定しました"});
           document.getElementById('appNavigator').popPage();        
         } else {
           checktar();
-          if(localStorage.getItem("Tar_status")===1){
-            ons.notification.alert({message:"目標が存在しました。"});
+          if(localStorage.getItem("Tar_status") != ''){
+            ons.notification.alert({title:"エラー",message:"目標が存在しました。"});
             document.getElementById('appNavigator').popPage(); 
           } else {
             var targetClass = ncmb.DataStore("targetClass");
@@ -1486,14 +1515,15 @@
         var tar_sport = "運動自由選択";
         var user_id = localStorage.getItem("objectId");
         var tar_message = document.getElementById("tar_message");
-        var testNum = localStorage.getItem("weekNum").value;
+        var testNum = localStorage.getItem("weekNum");
+        console.log(testNum);
+        console.log(weekNum);
         if( testNum === weekNum){
-          ons.notification.alert({message:"今週の目標も設定しました"});
+          ons.notification.alert({title:"エラー",message:"今週の目標も設定しました"});
           document.getElementById('appNavigator').popPage();
         } else {
-          checktar();
-          if(localStorage.getItem("Tar_status")===1){
-            ons.notification.alert({message:"目標が存在しました。"});
+          if(localStorage.getItem("Tar_status") != ''){
+            ons.notification.alert({title:"エラー",message:"目標が存在しました。"});
             document.getElementById('appNavigator').popPage();     
           } else {
             var targetClass = ncmb.DataStore("targetClass");
@@ -1783,10 +1813,10 @@
       <div class="title"><ons-icon icon="ion-flame" size="30px" fixed-width="true"></ons-icon>運動の目安</div>
       <div class="content">運動の種類別に目安となる消費カロリーを記載します。</div>
     </ons-card>
-    <ons-card onclick="fn.pushPage({'id': 'sport_3.html'})">
+    <!--<ons-card onclick="fn.pushPage({'id': 'sport_3.html'})">
       <div class="title"><ons-icon icon="ion-ionic" size="30px" fixed-width="true"></ons-icon>『意外と知らない？』他のメニュー</div>
       <div class="content">運動はランニング、水泳だけですか？実はこんなトレーニングもあるんです！</div>
-    </ons-card>
+    </ons-card>-->
   </ons-page>
 </template>
 
