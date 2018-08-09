@@ -134,9 +134,10 @@
    <script>
     var apikey ="dd411920ff7852038a3d55414c3447b88c5e842ace7268254078b113d065398c";
     var clientkey ="23304def33b24aeed4fe1ae5325a77c1ffbe3e44067c0a3716b47aefd4297e05";
-    var img_x;
+    var img_x; //画面のx
+    var img_save_left; //ファイル保存フラグ
+    var img_save_right;
     var img_count; 
-    var save_flg;//ファイル保存フラグ
     var CNS_TEST_ID = "test";
     var arr_fileList = new Array();
 
@@ -144,14 +145,15 @@
       var ncmb = new NCMB(apikey, clientkey);
       var fileData = dataURItoBlob(document.getElementById(imgID).src);
       ncmb.File.upload(fileName, fileData)
+
+      // alert("fileName:"+fileName+imgID);
     }
 
-    function snapPicture () {
+  //写真を撮る
+    function snapPicture_1 () {
         navigator.camera.getPicture (onSuccess, onFail,
             { quality: 50, destinationType: Camera.DestinationType.DATA_URL});
 
-
-       save_flg = 'X';
   // navigator.camera.getPicture(onSuccess, onFail, 
   //   { quality: 50,destinationType: Camera.DestinationType.DATA_URL,
   //   sourceType: navigator.camera.PictureSourceType.SAVEDPHOTOALBUM });
@@ -164,21 +166,55 @@
         //成功した際に呼ばれるコールバック関数
         function onSuccess (imageData) {
             // 画像を表示
-            var image = document.getElementById ('showImage_1');
+            if (img_x < 200){
+                img_save_left = 'X';
+                var image = document.getElementById ('showImage_1');
+            }else{
+              img_save_right = 'X';
+              var image = document.getElementById ('showImage_2');
+            }
             image.src = "data:image/jpeg;base64," + imageData;
             var fileName = getLocalTime() + ".jpeg";
             var byteCharacters = toBlob(imageData);
 
-            if (img_count == 0){
-
-              document.getElementById("showImage_2").src = document.getElementById("showImage_1").src;
-            }
+            // if (img_count == 0){
+            //   document.getElementById("showImage_2").src = document.getElementById("showImage_1").src;
+            // }
         }
-
         //失敗した場合に呼ばれるコールバック関数
         function onFail (message) {
-            alert ('カメラエラーです: ' + message);
+            // alert ('カメラエラーです: ' + message);
         }
+    }
+// 写真を選択
+   function snapPicture_2 () {
+      navigator.camera.getPicture(onSuccess, onFail, 
+      { quality: 50,destinationType: Camera.DestinationType.DATA_URL,
+      sourceType: navigator.camera.PictureSourceType.SAVEDPHOTOALBUM });
+      //成功した際に呼ばれるコールバック関数
+      function onSuccess (imageData) {
+          // 画像を表示
+            if (img_x < 200){
+                // 左写真
+                img_save_left = 'X';
+                var image = document.getElementById ('showImage_1');
+            }else{
+              img_save_right = 'X';
+              var image = document.getElementById ('showImage_2');
+            }
+
+          image.src = "data:image/jpeg;base64," + imageData;
+          var fileName = getLocalTime() + ".jpeg";
+          var byteCharacters = toBlob(imageData);
+
+          // if (img_count == 0){
+          //   document.getElementById("showImage_2").src = document.getElementById("showImage_1").src;
+          // }
+      }
+      //失敗した場合に呼ばれるコールバック関数
+      function onFail (message) {
+          // alert ('カメラエラーです: ' + message);
+      }
     }
     function toBlob(base64) {
         var bin = atob(base64.replace(/^.*,/, ''));
@@ -196,9 +232,6 @@
         }
         return blob;
     }
-
-
-
     function getLocalTime() {     
       var timestamp = Date.parse(new Date());
        return timestamp;
@@ -214,40 +247,66 @@
       upload_imgNCMB("showImage_1",user_id+"_before.jpg");
       upload_imgNCMB("showImage_2",user_id+"_after.jpg");
 
-      if ( save_flg == '' ){
+      // alert("img_save_left;"+img_save_left);
+      // alert("img_save_right;"+img_save_right);
+      if (img_save_left == 'X'){
+         save_img_NCMB("showImage_1"); 
+        // img_save_left = '';
+      }
+      
+      if (img_save_right == 'X'){
+         save_img_NCMB("showImage_2");
+        //  img_save_right = ''; 
+      }
+
+      if ( img_save_left=='X'||img_save_right=='X' )
+      {
+        img_save_left = '';
+        img_save_right = '';
+        $("#container_1").empty();
+        ons.notification.alert("Before & After写真保存成功！");
+        // 写真リストを取る
+        get_photoList();
+      }
+      else{
         ons.notification.alert("Before & After写真保存成功！");
       }
-      // フラグクリア
-      if ( save_flg == 'X' ){
-        save_flg = '';
-        // ファイル名、ファイルデータを取得
-        // var fileName = document.getElementById("filename").value;
-        var fileName = getLocalTime() + ".jpg";
-        var fileData = dataURItoBlob(document.getElementById("showImage_1").src);
-        var recordsIMG = ncmb.DataStore('recordsIMG');
-        var recordsIMG = new recordsIMG();
-        // var user_id = localStorage.getItem("objectId");
-        recordsIMG.set("user_id",user_id)
-                .set("fileName",fileName)
-                .save()
-                .then(function(results){
 
-                    //アップロード
-                    ncmb.File.upload(fileName, fileData)
-                      .then(function(res) {
-                        ons.notification.alert("Before & After写真保存成功！");
-                        console.log(res);
-                      })
-                      .catch(function(err) {
-                        // ons.notification.alert("写真保存失敗！");
-                        console.error(err);
-                      })  
-                      
-                  })
-                  .catch(function(err){
-                    // ons.notification.alert("実績を記録エラー");
-                  });
-      }
+  }
+
+  function save_img_NCMB(showImage){
+    var ncmb = new NCMB(apikey, clientkey);
+    var user_id = localStorage.getItem("objectId");
+    if (user_id == null) {
+      user_id = CNS_TEST_ID //"test"
+    }
+    // ファイル名、ファイルデータを取得
+    // var fileName = document.getElementById("filename").value;
+    var fileName = getLocalTime() + ".jpg";
+    // var fileData = dataURItoBlob(document.getElementById("showImage_1").src);
+    var fileData = dataURItoBlob(document.getElementById(showImage).src);
+    var recordsIMG = ncmb.DataStore('recordsIMG');
+    var recordsIMG = new recordsIMG();
+    // var user_id = localStorage.getItem("objectId");
+    recordsIMG.set("user_id",user_id)
+          .set("fileName",fileName)
+          .save()
+          .then(function(results){
+              //アップロード
+              ncmb.File.upload(fileName, fileData)
+                .then(function(res) {
+                  ons.notification.alert("写真保存成功！");
+                  console.log(res);
+                })
+                .catch(function(err) {
+                  ons.notification.alert("写真保存失敗！");
+                  console.error(err);
+                })  
+                
+            })
+            .catch(function(err){
+              // ons.notification.alert("実績を記録エラー");
+            });
   }
 
   // dataURIをBlobに変換
@@ -268,11 +327,11 @@
   function getImgFromNCMB(pType,imgID,fileName){
     var ncmb = new NCMB(apikey, clientkey);
     var reader = new FileReader();
+
     ncmb.File.download(fileName,"blob")
              .then(function(blob) {
             // ファイルリーダーにデータを渡す
             reader.readAsDataURL(blob);
-            
             reader.onload = function(e) {
               document.getElementById(imgID).src = reader.result;
               // alert("reader.result:"+reader.result);
@@ -291,7 +350,7 @@
             }
       })
       .catch(function(err) {
-                alert("image not have"+fileName);
+                // alert("image not have"+fileName);
         console.error(err);
       })
   }
@@ -300,57 +359,73 @@
     var imgFileName = arr_fileList[index];
     if (img_x < 200){
       // フラグクリア
-      save_flg = '';
+      img_save_left = '';
       getImgFromNCMB("1","showImage_1",imgFileName);
     }
     else{
+      img_save_right = '';
       getImgFromNCMB("1","showImage_2",imgFileName);
     }
   }
     function init() {
       var user_id = localStorage.getItem("objectId");
-      var ncmb = new NCMB(apikey, clientkey);
+      // var ncmb = new NCMB(apikey, clientkey);
       if (user_id == null) {
         user_id = CNS_TEST_ID //"test"
       }
-
        getImgFromNCMB("1","showImage_1",user_id+"_before.jpg");
        getImgFromNCMB("1","showImage_2",user_id+"_after.jpg");
 
-      var recordsIMG = ncmb.DataStore('recordsIMG');
-
-       recordsIMG.equalTo("user_id",user_id)
-      // recordsIMG.fetchAll()
-                  .fetchAll()
-                  .then(function(results){
-                    img_count = results.length;
-                    for (var i = 0; i < results.length; i++) {
-                      var object = results[i]; 
-                          fileName = object.get("fileName");
-                          arr_fileList.push(fileName);
-                        $("#container_1").append('<div class="swiper-slide" ><img id = "img_' + i + '"  onclick = "change_img(' + i + ')"/></div>');
-                      }
-
-                      for( var j = 0 ;j < arr_fileList.length;j++){
-                        var img_name = "img_" + j ;
-                        // alert("img_name:/"+j+"/"+arr_fileList[j]);
-                          getImgFromNCMB("2",img_name,arr_fileList[j]);
-                        }
-
-                    
-                      var mySwiper = new Swiper('.swiper-container',{
-                        pagination: '.pagination',
-                        paginationClickable: true,
-                        centeredSlides: true,
-                        slidesPerView: 3,
-                        watchActiveIndex: true
-                      })
-
-                })
-                .catch(function(err){
-                    console.log(err);
-                });
+// 写真リストを取る
+      get_photoList();
 }
+
+  function get_photoList(){
+    var user_id = localStorage.getItem("objectId");
+    var ncmb = new NCMB(apikey, clientkey);
+    if (user_id == null) {
+      user_id = CNS_TEST_ID //"test"
+    }
+    
+    // if (arr_fileList.length > 0){
+    //     delete arr_fileList;
+    // }
+    
+    arr_fileList.splice(0, arr_fileList.length);
+
+    var recordsIMG = ncmb.DataStore('recordsIMG');
+      recordsIMG.equalTo("user_id",user_id)
+    // recordsIMG.fetchAll()
+            .fetchAll()
+            .then(function(results){
+              img_count = results.length;
+              for (var i = 0; i < results.length; i++) {
+                var object = results[i]; 
+                    fileName = object.get("fileName");
+                    arr_fileList.push(fileName);
+                  $("#container_1").append('<div class="swiper-slide" ><img id = "img_' + i + '"  onclick = "change_img(' + i + ')"/></div>');
+                }
+
+              //  alert("arr_fileList.length:"+arr_fileList.length);
+                for( var j = 0 ;j < arr_fileList.length;j++){
+                  var img_name = "img_" + j ;
+                  // alert("img_name:/"+j+"/"+arr_fileList[j]);
+                    getImgFromNCMB("2",img_name,arr_fileList[j]);
+                  }
+
+                var mySwiper = new Swiper('.swiper-container',{
+                  pagination: '.pagination',
+                  paginationClickable: true,
+                  centeredSlides: true,
+                  slidesPerView: 3,
+                  watchActiveIndex: true
+                })
+
+          })
+          .catch(function(err){
+              console.log(err);
+          });
+  }
 	</script>
   
 </head>
@@ -396,9 +471,41 @@
     </ons-list-item>  
  </ons-list>
       <!-- <ons-speed-dial-item onclick=""> -->
-    <ons-fab position="bottom center" onclick="snapPicture()">
-      <ons-icon icon="camera" ></ons-icon>
+    <ons-fab position="bottom center" >
+      <ons-icon icon="camera" ontouchstart="gtouchstart()" ontouchmove="gtouchmove()"     ontouchend="gtouchend()" ></ons-icon>
     </ons-fab>
+
+<script>
+ var timeOutEvent=0;//定时器   
+      //开始按   
+      function gtouchstart(){   
+          timeOutEvent = setTimeout("longPress()",500);//这里设置定时器，定义长按500毫秒触发长按事件，时间可以自己改，个人感觉500毫秒非常合适   
+          return false;   
+      };   
+      //手释放，如果在500毫秒内就释放，则取消长按事件，此时可以执行onclick应该执行的事件   
+      function gtouchend(){   
+          clearTimeout(timeOutEvent);//清除定时器   
+          if(timeOutEvent!=0){   
+              //这里写要执行的内容（尤如onclick事件） 
+              snapPicture_1();
+          }   
+          return false;   
+      };   
+      //如果手指有移动，则取消所有事件，此时说明用户只是要移动而不是长按   
+      function gtouchmove(){   
+          clearTimeout(timeOutEvent);//清除定时器   
+          timeOutEvent = 0;   
+            
+      };   
+        
+      //真正长按后应该执行的内容   
+      function longPress(){   
+          timeOutEvent = 0;   
+          //执行长按要执行的内容，如弹出菜单   
+          // alert("长按事件触发发");  
+          snapPicture_2(); 
+      }
+</script>
 
 <script
   src="https://code.jquery.com/jquery-3.2.1.js"
@@ -410,25 +517,17 @@
     $(function(){
       $(".twentytwenty-container[data-orientation!='vertical']").twentytwenty({default_offset_pct: 0.7});
       $(".twentytwenty-container[data-orientation='vertical']").twentytwenty({default_offset_pct: 0.3, orientation: 'vertical'});
-
-
           var touchzone = document.getElementById("touchzone");
-    // Add an event handler for the touchstart event
-    touchzone.addEventListener("touchstart", touchHandler, false);
-
+          // Add an event handler for the touchstart event
+          touchzone.addEventListener("touchstart", touchHandler, false);
     });
 
     function touchHandler(event) {
-        // Get a reference to our coordinates div
-        // var coords = document.getElementById("coords");
-        // Write the coordinates of the touch to the div
-       
        img_x =event.touches[0].pageX; 
-
         // alert(event.touches[0].pageX);
         // coords.innerHTML = 'x: ' + event.touches[0].pageX + ', y: ' + event.touches[0].pageY;
       }
-
+			 
     </script>
 </ons-page  >
 </body>
