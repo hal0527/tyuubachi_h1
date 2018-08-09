@@ -9,22 +9,135 @@
     <script src="components/ncmb/ncmb.min.js"></script>
   <script src="js/circle.js"></script>
   <script src="js/page_event.js"></script>
-  <!-- <script src="js/LoadManager.js"></script> -->
+
   <script src="js/jquery-1.7.1.min.js"></script>
+   <script src="js/idangerous.swiper.min.js"></script>
   <link rel="stylesheet" href="components/loader.css">
   <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
   <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/img_style.css">
-  <!-- <link href="css/foundation.css" rel="stylesheet"/> -->
   <link href="css/twentytwenty.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/idangerous.swiper.css">
+ <style>
+.device {
+  /* width: 660px; */
+  width: 100%;
+  position: relative;
+  /* margin: 10px auto; */
+  /* margin: 3px auto; */
+  /* height: 250px; */
+  height: 150px;
+  /* padding: 30px 40px; 边框*/
+  padding: 0px 0px;
+  /* border-radius: 20px; */
+  border-radius: 1px;
+  /* background: #000; */
+  /* border:3px solid #fff; */
+  /* box-shadow: 0px 0px 5px #000; */
+  box-shadow: 0px 0px 0px #000; 
+}
+.swiper-container {
+  /* width: 660px; */
+  width: 100%;
+  /* height: 250px; */
+  height: 150px;
+  color: #fff;
+}
+.swiper-slide {
+  height: 100%;
+  opacity: 0.4;
+  -webkit-transition: 300ms;
+  -moz-transition: 300ms;
+  -ms-transition: 300ms;
+  -o-transition: 300ms;
+  transition: 300ms;
+  -webkit-transform: scale(0);
+  -moz-transform: scale(0);
+  -ms-transform: scale(0);
+  -o-transform: scale(0);
+  transform: scale(0);
+}
+.swiper-slide-visible {
+  opacity: 0.5;
+  -webkit-transform: scale(0.8);
+  -moz-transform: scale(0.8);
+  -ms-transform: scale(0.8);
+  -o-transform: scale(0.8);
+  transform: scale(0.8);
+}
+.swiper-slide-active {
+  top: 0;
+  opacity: 1;
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -ms-transform: scale(1);
+  -o-transform: scale(1);
+  transform: scale(1);
+}
+.red-slide {
+  background: #ca4040;
+}
+.blue-slide {
+  background: #4390ee;
+}
+.orange-slide {
+  background: #ff8604;
+}
+.green-slide {
+  background: #49a430;
+}
+.pink-slide {
+  background: #973e76;
+}
+.swiper-slide .title {
+  font-style: italic;
+  font-size: 42px;
+  /* margin-top: 80px; */
+  margin-bottom: 0;
+  /* line-height: 45px; */
+}
+.pagination {
+  position: absolute;
+  z-index: 20;
+  left: 0px;
+  width: 100%;
+  text-align: center;
+  bottom: 5px;
+}
+.swiper-pagination-switch {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 8px;
+  background: #aaa;
+  margin-right: 8px;
+  cursor: pointer;
+  -webkit-transition: 300ms;
+  -moz-transition: 300ms;
+  -ms-transition: 300ms;
+  -o-transition: 300ms;
+  transition: 300ms;
+  opacity: 0;
+  position: relative;
+  top: -50px;
+}
+.swiper-visible-switch {
+  opacity: 1;
+  top: 0;
+  background: #aaa;
+}
+.swiper-active-switch {
+  background: #fff;
+} 
+  </style>
    <script>
     var apikey ="dd411920ff7852038a3d55414c3447b88c5e842ace7268254078b113d065398c";
     var clientkey ="23304def33b24aeed4fe1ae5325a77c1ffbe3e44067c0a3716b47aefd4297e05";
-          var arr_fileList = new Array();
-        // $(function() {
-        //   NCMB.initialize(apikey, clientkey);
-        // });
+    var img_x;
+    var save_flg;//ファイル保存フラグ
+    var CNS_TEST_ID = "test";
+    var arr_fileList = new Array();
 
     function upload_imgNCMB(imgID,fileName){
       var ncmb = new NCMB(apikey, clientkey);
@@ -33,26 +146,18 @@
     }
 
     function snapPicture () {
-      // var reader = new FileReader();
-      //   reader.onload = function(e) {
-      //     var dataUrl = reader.result;
-      //     document.getElementById("showImage_1").src = dataUrl;
-      //   }
-      //   // ファイルを選択したら実行
-      //   var photo = document.getElementById("showImage_1");
-      //   photo.addEventListener('change', function(e) {
-      //     e.preventDefault();
-      //     var file = e.target.files[0];
-      //     if (file.name !="" ){
-
-          // document.getElementById("filename").value = mytime + ".jpeg"
-        //   }
-        //   // document.getElementById("filename").value = file.name
-        //   reader.readAsDataURL(file);
-        // }, false);
-        
         navigator.camera.getPicture (onSuccess, onFail,
             { quality: 50, destinationType: Camera.DestinationType.DATA_URL});
+
+       save_flg = 'X';
+  // navigator.camera.getPicture(onSuccess, onFail, 
+  //   { quality: 50,destinationType: Camera.DestinationType.DATA_URL,
+  //   sourceType: navigator.camera.PictureSourceType.SAVEDPHOTOALBUM });
+
+ //Specify the source to get the photos.
+  // navigator.camera.getPicture(onSuccess, onFail, 
+  //   { quality: 50,destinationType: Camera.DestinationType.FILE_URI,
+  //   sourceType: navigator.camera.PictureSourceType.SAVEDPHOTOALBUM });
 
         //成功した際に呼ばれるコールバック関数
         function onSuccess (imageData) {
@@ -61,14 +166,6 @@
             image.src = "data:image/jpeg;base64," + imageData;
             var fileName = getLocalTime() + ".jpeg";
             var byteCharacters = toBlob(imageData);
-            // ncmb.File.upload("test.png", byteCharacters)
-            //  ncmb.File.upload(fileName, byteCharacters)
-            // .then(function() {
-            //   // alert("Successful");
-            // })
-            // .catch(function(error) {
-            //   alert(JSON.stringify(error));
-            // });
         }
 
         //失敗した場合に呼ばれるコールバック関数
@@ -93,6 +190,8 @@
         return blob;
     }
 
+
+
     function getLocalTime() {     
       var timestamp = Date.parse(new Date());
        return timestamp;
@@ -102,45 +201,47 @@
       var ncmb = new NCMB(apikey, clientkey);
       var user_id = localStorage.getItem("objectId");
       if (user_id == null) {
-        user_id = "test"
+        user_id = CNS_TEST_ID //"test"
       }
 
-    upload_imgNCMB("showImage_1",user_id+"_before.jpg");
-    upload_imgNCMB("showImage_2",user_id+"_after.jpg");
+      upload_imgNCMB("showImage_1",user_id+"_before.jpg");
+      upload_imgNCMB("showImage_2",user_id+"_after.jpg");
 
-    //  var img_b = document.getElementById("showImage_1").src;
-    //  var img_f = document.getElementById("showImage_2").src;
-
-
-      // ファイル名、ファイルデータを取得
-      // var fileName = document.getElementById("filename").value;
-      var fileName = getLocalTime() + ".jpg";
-      var fileData = dataURItoBlob(document.getElementById("showImage_1").src);
-      var recordsIMG = ncmb.DataStore('recordsIMG');
-      var recordsIMG = new recordsIMG();
-      // var user_id = localStorage.getItem("objectId");
-      recordsIMG.set("user_id",user_id)
+      if ( save_flg == '' ){
+        ons.notification.alert("Before & After写真保存成功！");
+      }
+      // フラグクリア
+      if ( save_flg == 'X' ){
+        save_flg = '';
+        // ファイル名、ファイルデータを取得
+        // var fileName = document.getElementById("filename").value;
+        var fileName = getLocalTime() + ".jpg";
+        var fileData = dataURItoBlob(document.getElementById("showImage_1").src);
+        var recordsIMG = ncmb.DataStore('recordsIMG');
+        var recordsIMG = new recordsIMG();
+        // var user_id = localStorage.getItem("objectId");
+        recordsIMG.set("user_id",user_id)
                 .set("fileName",fileName)
                 .save()
                 .then(function(results){
-                      // ons.notification.alert("実績を記録しました。");
+                    //アップロード
+                    ncmb.File.upload(fileName, fileData)
+                      .then(function(res) {
+                        ons.notification.alert("Before & After写真保存成功！");
+                        console.log(res);
+                      })
+                      .catch(function(err) {
+                        // ons.notification.alert("写真保存失敗！");
+                        console.error(err);
+                      })  
+                      
                   })
                   .catch(function(err){
                     // ons.notification.alert("実績を記録エラー");
                   });
-      // アップロード
-      ncmb.File.upload(fileName, fileData)
-        .then(function(res) {
-          // alert("ok");
-           ons.notification.alert("写真保存成功！");
-          console.log(res);
-        })
-        .catch(function(err) {
-          // alert("ng");
-          ons.notification.alert("写真保存失敗！");
-          console.error(err);
-        })  
-    }
+      }
+  }
+
   // dataURIをBlobに変換
   function dataURItoBlob(dataURI) {
     var byteString;
@@ -158,23 +259,25 @@
 
   function getImgFromNCMB(pType,imgID,fileName){
     var ncmb = new NCMB(apikey, clientkey);
-      var reader = new FileReader();
-      // var fileName_after = "1533476505000.jpeg";
-      ncmb.File.download(fileName,"blob")
-      .then(function(blob) {
-            // alert("ok1111");
+    var reader = new FileReader();
+    ncmb.File.download(fileName,"blob")
+             .then(function(blob) {
             // ファイルリーダーにデータを渡す
             reader.readAsDataURL(blob);
             reader.onload = function(e) {
               document.getElementById(imgID).src = reader.result;
-
+              // alert("reader.result:"+reader.result);
               if (pType == "2"){
                 var targetImg = document.getElementById(imgID);
                 var orgWidth  = targetImg.width;
                 var orgHeight = targetImg.height;
-                var newSize = 100
-                targetImg.width = newSize ;
-                targetImg.height = orgHeight * (newSize / orgWidth);
+                // var newSize = 100
+                // targetImg.width = newSize ;
+                // targetImg.height = orgHeight * (newSize / orgWidth);
+                var newSize = 150
+                targetImg.height = newSize ;
+                targetImg.width = (orgWidth / orgHeight) * newSize;
+
               }
             }
       })
@@ -184,99 +287,60 @@
   }
 
   function change_img(index){
-   var imgFileName = arr_fileList[index];
-       getImgFromNCMB("1","showImage_2",imgFileName);
-
+    var imgFileName = arr_fileList[index];
+    if (img_x < 200){
+      // フラグクリア
+      save_flg = '';
+      getImgFromNCMB("1","showImage_1",imgFileName);
+    }
+    else{
+      getImgFromNCMB("1","showImage_2",imgFileName);
+    }
   }
-  function init() {
+    function init() {
       var user_id = localStorage.getItem("objectId");
       var ncmb = new NCMB(apikey, clientkey);
       if (user_id == null) {
-        user_id = "test"
+        user_id = CNS_TEST_ID //"test"
       }
 
        getImgFromNCMB("1","showImage_1",user_id+"_before.jpg");
        getImgFromNCMB("1","showImage_2",user_id+"_after.jpg");
 
       var recordsIMG = ncmb.DataStore('recordsIMG');
-       // recordsIMG.equalTo("user_Id",user_id)
-      recordsIMG.fetchAll()
-                .then(function(results){
-                  //  alert(" results.length:"+ results.length);
+      // alert("user_id:"+user_id);
+       recordsIMG.equalTo("user_id",user_id)
+      // recordsIMG.fetchAll()
+                  .fetchAll()
+                  .then(function(results){
+
+                    // alert("len:"+results.length);                    
                     for (var i = 0; i < results.length; i++) {
                       var object = results[i]; 
                           fileName = object.get("fileName");
-                          // alert("fileName:"+fileName);
                           arr_fileList.push(fileName);
-                          // alert("arr_fileList[i]:"+arr_fileList[i]);
-                        $("#container").append('<div> <img id = "img_' + i + '"  onclick = "change_img(' + i + ')" /></div>');
-                        // alert("container");
-                    }
-
-                    // alert("arr_fileList.length:"+arr_fileList.length);
+                        $("#container_1").append('<div class="swiper-slide" ><img id = "img_' + i + '"  onclick = "change_img(' + i + ')"/></div>');
+                      }
                       for( var j = 0 ;j < arr_fileList.length;j++){
                         var img_name = "img_" + j ;
-                        // alert("img_name:"+img_name);
+                        // alert("img_name:/"+j+"/"+arr_fileList[j]);
                           getImgFromNCMB("2",img_name,arr_fileList[j]);
+                        }
 
-                      }
+                      var mySwiper = new Swiper('.swiper-container',{
+                        pagination: '.pagination',
+                        paginationClickable: true,
+                        centeredSlides: true,
+                        slidesPerView: 3,
+                        watchActiveIndex: true
+                      })
 
                 })
                 .catch(function(err){
-                   alert("nothing");
+                    // alert("nothing");
                     console.log(err);
                 });
-
-
 }
-// <!-- 
-// 			var MAX = 40;
-// 			for (var i = 0; i < MAX; i++) {
-// 				$("#container").append('<div id="thumb_' + i + '" class="thumb"></div>');
-// 			}
-// 			var manager = new LoadManager();
-// 			for (var i = 0; i < MAX; i++) {
-// 				manager.add("imgs/" + i + ".jpg?cc=" + (Math.random() * 1000 >> 0), {id:i});
-// 			}
-// 			manager.onProgress = function (event) {
-// 				var img = event.data.image;
-// 				var id = event.data.extra.id;
-// 				// img.width = img.height = 128; // resize only demo needs
-//         img.width = img.height = 160; // resize only demo needs
-
-// 				$("#thumb_" + id).append(img).css({"background-image":"none"});
-// 				// $(img).css({opacity:0}).animate({opacity:1}, 300);
-//         $(img).css({opacity:0}).animate({opacity:1}, 350);
-// 			};
-// 			// number of net connections
-// 			// larger is faster
-// 			manager.start(1);
-// 		} -->
-
-		// function init() {
-    //   // alert("init");
-		// 	var MAX = 40;
-		// 	for (var i = 0; i < MAX; i++) {
-		// 		$("#container").append('<div id="thumb_' + i + '" class="thumb"></div>');
-		// 	}
-		// 	var manager = new LoadManager();
-		// 	for (var i = 0; i < MAX; i++) {
-		// 		manager.add("imgs/" + i + ".jpg?cc=" + (Math.random() * 1000 >> 0), {id:i});
-		// 	}
-		// 	manager.onProgress = function (event) {
-		// 		var img = event.data.image;
-		// 		var id = event.data.extra.id;
-		// 		// img.width = img.height = 128; // resize only demo needs
-    //     img.width = img.height = 160; // resize only demo needs
-
-		// 		$("#thumb_" + id).append(img).css({"background-image":"none"});
-		// 		// $(img).css({opacity:0}).animate({opacity:1}, 300);
-    //     $(img).css({opacity:0}).animate({opacity:1}, 350);
-		// 	};
-		// 	// number of net connections
-		// 	// larger is faster
-		// 	manager.start(1);
-		// }
 	</script>
   
 </head>
@@ -285,53 +349,42 @@
 <ons-page  >
   <!-- ng-init ="init()" -->
  <ons-toolbar>
-        <div class="left"><ons-back-button onclick="window.location.href='Home.html'">Back</ons-back-button></div>
-        <div class="center"> 写真</div>
+        <div class="left">
+          <ons-back-button onclick="window.location.href='Home.html'">戻る</ons-back-button>
+        </div>
+        <div class="center"> Before & After</div>
         <div class="right">
-          <ons-toolbar-button onclick="save_img()">Save</ons-toolbar-button></div>
-        <!-- <div class="right"><ons-toolbar-button onclick="window.location.href='after.html'">Save</ons-toolbar-button></div> -->
+          <ons-toolbar-button onclick="save_img()">保存</ons-toolbar-button></div>
 </ons-toolbar>
-    <!-- <br><br><br><br> -->
- <!-- <div class="center">     -->
- <!-- <ons-button class="button" onclick="snapPicture()">Take picture and save</ons-button> -->
- <!-- </div> -->
  <ons-list>
- <!-- <br> -->
     <!-- <ons-list-item> -->
-    <!-- <img id="showImage" width="50%" height="350"/> -->
-    <!-- <img id="showImage2" width="50%" height="350"/> -->
-
-    <div class="row" style="margin-top: 2em;">
-      <!-- <div class="large-4 columns">
-        <h3>Basic Usage</h3>
-        <p>Demonstrates basic usage of the plugin.</p>
-      </div> -->
+      <!-- <div style="text-align: center; width: 90%; border: green solid 1px;" > -->
+    <div class="row" style="margin-top: 1em;"" >
       <div class="large-8 columns">
-        <div class="twentytwenty-container">
-          <!-- <img id="showImage_1" src="imgs/1_1.jpg" width="100%" height="400"/>
-          <img id="showImage_2" src="imgs/1_2.jpg" width="100%" height="400" /> -->
+        <div class="twentytwenty-container" style="text-align: center">
           <img id="showImage_1" width="100%" height="400"/>
-          <img id="showImage_2"  width="100%" height="400" />
-
-          <!-- <img id="showImage"  />
-          <img id="showImage2"   /> -->
+          <img id="showImage_2" width="100%" height="400"/>
         </div>
       </div>
     </div>
-    
-    <!-- <img id="showImage" width="50%" height="200"/> 
-    <img id="showImage2" width="50%" height="200"/>  -->
-
+    <!-- </div> -->
     <!-- </ons-list-item> -->
     <ons-list-item>
-      <div id="container"></div>
+      <!-- <div id="container"></div> -->
+      <div class="device">
+        <div class="swiper-container">
+          <div id="container_1" class="swiper-wrapper">            
+          </div>
+        </div>
+        <div class="pagination"></div>
+      </div>
+
     </ons-list-item>  
  </ons-list>
       <!-- <ons-speed-dial-item onclick=""> -->
     <ons-fab position="bottom center" onclick="snapPicture()">
       <ons-icon icon="camera" ></ons-icon>
     </ons-fab>
-      <!-- </ons-speed-dial-item>  md-plus-->
 
 <script
   src="https://code.jquery.com/jquery-3.2.1.js"
@@ -343,9 +396,25 @@
     $(function(){
       $(".twentytwenty-container[data-orientation!='vertical']").twentytwenty({default_offset_pct: 0.7});
       $(".twentytwenty-container[data-orientation='vertical']").twentytwenty({default_offset_pct: 0.3, orientation: 'vertical'});
-    });
-    </script>
 
+
+          var touchzone = document.getElementById("touchzone");
+    // Add an event handler for the touchstart event
+    touchzone.addEventListener("touchstart", touchHandler, false);
+
+    });
+
+    function touchHandler(event) {
+        // Get a reference to our coordinates div
+        // var coords = document.getElementById("coords");
+        // Write the coordinates of the touch to the div
+       
+       img_x =event.touches[0].pageX; 
+
+        // alert(event.touches[0].pageX);
+        // coords.innerHTML = 'x: ' + event.touches[0].pageX + ', y: ' + event.touches[0].pageY;
+      }
+    </script>
 </ons-page  >
 </body>
 </html>
