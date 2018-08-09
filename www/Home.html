@@ -416,7 +416,7 @@
       <div class="title"><ons-icon icon="ion-ios-bookmarks" size="23px" fixed-width="true"></ons-icon>運動の選択</div>
       <div class="content"><p id="performance_p">運動のテスト、運動に関する資料.</p></div>
     </ons-card>
-    <ons-card style="height:120px" onclick="fn.pushPage({'id': 'target_set.html', 'title': '目標設定'})">
+    <ons-card style="height:140px" onclick="fn.pushPage({'id': 'target_set.html', 'title': '目標設定'})">
       <div class="title"><i class="fas fa-bullseye" size="5x"></i> 目標設定</div>
       <div class="content">
         <p id="target_p">運動時間の目標設定.</p>
@@ -779,7 +779,7 @@
             </ons-card> -->
         <ons-card style="background:url(images/total_data.png);background-size:100%;height:130px" onclick="fn.pushPage({'id': 'tar_defeate.html', 'title': '実績'}, 'fade-ios')">
           <p class="total_data_show" style="text-align: center;margin-top:-10px; color:  #ede5e2;"></p>
-          <p style="text-align:center;margin-top:60px;color:#ede5e2;font-size:0.8em">飛行時間と距離はカロリーから計算しています。</p>
+          <p style="text-align:center;margin-top:50px;color:#ede5e2;font-size:0.8em">飛行時間と距離はカロリーから計算しています。</p>
         </ons-card>    
       <ons-list-header style="width: 100%;display: inline-block;text-align : center;font-size:15px">運動別データ</ons-list-header>
       <ons-list-item modifier="nodivider">
@@ -1437,14 +1437,12 @@
         var testNum = localStorage.getItem("weekNum");
         if( testNum === weekNum){
           ons.notification.alert({message:"今週の目標も設定しました"});
-          document.getElementById('appNavigator').popPage();
-          window.location.reload(true);
+          document.getElementById('appNavigator').popPage();        
         } else {
           checktar();
           if(localStorage.getItem("Tar_status")===1){
             ons.notification.alert({message:"目標が存在しました。"});
-            document.getElementById('appNavigator').popPage({refresh:true});
-            window.location.reload(true);
+            document.getElementById('appNavigator').popPage(); 
           } else {
             var targetClass = ncmb.DataStore("targetClass");
             var targetClass = new targetClass();
@@ -1471,7 +1469,7 @@
                         var tar_check_times = [0,0,0,0,0,0,0];
                         localStorage.setItem("tar_Check", JSON.stringify(tar_check));
                         localStorage.setItem("tar_Check_times", JSON.stringify(tar_check_times));
-                        document.getElementById('appNavigator').popPage({refresh:true});
+                        document.getElementById('appNavigator').popPage();
                         window.location.reload(true);
                       })
                       .catch(function(err){
@@ -1492,13 +1490,11 @@
         if( testNum === weekNum){
           ons.notification.alert({message:"今週の目標も設定しました"});
           document.getElementById('appNavigator').popPage();
-          window.location.reload(true);
         } else {
           checktar();
           if(localStorage.getItem("Tar_status")===1){
             ons.notification.alert({message:"目標が存在しました。"});
-            document.getElementById('appNavigator').popPage({refresh:true});
-            window.location.reload(true);
+            document.getElementById('appNavigator').popPage();     
           } else {
             var targetClass = ncmb.DataStore("targetClass");
             var targetClass = new targetClass();
@@ -1525,7 +1521,7 @@
                         var tar_check_times = [0,0,0,0,0,0,0];
                         localStorage.setItem("tar_Check", JSON.stringify(tar_check));
                         localStorage.setItem("tar_Check_times", JSON.stringify(tar_check_times));
-                        document.getElementById('appNavigator').popPage({refresh:true});
+                        document.getElementById('appNavigator').popPage();
                         window.location.reload(true);
                       })
                       .catch(function(err){
@@ -1658,7 +1654,7 @@
                         localStorage.setItem("tar_Check_times", JSON.stringify(tar_check_times));
                         console.log(localStorage.getItem("tar_Check"));
                         console.log(localStorage.getItem("tar_Check_times"));
-                        document.getElementById('appNavigator').popPage({refresh:true});
+                        document.getElementById('appNavigator').popPage();
                         window.location.reload(true);
                       })
                       .catch(function(err){
