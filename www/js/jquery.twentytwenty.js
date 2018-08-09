@@ -4,14 +4,16 @@
     var options = $.extend({
       default_offset_pct: 0.5,
       orientation: 'horizontal',
-      // before_label: 'Before',
-      // after_label: 'After',
-  before_label: 'Now',
-      after_label: 'Before',
+
+      before_label: 'Before',
+      after_label: 'After',
+
       no_overlay: false,
       move_slider_on_hover: false,
       move_with_handle_only: true,
       click_to_move: false
+      // click_to_move: true
+
     }, options);
 
     return this.each(function() {
@@ -38,8 +40,10 @@
       afterImg.addClass("twentytwenty-after");
 
       var overlay = container.find(".twentytwenty-overlay");
-      overlay.append("<div class='twentytwenty-before-label' data-content='"+options.before_label+"'></div>");
-      overlay.append("<div class='twentytwenty-after-label' data-content='"+options.after_label+"'></div>");
+
+      overlay.append("<div class='twentytwenty-before-label'  data-content='"+options.before_label+"'></div>");
+      overlay.append("<div class='twentytwenty-after-label' id = 'touchzone' data-content='"+options.after_label+"'></div>");
+
 
       var calcOffset = function(dimensionPct) {
         var w = beforeImg.width();
@@ -132,6 +136,7 @@
       });
 
       container.find("img").on("mousedown", function(event) {
+
         event.preventDefault();
       });
 
@@ -142,6 +147,7 @@
           imgWidth = beforeImg.width();
           imgHeight = beforeImg.height();
 
+         
           sliderPct = getSliderPercentage(e.pageX, e.pageY);
           adjustSlider(sliderPct);
         });
