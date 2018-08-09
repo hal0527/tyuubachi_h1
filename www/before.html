@@ -135,6 +135,7 @@
     var apikey ="dd411920ff7852038a3d55414c3447b88c5e842ace7268254078b113d065398c";
     var clientkey ="23304def33b24aeed4fe1ae5325a77c1ffbe3e44067c0a3716b47aefd4297e05";
     var img_x;
+    var img_count; 
     var save_flg;//ファイル保存フラグ
     var CNS_TEST_ID = "test";
     var arr_fileList = new Array();
@@ -167,6 +168,11 @@
             image.src = "data:image/jpeg;base64," + imageData;
             var fileName = getLocalTime() + ".jpeg";
             var byteCharacters = toBlob(imageData);
+
+            if (img_count == 0){
+
+              document.getElementById("showImage_2").src = document.getElementById("showImage_1").src;
+            }
         }
 
         //失敗した場合に呼ばれるコールバック関数
@@ -317,6 +323,7 @@
       // recordsIMG.fetchAll()
                   .fetchAll()
                   .then(function(results){
+                    img_count = results.length;
                     for (var i = 0; i < results.length; i++) {
                       var object = results[i]; 
                           fileName = object.get("fileName");
