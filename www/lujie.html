@@ -88,7 +88,6 @@
       tarForClass.equalTo("User_id",user_id)
                   .fetchAll()
                   .then(function(results){
-                    if(results == undefined)
                     for (var i = 0; i < results.length; i++) {
                       var object = results[i]; 
                       tar_for = object.get("For");
@@ -96,9 +95,7 @@
                       tar_ben = object.get("Benefit");
                       tar_acc = object.get("Accident");
                     }
-                   
-                    
-                       document.getElementById('for_output').innerHTML = tar_for !== '' ? `${tar_for}．` : '未入力！';
+                      document.getElementById('for_output').innerHTML = tar_for !== '' ? `${tar_for}．` : '未入力！';
                       document.getElementById('goodpoint_output').innerHTML = tar_gp !== '' ? `${tar_gp}．` : '未入力！';
                       document.getElementById('benefit_output').innerHTML = tar_ben !== '' ? `${tar_ben}．` : '未入力！';
                       document.getElementById('accident_output').innerHTML = tar_acc !== '' ? `${tar_acc}．` : '未入力！';
