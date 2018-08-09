@@ -9,7 +9,7 @@
     <script src="components/ncmb/ncmb.min.js"></script>
   <script src="js/circle.js"></script>
   <script src="js/page_event.js"></script>
-  <!-- <script src="js/LoadManager.js"></script> -->
+
   <script src="js/jquery-1.7.1.min.js"></script>
    <script src="js/idangerous.swiper.min.js"></script>
   <link rel="stylesheet" href="components/loader.css">
@@ -17,17 +17,9 @@
   <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/img_style.css">
-  <!-- <link href="css/foundation.css" rel="stylesheet"/> -->
   <link href="css/twentytwenty.css" rel="stylesheet" />
     <link rel="stylesheet" href="css/idangerous.swiper.css">
  <style>
-/* Demo Styles */
-/* body {
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 13px;
-  line-height: 1.5;
-} */
 .device {
   /* width: 660px; */
   width: 100%;
@@ -51,10 +43,6 @@
   /* height: 250px; */
   height: 150px;
   color: #fff;
-  /* background: #222; */
-  /* background:#49a430; */
-  /* text-align: center; */
-  /* text-align: left; */
 }
 .swiper-slide {
   height: 100%;
@@ -146,10 +134,10 @@
    <script>
     var apikey ="dd411920ff7852038a3d55414c3447b88c5e842ace7268254078b113d065398c";
     var clientkey ="23304def33b24aeed4fe1ae5325a77c1ffbe3e44067c0a3716b47aefd4297e05";
-          var arr_fileList = new Array();
-        // $(function() {
-        //   NCMB.initialize(apikey, clientkey);
-        // });
+    var img_x;
+    var save_flg;//ファイル保存フラグ
+    var CNS_TEST_ID = "test";
+    var arr_fileList = new Array();
 
     function upload_imgNCMB(imgID,fileName){
       var ncmb = new NCMB(apikey, clientkey);
@@ -161,6 +149,8 @@
         navigator.camera.getPicture (onSuccess, onFail,
             { quality: 50, destinationType: Camera.DestinationType.DATA_URL});
 
+
+       save_flg = 'X';
   // navigator.camera.getPicture(onSuccess, onFail, 
   //   { quality: 50,destinationType: Camera.DestinationType.DATA_URL,
   //   sourceType: navigator.camera.PictureSourceType.SAVEDPHOTOALBUM });
@@ -201,6 +191,8 @@
         return blob;
     }
 
+
+
     function getLocalTime() {     
       var timestamp = Date.parse(new Date());
        return timestamp;
@@ -210,34 +202,38 @@
       var ncmb = new NCMB(apikey, clientkey);
       var user_id = localStorage.getItem("objectId");
       if (user_id == null) {
-        user_id = "test"
+        user_id = CNS_TEST_ID //"test"
       }
 
       upload_imgNCMB("showImage_1",user_id+"_before.jpg");
       upload_imgNCMB("showImage_2",user_id+"_after.jpg");
 
-      // ファイル名、ファイルデータを取得
-      // var fileName = document.getElementById("filename").value;
-      var fileName = getLocalTime() + ".jpg";
-      var fileData = dataURItoBlob(document.getElementById("showImage_1").src);
-      var recordsIMG = ncmb.DataStore('recordsIMG');
-      var recordsIMG = new recordsIMG();
-      // var user_id = localStorage.getItem("objectId");
-      recordsIMG.set("user_id",user_id)
+      if ( save_flg == '' ){
+        ons.notification.alert("Before & After写真保存成功！");
+      }
+      // フラグクリア
+      if ( save_flg == 'X' ){
+        save_flg = '';
+        // ファイル名、ファイルデータを取得
+        // var fileName = document.getElementById("filename").value;
+        var fileName = getLocalTime() + ".jpg";
+        var fileData = dataURItoBlob(document.getElementById("showImage_1").src);
+        var recordsIMG = ncmb.DataStore('recordsIMG');
+        var recordsIMG = new recordsIMG();
+        // var user_id = localStorage.getItem("objectId");
+        recordsIMG.set("user_id",user_id)
                 .set("fileName",fileName)
                 .save()
                 .then(function(results){
 
-                    // アップロード
+                    //アップロード
                     ncmb.File.upload(fileName, fileData)
                       .then(function(res) {
-                        // alert("ok");
-                        ons.notification.alert("写真保存成功！");
+                        ons.notification.alert("Before & After写真保存成功！");
                         console.log(res);
                       })
                       .catch(function(err) {
-                        // alert("ng");
-                        ons.notification.alert("写真保存失敗！");
+                        // ons.notification.alert("写真保存失敗！");
                         console.error(err);
                       })  
                       
@@ -245,7 +241,9 @@
                   .catch(function(err){
                     // ons.notification.alert("実績を記録エラー");
                   });
-    }
+      }
+  }
+
   // dataURIをBlobに変換
   function dataURItoBlob(dataURI) {
     var byteString;
@@ -263,11 +261,9 @@
 
   function getImgFromNCMB(pType,imgID,fileName){
     var ncmb = new NCMB(apikey, clientkey);
-      var reader = new FileReader();
-      // var fileName_after = "1533476505000.jpeg";
-      ncmb.File.download(fileName,"blob")
-      .then(function(blob) {
-            // alert("ok1111");
+    var reader = new FileReader();
+    ncmb.File.download(fileName,"blob")
+             .then(function(blob) {
             // ファイルリーダーにデータを渡す
             reader.readAsDataURL(blob);
             
@@ -295,42 +291,46 @@
   }
 
   function change_img(index){
-   var imgFileName = arr_fileList[index];
-       getImgFromNCMB("1","showImage_2",imgFileName);
-
+    var imgFileName = arr_fileList[index];
+    if (img_x < 200){
+      // フラグクリア
+      save_flg = '';
+      getImgFromNCMB("1","showImage_1",imgFileName);
+    }
+    else{
+      getImgFromNCMB("1","showImage_2",imgFileName);
+    }
   }
-  function init() {
+    function init() {
       var user_id = localStorage.getItem("objectId");
       var ncmb = new NCMB(apikey, clientkey);
       if (user_id == null) {
-        user_id = "test"
+        user_id = CNS_TEST_ID //"test"
       }
 
        getImgFromNCMB("1","showImage_1",user_id+"_before.jpg");
        getImgFromNCMB("1","showImage_2",user_id+"_after.jpg");
 
       var recordsIMG = ncmb.DataStore('recordsIMG');
-       // recordsIMG.equalTo("user_Id",user_id)
-      recordsIMG.fetchAll()
-                .then(function(results){
-                  //  alert(" results.length:"+ results.length);
-                    
+
+       recordsIMG.equalTo("user_id",user_id)
+      // recordsIMG.fetchAll()
+                  .fetchAll()
+                  .then(function(results){
                     for (var i = 0; i < results.length; i++) {
                       var object = results[i]; 
                           fileName = object.get("fileName");
                           arr_fileList.push(fileName);
-
-                          // alert("fileName:"+fileName);
-                        // $("#container").append('<div> <img id = "img_' + i + '"  onclick = "change_img(' + i + ')" /></div>');
                         $("#container_1").append('<div class="swiper-slide" ><img id = "img_' + i + '"  onclick = "change_img(' + i + ')"/></div>');
-                    }
+                      }
+
                       for( var j = 0 ;j < arr_fileList.length;j++){
                         var img_name = "img_" + j ;
                         // alert("img_name:/"+j+"/"+arr_fileList[j]);
                           getImgFromNCMB("2",img_name,arr_fileList[j]);
-
                         }
 
+                    
                       var mySwiper = new Swiper('.swiper-container',{
                         pagination: '.pagination',
                         paginationClickable: true,
@@ -341,7 +341,6 @@
 
                 })
                 .catch(function(err){
-                    alert("nothing");
                     console.log(err);
                 });
 }
@@ -354,12 +353,13 @@
   <!-- ng-init ="init()" -->
  <ons-toolbar>
         <div class="left">
-          <ons-back-button onclick="window.location.href='Home.html'">Back</ons-back-button>
-        
+
+          <ons-back-button onclick="window.location.href='Home.html'">戻る</ons-back-button>
         </div>
         <div class="center"> Before & After</div>
         <div class="right">
-          <ons-toolbar-button onclick="save_img()">Save</ons-toolbar-button></div>
+          <ons-toolbar-button onclick="save_img()">保存</ons-toolbar-button></div>
+
 </ons-toolbar>
  <ons-list>
     <!-- <ons-list-item> -->
@@ -368,7 +368,8 @@
       <div class="large-8 columns">
         <div class="twentytwenty-container" style="text-align: center">
           <img id="showImage_1" width="100%" height="400"/>
-          <img id="showImage_2"  width="100%" height="400" />
+          <img id="showImage_2" width="100%" height="400"/>
+
         </div>
       </div>
     </div>
@@ -378,12 +379,8 @@
       <!-- <div id="container"></div> -->
       <div class="device">
         <div class="swiper-container">
-          <div id="container_1" class="swiper-wrapper">
-            <!-- <div class="swiper-slide red-slide"> -->
-            <!-- <div class="swiper-slide"> 
-                <img src="img/5_2.jpg" />
-            </div> -->
-            
+          <div id="container_1" class="swiper-wrapper">            
+
           </div>
         </div>
         <div class="pagination"></div>
@@ -395,7 +392,6 @@
     <ons-fab position="bottom center" onclick="snapPicture()">
       <ons-icon icon="camera" ></ons-icon>
     </ons-fab>
-      <!-- </ons-speed-dial-item>  md-plus-->
 
 <script
   src="https://code.jquery.com/jquery-3.2.1.js"
@@ -407,7 +403,25 @@
     $(function(){
       $(".twentytwenty-container[data-orientation!='vertical']").twentytwenty({default_offset_pct: 0.7});
       $(".twentytwenty-container[data-orientation='vertical']").twentytwenty({default_offset_pct: 0.3, orientation: 'vertical'});
+
+
+          var touchzone = document.getElementById("touchzone");
+    // Add an event handler for the touchstart event
+    touchzone.addEventListener("touchstart", touchHandler, false);
+
     });
+
+    function touchHandler(event) {
+        // Get a reference to our coordinates div
+        // var coords = document.getElementById("coords");
+        // Write the coordinates of the touch to the div
+       
+       img_x =event.touches[0].pageX; 
+
+        // alert(event.touches[0].pageX);
+        // coords.innerHTML = 'x: ' + event.touches[0].pageX + ', y: ' + event.touches[0].pageY;
+      }
+
     </script>
 </ons-page  >
 </body>
