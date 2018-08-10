@@ -119,43 +119,33 @@
       upload_imgNCMB("showImage_1",user_id+"_before.jpg");
       upload_imgNCMB("showImage_2",user_id+"_after.jpg");
 
-      if (img_save_left == 'X'){
-        // dbへbefore写真を保存 
-         save_img_NCMB("showImage_1")
-              .then(function(result){
-                    arrLen = arr_fileList.length;
-                    // 写真リストに表示
-                    arr_fileList.push(img_save_name);
-                    $("#container_1").append('<div class="swiper-slide" ><img id = "img_' + arrLen + '" class = "swiper-wrapper blue-slide" onclick = "change_img(' + arrLen + ')"/></div>');
-                    
-                    //  document.getElementById('img_' + arr_fileList.length).src = document.getElementById('showImage_1').src  ;
-            // upload_imgNCMB('img_' + arr_fileList.length,"dummy.jpg");
-                    getImgFromNCMB("2",'img_' + arrLen,img_save_name);
-                    alert("aa:"+img_save_name);
-                            var mySwiper = new Swiper('.swiper-container',{
-                              pagination: '.pagination',
-                              paginationClickable: true,
-                              centeredSlides: true,
-                              slidesPerView: 3,
-                              watchActiveIndex: true
-                            })
-              }); 
+      if (img_save_left == 'X' & img_save_right == 'X'){
 
-      }
+        save_img_NCMB_double();
+          img_save_left = '';
+          img_save_right = '';
+      }else{
+        if (img_save_left == 'X'){
+          // dbへbefore写真を保存 
+          // new Promise((resolve, reject) => {
+          save_img_NCMB("showImage_1");
+
+          img_save_left = '';
+        }
       
-      if (img_save_right == 'X'){
-        //  save_img_NCMB("showImage_2");
-        //  img_save_right = ''; 
-        // 写真リストに表示
-        $("#container_1").append('<div class="swiper-slide" ><img id = "img_' + arr_fileList.length + '"  onclick = "change_img(' + arr_fileList.length + ')"/></div>');
-      }
+        if (img_save_right == 'X'){
+          save_img_NCMB("showImage_2");
 
+          img_save_right = '';
+    
+          }
+      }
       // if ( img_save_left=='X'||img_save_right=='X' )
       // {
       //   img_save_left = '';
       //   img_save_right = '';
       //   $("#container_1").empty();
-      //   ons.notification.alert("Before & After写真保存成功！");
+        ons.notification.alert("Before & After写真保存成功！");
       //   // 写真リストを取る
       //   get_photoList();
       // }
@@ -165,7 +155,93 @@
 
   }
 
+  function add_imgToList(){
+     var arrLen = arr_fileList.length;
+      // 写真リストに表示
+      arr_fileList.push(img_save_name);
+      $("#container_1").append('<div class="swiper-slide" ><img id = "img_' + arrLen + '" class = "swiper-wrapper blue-slide" onclick = "change_img(' + arrLen + ')"/></div>');
+
+      getImgFromNCMB("2",'img_' + arrLen,img_save_name);
+
+      // alert("aa:"+img_save_name);
+      var mySwiper = new Swiper('.swiper-container',{
+        pagination: '.pagination',
+        paginationClickable: true,
+        centeredSlides: true,
+        slidesPerView: 3,
+        watchActiveIndex: true
+      })
+
+  }
+  // 二つファイルアップロード 
+    function save_img_NCMB_double(){
+    var dfd = $.Deferred();
+    
+    setTimeout(function(){
+    
+    var ncmb = new NCMB(apikey, clientkey);
+    var user_id = localStorage.getItem("objectId");
+    if (user_id == null) {
+      user_id = CNS_TEST_ID //"test"
+    }
+    // ファイル名、ファイルデータを取得
+    var fileName_1 = getLocalTime() + ".jpg";
+    var fileName_2 = getLocalTime() + ".jpg";
+    // global variant
+    img_save_name = fileName_1;
+    var fileData_1 = dataURItoBlob(document.getElementById("showImage_1").src);
+    var fileData_2 = dataURItoBlob(document.getElementById("showImage_2").src);
+    var recordsIMG = ncmb.DataStore('recordsIMG');
+    var recordsIMG = new recordsIMG();
+    //アップロード
+    ncmb.File.upload(fileName_1, fileData_1)
+              .then(function(res){
+                // console.log(res);
+                    ncmb.File.upload(fileName_2, fileData_2)
+                              .then(function(res){
+
+                                // save data
+                                recordsIMG.set("user_id",user_id)
+                                .set("fileName",fileName_1)
+                                .save()
+                                .then(function(result){
+                                      // save data
+                                      recordsIMG.set("user_id",user_id)
+                                      .set("fileName",fileName_1)
+                                      .save()
+                                      .then(function(result){
+                                        // console.log("save data ok:"+result);
+                                        img_save_name = fileName_1;
+                                        add_imgToList();
+
+                                        img_save_name = fileName_2;
+                                        add_imgToList();
+                                      })
+
+                                  // alert("ok");
+                                })
+                                .catch(function(err){
+                                  console.error("save data:"+err);
+                                })
+
+                              })
+              })
+              .catch(function(err){
+                console.error("save file:"+err);
+              });
+
+              dfd.resolve();
+
+    },500);
+    return dfd.promise();
+  }
+  
   function save_img_NCMB(showImage){
+
+    var dfd = $.Deferred();
+    
+    setTimeout(function(){
+    
     var ncmb = new NCMB(apikey, clientkey);
     var user_id = localStorage.getItem("objectId");
     if (user_id == null) {
@@ -189,7 +265,8 @@
                           .save()
                           .then(function(result){
                             // console.log("save data ok:"+result);
-                            alert("ok");
+                            add_imgToList();
+                            // alert("ok");
                           })
                           .catch(function(err){
                             console.error("save data:"+err);
@@ -198,6 +275,11 @@
               .catch(function(err){
                 console.error("save file:"+err);
               });
+
+              dfd.resolve();
+
+    },500);
+    return dfd.promise();
   }
 
   // dataURIをBlobに変換

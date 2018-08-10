@@ -136,11 +136,11 @@ line-height:28px;
         <ons-card style="height:250px">
           <ons-list-item style="margin-top:-20px">
             <div  id = "div_week_01" style='width:10%;text-align: left'>
-                <ons-icon icon="angle-left"  id = "page_back"></ons-icon>
+                <ons-icon icon="fa-angle-double-left"  id = "page_back"></ons-icon>
             </div>
             <div id="div_week_02"  style='width:80%;text-align: center'></div>
             <div id="div_week_03"  style='width:10%;text-align: right'>
-                <ons-icon icon="angle-right"  id = "page_next"></ons-icon>
+                <ons-icon icon="fa-angle-double-right"  id = "page_next"></ons-icon>
             </div>
           </ons-list-item>
             <div style ="width:100%;margin-top:-20px">
@@ -183,11 +183,11 @@ line-height:28px;
         <ons-card style="height:250px">
           <ons-list-item style="margin-top:-20px">
             <div id = "div_month_01" style='width:10%;text-align: left'>
-                <ons-icon icon="angle-left"  id = "page_back"></ons-icon>
+                <ons-icon icon="fa-angle-double-left"  id = "page_back"></ons-icon>
             </div>
             <div  id = "div_month_02"  style='width:80%;text-align: center'></div>
             <div  id = "div_month_03" style='width:10%;text-align: right'>
-                <ons-icon icon="angle-right"  id = "page_next"></ons-icon>
+                <ons-icon icon="fa-angle-double-right"  id = "page_next"></ons-icon>
             </div>
           </ons-list-item>
             <div style ="width:100%;margin-top:-20px">
@@ -229,11 +229,11 @@ line-height:28px;
         <ons-card style="height:250px">
           <ons-list-item style="margin-top:-20px">
             <div id = "div_year_01" style='width:10%;text-align: left'>
-                <ons-icon icon="angle-left"  id = "page_back"></ons-icon>
+                <ons-icon icon="fa-angle-double-left"  id = "page_back"></ons-icon>
             </div>
             <div  id = "div_year_02"  style='width:80%;text-align: center'></div>
             <div  id = "div_year_03" style='width:10%;text-align: right'>
-                <ons-icon icon="angle-right"  id = "page_next"></ons-icon>
+                <ons-icon icon="fa-angle-double-right"  id = "page_next"></ons-icon>
             </div>
           </ons-list-item>
             <div style ="width:100%;margin-top:-20px">
@@ -388,8 +388,8 @@ line-height:28px;
     var TestClass = ncmb.DataStore("recordsClass");
      arr_timeList = new Array();
     
-    // TestClass.equalTo("user_Id",user_id)
-    TestClass
+    TestClass.equalTo("user_Id",user_id)
+    // TestClass
                  .fetchAll().then(function(results){
     // TestClass.fetchAll().then(() =>{
         var flg = "";
