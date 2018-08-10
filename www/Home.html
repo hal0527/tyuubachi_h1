@@ -459,9 +459,7 @@
         var today_check = parseInt(tar_check[weekday]);
         var today_time =Math.floor(today_check/60) + "時" + (today_check%60) + "分";
         console.log(tar_check);
-        console.log("4");
         if(tar_check === null){
-          console.log("1");
           document.querySelector('.today_time').innerHTML = 0;
           document.querySelector('.today_ka').innerHTML = 0;
           document.querySelector('.today_far').innerHTML = 0;
@@ -470,13 +468,11 @@
           document.querySelector('.today_time').innerHTML = today_time;
           document.querySelector('.today_ka').innerHTML = today_check* 3.4;
           document.querySelector('.today_far').innerHTML = (today_check*75/1333).toFixed(2);
-          console.log("2");
         } else {
           document.querySelector('.target_set').innerHTML = tarmess;
           document.querySelector('.today_time').innerHTML = today_time;
           document.querySelector('.today_ka').innerHTML = today_check* 3.4;
           document.querySelector('.today_far').innerHTML = (today_check*75/1333).toFixed(2);
-          console.log("3");
         }
 
         show_target();
@@ -687,7 +683,6 @@
                       var recordDate = object.get("createDate");
                       var week = parseInt(object.get("Week"));
                       var week_text;
-                      console.log(week);
                       switch(week){
                           case 0:
                             week_text = "日";
@@ -711,11 +706,9 @@
                             week_text = "土";
                             break;
                       }
-                      console.log(week_text);
                       var mess_list =""+recordDate.substring(0,10)+ "(" +week_text+"):&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +object.get("Sport" )+" - " +object.get("Time")+"分";
                       document.querySelector('.mess_list').innerHTML +="<ons-list-item>"+ mess_list+"</ons-list-item>"+"<br />";
                     }
-                    console.log(mess_time);
                      document.querySelector('.mess_num').innerHTML =mess_num+"回";
                      document.querySelector('.mess_time').innerHTML =Math.round(mess_time/mess_num)+"分";
                   })
@@ -1259,8 +1252,8 @@
     var height = localStorage.getItem("Height");
     var weight = localStorage.getItem("Weight");
     var new_height = height;
-    var new_weight = weight ;
-    console.log(height);
+    var new_weight = weight;
+
     var c_height= document.getElementById('range-slider1');
     c_height.value = height;
     document.getElementById('checkboxes-header1').innerHTML = height;
@@ -1288,8 +1281,6 @@
     }
 
     function save_data(){
-      console.log(new_weight);
-      console.log(new_height);
       var ncmb = new NCMB("dd411920ff7852038a3d55414c3447b88c5e842ace7268254078b113d065398c","23304def33b24aeed4fe1ae5325a77c1ffbe3e44067c0a3716b47aefd4297e05");
       var user = new ncmb.User();
       user.set("objectId", objectId)
