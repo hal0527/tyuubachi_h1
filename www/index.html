@@ -61,6 +61,7 @@
           };
         } else if (page.id === 'login_sex') {
           page.querySelector('#male-button').onclick = function() {
+            localStorage.clear();
             localStorage.setItem("Sex","男性");
             document.querySelector('#topNavigator').pushPage('login_birthyear.html', {data: {title: 'test'}}); 
           };
@@ -163,6 +164,7 @@
           };
         } else if (page.id === 'user_login'){
             page.querySelector('#user_login_btn').onclick = function() {
+              localStorage.clear();
               let input = document.getElementById("user_name").value;
               let regm = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
               if(input.match(regm)){
