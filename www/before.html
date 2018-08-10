@@ -9,135 +9,24 @@
     <script src="components/ncmb/ncmb.min.js"></script>
   <script src="js/circle.js"></script>
   <script src="js/page_event.js"></script>
-
   <script src="js/jquery-1.7.1.min.js"></script>
-   <script src="js/idangerous.swiper.min.js"></script>
+  <script src="js/idangerous.swiper.min.js"></script>
   <link rel="stylesheet" href="components/loader.css">
   <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
   <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/img_style.css">
   <link href="css/twentytwenty.css" rel="stylesheet" />
-    <link rel="stylesheet" href="css/idangerous.swiper.css">
- <style>
-.device {
-  /* width: 660px; */
-  width: 100%;
-  position: relative;
-  /* margin: 10px auto; */
-  /* margin: 3px auto; */
-  /* height: 250px; */
-  height: 150px;
-  /* padding: 30px 40px; 边框*/
-  padding: 0px 0px;
-  /* border-radius: 20px; */
-  border-radius: 1px;
-  /* background: #000; */
-  /* border:3px solid #fff; */
-  /* box-shadow: 0px 0px 5px #000; */
-  box-shadow: 0px 0px 0px #000; 
-}
-.swiper-container {
-  /* width: 660px; */
-  width: 100%;
-  /* height: 250px; */
-  height: 150px;
-  color: #fff;
-}
-.swiper-slide {
-  height: 100%;
-  opacity: 0.4;
-  -webkit-transition: 300ms;
-  -moz-transition: 300ms;
-  -ms-transition: 300ms;
-  -o-transition: 300ms;
-  transition: 300ms;
-  -webkit-transform: scale(0);
-  -moz-transform: scale(0);
-  -ms-transform: scale(0);
-  -o-transform: scale(0);
-  transform: scale(0);
-}
-.swiper-slide-visible {
-  opacity: 0.5;
-  -webkit-transform: scale(0.8);
-  -moz-transform: scale(0.8);
-  -ms-transform: scale(0.8);
-  -o-transform: scale(0.8);
-  transform: scale(0.8);
-}
-.swiper-slide-active {
-  top: 0;
-  opacity: 1;
-  -webkit-transform: scale(1);
-  -moz-transform: scale(1);
-  -ms-transform: scale(1);
-  -o-transform: scale(1);
-  transform: scale(1);
-}
-.red-slide {
-  background: #ca4040;
-}
-.blue-slide {
-  background: #4390ee;
-}
-.orange-slide {
-  background: #ff8604;
-}
-.green-slide {
-  background: #49a430;
-}
-.pink-slide {
-  background: #973e76;
-}
-.swiper-slide .title {
-  font-style: italic;
-  font-size: 42px;
-  /* margin-top: 80px; */
-  margin-bottom: 0;
-  /* line-height: 45px; */
-}
-.pagination {
-  position: absolute;
-  z-index: 20;
-  left: 0px;
-  width: 100%;
-  text-align: center;
-  bottom: 5px;
-}
-.swiper-pagination-switch {
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  border-radius: 8px;
-  background: #aaa;
-  margin-right: 8px;
-  cursor: pointer;
-  -webkit-transition: 300ms;
-  -moz-transition: 300ms;
-  -ms-transition: 300ms;
-  -o-transition: 300ms;
-  transition: 300ms;
-  opacity: 0;
-  position: relative;
-  top: -50px;
-}
-.swiper-visible-switch {
-  opacity: 1;
-  top: 0;
-  background: #aaa;
-}
-.swiper-active-switch {
-  background: #fff;
-} 
-  </style>
-   <script>
+  <link rel="stylesheet" href="css/idangerous.swiper.css">
+
+   <script> 
     var apikey ="dd411920ff7852038a3d55414c3447b88c5e842ace7268254078b113d065398c";
     var clientkey ="23304def33b24aeed4fe1ae5325a77c1ffbe3e44067c0a3716b47aefd4297e05";
     var img_x; //画面のx
     var img_save_left; //ファイル保存フラグ
     var img_save_right;
-    var img_count; 
+    var img_count;
+    var img_save_name;
     var CNS_TEST_ID = "test";
     var arr_fileList = new Array();
 
@@ -145,7 +34,6 @@
       var ncmb = new NCMB(apikey, clientkey);
       var fileData = dataURItoBlob(document.getElementById(imgID).src);
       ncmb.File.upload(fileName, fileData)
-
       // alert("fileName:"+fileName+imgID);
     }
 
@@ -153,15 +41,6 @@
     function snapPicture_1 () {
         navigator.camera.getPicture (onSuccess, onFail,
             { quality: 50, destinationType: Camera.DestinationType.DATA_URL});
-
-  // navigator.camera.getPicture(onSuccess, onFail, 
-  //   { quality: 50,destinationType: Camera.DestinationType.DATA_URL,
-  //   sourceType: navigator.camera.PictureSourceType.SAVEDPHOTOALBUM });
-
- //Specify the source to get the photos.
-  // navigator.camera.getPicture(onSuccess, onFail, 
-  //   { quality: 50,destinationType: Camera.DestinationType.FILE_URI,
-  //   sourceType: navigator.camera.PictureSourceType.SAVEDPHOTOALBUM });
 
         //成功した際に呼ばれるコールバック関数
         function onSuccess (imageData) {
@@ -176,10 +55,6 @@
             image.src = "data:image/jpeg;base64," + imageData;
             var fileName = getLocalTime() + ".jpeg";
             var byteCharacters = toBlob(imageData);
-
-            // if (img_count == 0){
-            //   document.getElementById("showImage_2").src = document.getElementById("showImage_1").src;
-            // }
         }
         //失敗した場合に呼ばれるコールバック関数
         function onFail (message) {
@@ -202,14 +77,9 @@
               img_save_right = 'X';
               var image = document.getElementById ('showImage_2');
             }
-
           image.src = "data:image/jpeg;base64," + imageData;
           var fileName = getLocalTime() + ".jpeg";
           var byteCharacters = toBlob(imageData);
-
-          // if (img_count == 0){
-          //   document.getElementById("showImage_2").src = document.getElementById("showImage_1").src;
-          // }
       }
       //失敗した場合に呼ばれるコールバック関数
       function onFail (message) {
@@ -232,81 +102,184 @@
         }
         return blob;
     }
+    // 日付と時間を取得する
     function getLocalTime() {     
       var timestamp = Date.parse(new Date());
        return timestamp;
     } 
-
+    //写真を保存 
     function save_img(){
+      var arrLen;
       var ncmb = new NCMB(apikey, clientkey);
       var user_id = localStorage.getItem("objectId");
       if (user_id == null) {
         user_id = CNS_TEST_ID //"test"
       }
-
+    //before after の保存  
       upload_imgNCMB("showImage_1",user_id+"_before.jpg");
       upload_imgNCMB("showImage_2",user_id+"_after.jpg");
 
-      // alert("img_save_left;"+img_save_left);
-      // alert("img_save_right;"+img_save_right);
-      if (img_save_left == 'X'){
-         save_img_NCMB("showImage_1"); 
-        // img_save_left = '';
-      }
-      
-      if (img_save_right == 'X'){
-         save_img_NCMB("showImage_2");
-        //  img_save_right = ''; 
-      }
+      if (img_save_left == 'X' & img_save_right == 'X'){
 
-      if ( img_save_left=='X'||img_save_right=='X' )
-      {
-        img_save_left = '';
-        img_save_right = '';
-        $("#container_1").empty();
-        ons.notification.alert("Before & After写真保存成功！");
-        // 写真リストを取る
-        get_photoList();
+        save_img_NCMB_double();
+          img_save_left = '';
+          img_save_right = '';
+      }else{
+        if (img_save_left == 'X'){
+          // dbへbefore写真を保存 
+          // new Promise((resolve, reject) => {
+          save_img_NCMB("showImage_1");
+
+          img_save_left = '';
+        }
+      
+        if (img_save_right == 'X'){
+          save_img_NCMB("showImage_2");
+
+          img_save_right = '';
+    
+          }
       }
-      else{
+      // if ( img_save_left=='X'||img_save_right=='X' )
+      // {
+      //   img_save_left = '';
+      //   img_save_right = '';
+      //   $("#container_1").empty();
         ons.notification.alert("Before & After写真保存成功！");
-      }
+      //   // 写真リストを取る
+      //   get_photoList();
+      // }
+      // else{
+      //   ons.notification.alert("Before & After写真保存成功！");
+      // }
 
   }
 
-  function save_img_NCMB(showImage){
+  function add_imgToList(){
+     var arrLen = arr_fileList.length;
+      // 写真リストに表示
+      arr_fileList.push(img_save_name);
+      $("#container_1").append('<div class="swiper-slide" ><img id = "img_' + arrLen + '" class = "swiper-wrapper blue-slide" onclick = "change_img(' + arrLen + ')"/></div>');
+
+      getImgFromNCMB("2",'img_' + arrLen,img_save_name);
+
+      // alert("aa:"+img_save_name);
+      var mySwiper = new Swiper('.swiper-container',{
+        pagination: '.pagination',
+        paginationClickable: true,
+        centeredSlides: true,
+        slidesPerView: 3,
+        watchActiveIndex: true
+      })
+
+  }
+  // 二つファイルアップロード 
+    function save_img_NCMB_double(){
+    var dfd = $.Deferred();
+    
+    setTimeout(function(){
+    
     var ncmb = new NCMB(apikey, clientkey);
     var user_id = localStorage.getItem("objectId");
     if (user_id == null) {
       user_id = CNS_TEST_ID //"test"
     }
     // ファイル名、ファイルデータを取得
-    // var fileName = document.getElementById("filename").value;
+    var fileName_1 = getLocalTime() + ".jpg";
+    var fileName_2 = getLocalTime() + ".jpg";
+    // global variant
+    img_save_name = fileName_1;
+    var fileData_1 = dataURItoBlob(document.getElementById("showImage_1").src);
+    var fileData_2 = dataURItoBlob(document.getElementById("showImage_2").src);
+    var recordsIMG = ncmb.DataStore('recordsIMG');
+    var recordsIMG = new recordsIMG();
+    //アップロード
+    ncmb.File.upload(fileName_1, fileData_1)
+              .then(function(res){
+                // console.log(res);
+                    ncmb.File.upload(fileName_2, fileData_2)
+                              .then(function(res){
+
+                                // save data
+                                recordsIMG.set("user_id",user_id)
+                                .set("fileName",fileName_1)
+                                .save()
+                                .then(function(result){
+                                      // save data
+                                      recordsIMG.set("user_id",user_id)
+                                      .set("fileName",fileName_1)
+                                      .save()
+                                      .then(function(result){
+                                        // console.log("save data ok:"+result);
+                                        img_save_name = fileName_1;
+                                        add_imgToList();
+
+                                        img_save_name = fileName_2;
+                                        add_imgToList();
+                                      })
+
+                                  // alert("ok");
+                                })
+                                .catch(function(err){
+                                  console.error("save data:"+err);
+                                })
+
+                              })
+              })
+              .catch(function(err){
+                console.error("save file:"+err);
+              });
+
+              dfd.resolve();
+
+    },500);
+    return dfd.promise();
+  }
+  
+  function save_img_NCMB(showImage){
+
+    var dfd = $.Deferred();
+    
+    setTimeout(function(){
+    
+    var ncmb = new NCMB(apikey, clientkey);
+    var user_id = localStorage.getItem("objectId");
+    if (user_id == null) {
+      user_id = CNS_TEST_ID //"test"
+    }
+    // ファイル名、ファイルデータを取得
     var fileName = getLocalTime() + ".jpg";
-    // var fileData = dataURItoBlob(document.getElementById("showImage_1").src);
+    // global variant
+    img_save_name = fileName;
     var fileData = dataURItoBlob(document.getElementById(showImage).src);
     var recordsIMG = ncmb.DataStore('recordsIMG');
     var recordsIMG = new recordsIMG();
-    // var user_id = localStorage.getItem("objectId");
-    recordsIMG.set("user_id",user_id)
-          .set("fileName",fileName)
-          .save()
-          .then(function(results){
-              //アップロード
-              ncmb.File.upload(fileName, fileData)
-                .then(function(res) {
-                  ons.notification.alert("写真保存成功！");
-                  console.log(res);
-                })
-                .catch(function(err) {
-                  ons.notification.alert("写真保存失敗！");
-                  console.error(err);
-                })  
-                
-            })
-            .catch(function(err){
-              // ons.notification.alert("実績を記録エラー");
-            });
+
+    //アップロード
+    ncmb.File.upload(fileName, fileData)
+              .then(function(res){
+                console.log(res);
+                // save data
+                recordsIMG.set("user_id",user_id)
+                          .set("fileName",fileName)
+                          .save()
+                          .then(function(result){
+                            // console.log("save data ok:"+result);
+                            add_imgToList();
+                            // alert("ok");
+                          })
+                          .catch(function(err){
+                            console.error("save data:"+err);
+                          })
+              })
+              .catch(function(err){
+                console.error("save file:"+err);
+              });
+
+              dfd.resolve();
+
+    },500);
+    return dfd.promise();
   }
 
   // dataURIをBlobに変換
@@ -345,7 +318,6 @@
                 var newSize = 150
                 targetImg.height = newSize ;
                 targetImg.width = (orgWidth / orgHeight) * newSize;
-
               }
             }
       })
@@ -357,14 +329,18 @@
 
   function change_img(index){
     var imgFileName = arr_fileList[index];
+    var img_name = "img_" + index ;
     if (img_x < 200){
       // フラグクリア
       img_save_left = '';
-      getImgFromNCMB("1","showImage_1",imgFileName);
+      
+      document.getElementById("showImage_1").src = document.getElementById(img_name).src
+      // getImgFromNCMB("1","showImage_1",imgFileName);
     }
     else{
       img_save_right = '';
-      getImgFromNCMB("1","showImage_2",imgFileName);
+      // getImgFromNCMB("1","showImage_2",imgFileName);
+      document.getElementById("showImage_2").src = document.getElementById(img_name).src
     }
   }
     function init() {
@@ -386,11 +362,7 @@
     if (user_id == null) {
       user_id = CNS_TEST_ID //"test"
     }
-    
-    // if (arr_fileList.length > 0){
-    //     delete arr_fileList;
-    // }
-    
+    //clear arrag
     arr_fileList.splice(0, arr_fileList.length);
 
     var recordsIMG = ncmb.DataStore('recordsIMG');
@@ -403,7 +375,7 @@
                 var object = results[i]; 
                     fileName = object.get("fileName");
                     arr_fileList.push(fileName);
-                  $("#container_1").append('<div class="swiper-slide" ><img id = "img_' + i + '"  onclick = "change_img(' + i + ')"/></div>');
+                  $("#container_1").append('<div class="swiper-slide" ><img id = "img_' + i + '" class = "swiper-wrapper blue-slide" onclick = "change_img(' + i + ')"/></div>');
                 }
 
               //  alert("arr_fileList.length:"+arr_fileList.length);
@@ -418,7 +390,8 @@
                   paginationClickable: true,
                   centeredSlides: true,
                   slidesPerView: 3,
-                  watchActiveIndex: true
+                   watchActiveIndex: false
+                  // watchActiveIndex: true
                 })
 
           })
@@ -514,6 +487,7 @@
     <script src="js/jquery.event.move.js"></script>
     <script src="js/jquery.twentytwenty.js"></script>
     <script>
+
     $(function(){
       $(".twentytwenty-container[data-orientation!='vertical']").twentytwenty({default_offset_pct: 0.7});
       $(".twentytwenty-container[data-orientation='vertical']").twentytwenty({default_offset_pct: 0.3, orientation: 'vertical'});
