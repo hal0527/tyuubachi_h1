@@ -602,14 +602,16 @@
       targetClass.equalTo("user_Id",user_id)
                   .fetchAll()
                   .then(function(results){
+                    document.querySelector('.mess_list').innerHTML = "<ons-list-header>&nbsp;目標設置時間(週数)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;目標の内容</ons-list-header>";
                     for (var i = 0; i < results.length; i++) {
                       var object = results[i]; 
                       mess_num= mess_num+1;
+                      var tarCDate = object.get("createDate");
                         if(i ===1){
                           mess_date = object.get("createDate");
                           mess_date = mess_date.substring(0,10);
                         }
-                      var mess_list =""+object.get("week_Num")+ "週 ：  週" + object.get("tar_Times")+"日 - " +object.get("tar_TimeLen")+"分 - " +object.get("tar_Status");
+                      var mess_list =""+tarCDate.substring(0,10)+"("+object.get("week_Num").substring(5,7)+ "週) ：  週" + object.get("tar_Times")+"日 - " +object.get("tar_TimeLen")+"分 - " +object.get("tar_Status");
                       document.querySelector('.mess_list').innerHTML +="<ons-list-item>"+ mess_list+"</ons-list-item>"+"<br />";
                     }
                      document.querySelector('.mess_num').innerHTML =mess_num;
@@ -677,6 +679,7 @@
       recordsClass.equalTo("user_id",user_id)
                   .fetchAll()
                   .then(function(results){
+                    document.querySelector('.mess_list').innerHTML = "<ons-list-header>&nbsp;実績記録時間(曜日)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;実積の内容(運動種類ー運動時間)</ons-list-header>";
                     for (var i = 0; i < results.length; i++) {
                       var object = results[i];
                       mess_num = mess_num+1;
@@ -709,7 +712,7 @@
                             break;
                       }
                       console.log(week_text);
-                      var mess_list =""+recordDate.substring(0,10)+ "(" +week_text+"):  " +object.get("Sport" )+" - " +object.get("Time")+"分";
+                      var mess_list =""+recordDate.substring(0,10)+ "(" +week_text+"):&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +object.get("Sport" )+" - " +object.get("Time")+"分";
                       document.querySelector('.mess_list').innerHTML +="<ons-list-item>"+ mess_list+"</ons-list-item>"+"<br />";
                     }
                     console.log(mess_time);
@@ -1341,7 +1344,7 @@
         </ons-col>
       </ons-row>
     </ons-list-item>
-    <ons-list-header> 毎回何時間ですか？　 -　 <span id="checkboxes-header2"></span>(Mim)</ons-list-header>
+    <ons-list-header> 毎回何時間ですか？　 -　 <span id="checkboxes-header2"></span>(分)</ons-list-header>
     <ons-list-item>
       <p ></p>
       <ons-row>
