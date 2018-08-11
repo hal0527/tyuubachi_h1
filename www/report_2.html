@@ -666,7 +666,12 @@ console.log("G_weeks:"+G_weeks);
         for(var i=0;i<arr_timeList.length;i++){
             // alert(String(arr_timeList[i][1]).substring(0,7));
             if (n_monthOfYear == String(arr_timeList[i][1]).substring(0,7) ){ 
-              arr_index = parseInt(String(n_monthOfYear).substring(5,7));
+              arr_index = parseInt(String(arr_timeList[i][1]).substring(8,10));
+              
+              console.log("String(arr_timeList[i][1]):"+String(arr_timeList[i][1]));
+              console.log("month:"+n_monthOfYear);
+              console.log("day:"+arr_index);
+
               arr_month[arr_index - 1] = arr_month[arr_index - 1] + parseInt(arr_timeList[i][2]);
               month_total_time = month_total_time + parseInt(arr_timeList[i][2]); 
           }  
