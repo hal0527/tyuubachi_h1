@@ -115,6 +115,10 @@
       if (user_id == null) {
         user_id = CNS_TEST_ID //"test"
       }
+
+     console.log("save_img");
+     console.log(localStorage.getItem("objectId"));
+
     //before after の保存  
       upload_imgNCMB("showImage_1",user_id+"_before.jpg");
       upload_imgNCMB("showImage_2",user_id+"_after.jpg");

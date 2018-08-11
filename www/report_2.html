@@ -374,7 +374,8 @@ line-height:28px;
     var sum_time;
     var var_week_Num;
 
-    var user_id = localStorage.getItem("objectId");
+    var user_id;
+    // = localStorage.getItem("objectId");
 
 		var SPORTS = ['ランニング', 'ウォーキング', 'ラジオ体操', '自転車', 'バドミントン', '野球', 'ヨガ', 'テニス', '水泳', 'ゴルフ'];
 		var color = Chart.helpers.color;
@@ -387,16 +388,14 @@ line-height:28px;
       // 保存先クラスの作成
     var TestClass = ncmb.DataStore("recordsClass");
      arr_timeList = new Array();
-    
-    TestClass.equalTo("user_Id",user_id)
+     console.log("test");
+     console.log(localStorage.getItem("objectId"));
+     user_id = localStorage.getItem("objectId");
+    TestClass.equalTo("user_id",user_id)
     // TestClass
                  .fetchAll().then(function(results){
     // TestClass.fetchAll().then(() =>{
         var flg = "";
-
-    // alert("aaa:"+results.length);
-
-
         for (var i = 0; i < results.length; i++) {
             var object = results[i];  
             var var_date = new Date(object.get("createDate")); 
